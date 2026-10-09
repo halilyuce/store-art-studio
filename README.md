@@ -14,7 +14,7 @@
   <a href="#quick-start">Quick start</a> ·
   <a href="#match-a-set-you-love">Match a set</a> ·
   <a href="#whats-inside">What's inside</a> ·
-  <a href="index.html">Web guide</a>
+  <a href="https://store-art-studio.vercel.app">Web guide</a>
 </p>
 
 <p align="center">
@@ -60,7 +60,7 @@ Restart Claude Code and ask *"Is the store-art-studio skill available?"*.
 
 Then connect the Higgsfield MCP (run `/mcp` in Claude Code and sign in) and follow the setup for your platform:
 
-- **iOS:** add the `StoreArt` render target to your Xcode project. Step by step in [INSTALL.md](INSTALL.md) or the [web guide](index.html).
+- **iOS:** add the `StoreArt` render target to your Xcode project. Step by step in the [web guide](https://store-art-studio.vercel.app) or [INSTALL.md](INSTALL.md).
 - **Android:** paste the prompt in [templates/android/START-HERE.md](templates/android/START-HERE.md). Claude builds the Compose render target in your project from the iOS template.
 
 <details>
@@ -113,7 +113,7 @@ The skill cuts the board into slots and measures margins, baselines, type size a
 ```
 SKILL.md                     the contract: layers, hard rules, gates, review loop, slop checklist
 INSTALL.md                   step-by-step setup and troubleshooting
-index.html                   the web guide (styled like App Store Connect), also the Vercel site
+index.html                   the web guide (styled like App Store Connect)
 references/
   architecture.md            layers, repo layout, the slot pattern, naming, "the world"
   ios-swiftui-renderer.md    building the host-less target, every trap with its fix
@@ -140,17 +140,9 @@ site/                        source of index.html (template and build script)
 
 ## The web guide
 
-[`index.html`](index.html) is an interactive version of the setup guide, styled like App Store Connect: iOS and Android tracks, copy buttons, progress you can tick off, and the example set in four languages.
+**[store-art-studio.vercel.app](https://store-art-studio.vercel.app)** is an interactive version of the setup guide, styled like App Store Connect: iOS and Android tracks, copy buttons, progress you can tick off, and the example set in four languages.
 
-It is a static page hosted on Vercel, connected to this repo, so every push to `main` redeploys it. There is no build step on Vercel.
-
-To change it, edit `site/index.template.html`, then run:
-
-```bash
-python3 site/build.py
-```
-
-This rewrites `index.html` with the images inlined and the Android prompt pulled from `templates/android/START-HERE.md`. Commit both files.
+It is built from `site/index.template.html`. After editing it, run `python3 site/build.py` and commit both the template and `index.html`.
 
 ## A note from me
 
