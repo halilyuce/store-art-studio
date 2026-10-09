@@ -1,0 +1,15 @@
+Generated with the skill's own sticker recipe (references/higgsfield-art.md), keyed with
+scripts/chromakey.swift --key "#FF00FF" --crop, then resized to 360 px.
+
+model: gpt_image_2_5 (aspect 1:1, count 2 each, 0.25 credits per request)
+star.png   picked 97fc4627-1090-4b07-97bf-445ca8958e92 (other ce839e65-e518-4498-b65f-4bfc4cca453f)
+  prompt: Glossy soft-3D clay render of a single plump golden five-point star with softly rounded edges, slightly tilted, soft studio lighting from top left, gentle ambient occlusion, warm gold with a lighter highlight on the top edge, playful premium app-icon style, matching a set of 3D clay icons. No logos, no text, no brand marks. Centered, filling 70% of the frame. Solid flat #FF00FF background, no shadow on the background.
+heart.png  (keyed with --spill 0, see below) picked ee9cad3e-3e78-4f6a-a112-041a2633384d (other 3ed7a92b-07e2-4704-b619-b3bb3211e0b5)
+  prompt: same sentence with "a single plump coral-red heart with softly rounded edges" and "lighter highlight on the top curve"
+gift.png   picked 38ef604c-8499-4a18-85ff-a0e0ac1882f5 (other 7fc213a1-dade-4261-bb8b-e45036c6dfa4)
+  prompt: same sentence with "a small gift box with a lid and a bow, pastel lilac box and a soft yellow ribbon"
+
+Note: the heart is red, and the default despill removes the key colour's direction (magenta), which turned it brown. It was keyed again with --spill 0.
+
+bow.png: the ribbon bow on the gift wrap that the reader unwraps by scrolling. gpt_image_2_5, 1:1, count 2, picked a55bc635-2bac-43cd-b9b4-f7c0ab8d4387 (other 6038e493-1d74-4a2b-9d16-c15c4ecc50a1), keyed with chromakey.swift --key "#FF00FF" --crop --spill 0.4.
+  prompt: Glossy soft-3D render of a single big gift ribbon bow seen from the front, two plump rounded loops and two short tails, made of shiny golden-yellow satin with soft highlights, matching a set of playful premium 3D clay icons (a lilac gift box with a soft yellow ribbon). Soft studio lighting from top left, gentle ambient occlusion. No logos, no text. Centered, filling 75% of the frame. Solid flat #FF00FF background, no shadow on the background.

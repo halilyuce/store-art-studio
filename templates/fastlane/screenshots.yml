@@ -1,0 +1,29 @@
+# Single source of truth for the store art pipeline. Lanes, render tests and upload follow it.
+# Add a market, a slot or a page here, then render.
+
+app:
+  bundle_id: com.example.app
+  workspace: "MyApp.xcworkspace"
+  upload_version: "1.0.0"          # the App Store version that receives uploads
+
+render:
+  device: "iPhone 17 Pro Max"      # 1320 x 2868, the 6.9" class; ASC scales it down
+  canvas: [1320, 2868]
+  output_dir: StoreArt/Output
+
+# Locales exactly as App Store Connect names them. These are the fastlane metadata folder names.
+# `sim_language` is what the render switches the app to. `time_zone` is the market's own zone.
+markets:
+  en-US: { sim_language: en-US, time_zone: America/Chicago }
+  en-GB: { sim_language: en-GB, time_zone: Europe/London }
+  tr:    { sim_language: tr,    time_zone: Europe/Istanbul }
+  ar-SA: { sim_language: ar,    time_zone: Asia/Riyadh, rtl: true }
+
+# Slot order is the order users see. The first three carry the story.
+pages:
+  default: { slots: [hero, feature_a, feature_b, feature_c, feature_d, detail, personal] }
+  # cpp-<name>: { theme: <name>, locales: [en-US], slots: [hero, feature_a, feature_b] }   # custom product pages
+
+# Approval list. A locale not here is never uploaded. Add one only after the user approved its render.
+upload:
+  locales: [en-US]

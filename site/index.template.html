@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Store Art Studio</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,{{FAV}}">
+<meta name="description" content="A setup guide for Store Art Studio, styled like App Store Connect. Add studio-grade store screenshots to an existing iOS or Android project.">
+<style>
+:root {
+  --bg: #ffffff; --bar: #ebebef; --ink: #1d1d1f; --ink2: #6e6e73; --line: #d2d2d7; --line2: #e8e8ed;
+  --blue: #0071e3; --link: #0066cc; --sel: #ededf0; --card: #ffffff; --btn: #ededf2; --btn-ink: #1d1d1f;
+  --banner: #eaf3fc; --banner-line: #c6dcf3; --warn: #fff6e0; --warn-line: #f0d48a; --warn-ink: #6b4a00;
+  --yellow: #f6c026; --green: #2fa14d; --grey: #b4b4bb; --red: #e5484d;
+  --code: #f5f5f7; --code-ink: #1d1d1f; --code-dim: #86868b; --code-line: #e5e5ea; --pill: #1d1d1f; --pill-ink: #fff;
+  --shadow: 0 1px 2px rgba(0,0,0,.05), 0 6px 22px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1c1c1e; --bar: #2c2c2e; --ink: #f5f5f7; --ink2: #a1a1a6; --line: #3d3d40; --line2: #2c2c2e;
+  --blue: #2997ff; --link: #4aa8ff; --sel: #2c2c2e; --card: #232326; --btn: #3a3a3d; --btn-ink: #f5f5f7;
+  --banner: #14283d; --banner-line: #23496d; --warn: #2b2412; --warn-line: #5b4a1c; --warn-ink: #f0d58a;
+  --code: #2c2c2e; --code-ink: #f5f5f7; --code-dim: #98989d; --code-line: #3a3a3c; --pill: #3a3a3c; --pill-ink: #f5f5f7; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 22px rgba(0,0,0,.35);
+} }
+:root[data-theme="dark"] {
+  --bg: #1c1c1e; --bar: #2c2c2e; --ink: #f5f5f7; --ink2: #a1a1a6; --line: #3d3d40; --line2: #2c2c2e;
+  --blue: #2997ff; --link: #4aa8ff; --sel: #2c2c2e; --card: #232326; --btn: #3a3a3d; --btn-ink: #f5f5f7;
+  --banner: #14283d; --banner-line: #23496d; --warn: #2b2412; --warn-line: #5b4a1c; --warn-ink: #f0d58a;
+  --code: #2c2c2e; --code-ink: #f5f5f7; --code-dim: #98989d; --code-line: #3a3a3c; --pill: #3a3a3c; --pill-ink: #f5f5f7; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 22px rgba(0,0,0,.35);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; }
+code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--blue) 55%, transparent); outline-offset: 2px; border-radius: 6px; }
+h1, h2, h3 { margin: 0; letter-spacing: -.01em; }
+p { margin: 8px 0; }
+
+/* ---------- Top bar ---------- */
+.top { position: sticky; top: 0; z-index: 40; background: var(--bar); height: 49px; }
+.top-in { height: 100%; max-width: 1362px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr auto; align-items: center; }
+.logo { display: flex; align-items: center; gap: 9px; font-size: 17px; font-weight: 650; letter-spacing: -.01em; color: var(--ink); }
+.logo:hover { text-decoration: none; }
+.logo img { width: 24px; height: 24px; border-radius: 6px; display: block; }
+.logo i { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(160deg, #5a87fb, #3121fd); display: grid; place-items: center; color: #fff; font: 800 13px/1 -apple-system, sans-serif; font-style: normal; }
+.nav { display: flex; justify-content: space-between; gap: 8px; max-width: 760px; margin: 0 auto; width: 100%; }
+.nav a { color: var(--ink); font-size: 14px; padding: 6px 4px; }
+.nav a:hover { text-decoration: none; color: var(--blue); }
+.nav a.on { color: var(--blue); }
+.user { justify-self: end; text-align: right; font-size: 13px; line-height: 1.2; display: flex; align-items: center; gap: 12px; }
+.user small { display: block; font-size: 11px; letter-spacing: .06em; color: var(--ink2); }
+.ghlink { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-size: 13.5px; font-weight: 500; padding: 4px 8px; border-radius: 8px; }
+.ghlink:hover { text-decoration: none; background: var(--line2); }
+.theme { appearance: none; border: 0; background: transparent; cursor: pointer; font-size: 17px; color: var(--ink2); padding: 4px; border-radius: 8px; }
+.theme:hover { color: var(--ink); background: var(--line2); }
+.btn.menu-btn { display: none; }
+
+/* ---------- App header ---------- */
+.shell { max-width: 1362px; margin: 0 auto; padding: 0 24px; }
+.apphead { display: flex; align-items: center; gap: 28px; padding: 40px 0 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.titlewrap { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; position: relative; }
+.appicon-img { width: 46px; height: 46px; border-radius: 10.5px; display: block; flex: none; box-shadow: 0 0 0 1px rgba(0,0,0,.06); }
+.appicon { width: 46px; height: 46px; border-radius: 11px; border: 1px solid var(--line); background: linear-gradient(160deg, #5a87fb, #3121fd); display: grid; place-items: center; color: #fff; font: 800 24px/1 -apple-system, sans-serif; box-shadow: inset 0 1px 0 rgba(255,255,255,.3); flex: none; }
+.apptitle { appearance: none; border: 0; background: transparent; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: clamp(22px, 3vw, 34px); font-weight: 600; letter-spacing: -.02em; color: var(--ink); padding: 0; text-align: left; line-height: 1.15; }
+.apptitle svg { width: 22px; height: 22px; flex: none; }
+.appmenu { position: absolute; top: 58px; left: 0; z-index: 30; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; min-width: 230px; display: none; }
+.appmenu.open { display: block; }
+.appmenu button { display: flex; width: 100%; gap: 10px; align-items: center; appearance: none; border: 0; background: transparent; padding: 9px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; text-align: left; }
+.appmenu button:hover { background: var(--sel); }
+.appmenu button[aria-checked="true"]::after { content: "\2713"; margin-left: auto; color: var(--blue); font-weight: 700; }
+.tabs { display: flex; gap: 22px; align-self: stretch; align-items: flex-end; }
+.tabs a { font-size: clamp(16px, 1.8vw, 22px); color: var(--blue); padding: 0 2px 14px; margin-bottom: -1px; border-bottom: 3px solid transparent; }
+.tabs a:hover { text-decoration: none; }
+.tabs a.on { border-bottom-color: var(--blue); }
+
+/* ---------- Body layout ---------- */
+.body { display: grid; grid-template-columns: 215px minmax(0, 1fr); gap: 30px; padding: 34px 0 100px; }
+aside.side { position: sticky; top: 74px; align-self: start; max-height: calc(100vh - 90px); overflow: auto; padding-bottom: 20px; font-size: 13.5px; }
+.side h4 { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+.side .grp { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--line2); }
+.side .grp:last-child { border-bottom: 0; }
+.side .sub { font-size: 11.5px; font-weight: 600; letter-spacing: .06em; color: var(--ink2); margin: 16px 0 6px 10px; text-transform: uppercase; }
+.side a.item { display: flex; align-items: center; gap: 9px; padding: 6px 10px; border-radius: 7px; color: var(--ink); margin: 1px 0; }
+.side a.item:hover { text-decoration: none; background: var(--sel); }
+.side a.item.on { background: var(--sel); font-weight: 600; }
+.side .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--grey); flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); transition: background .2s; }
+.side .dot.part { background: var(--yellow); } .side .dot.done { background: var(--green); }
+.side a.item .lbl { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.side .new { flex-shrink: 0; margin-left: auto; background: var(--pill); color: var(--pill-ink); font-size: 11px; font-weight: 700; border-radius: 99px; padding: 1px 8px; }
+.side .addp { display: block; margin: 12px 0 0 10px; font-size: 13.5px; }
+.progress { margin: 0 10px 12px; font-size: 12px; color: var(--ink2); }
+.bar-track { height: 5px; border-radius: 99px; background: var(--line2); overflow: hidden; margin-top: 5px; }
+.bar-fill { height: 100%; width: 0; background: var(--green); border-radius: 99px; transition: width .3s; }
+
+main { min-width: 0; }
+.page { display: none; } .page.on { display: block; animation: fade .25s ease; }
+.nojs .page { display: block; margin-bottom: 60px; }
+@keyframes fade { from { transform: translateY(4px); } to { transform: none; } }
+.ph { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--line); margin-bottom: 26px; }
+.ph h1 { font-size: 28px; font-weight: 600; letter-spacing: -.022em; line-height: 1.15; }
+.eyebrow { display: block; font-size: 12px; font-weight: 600; color: var(--ink2); margin-bottom: 4px; }
+.ph .sub { color: var(--ink2); font-size: 14px; margin-top: 4px; }
+.h2row { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+h2 { font-size: 21px; font-weight: 650; }
+h3 { font-size: 16px; font-weight: 650; }
+.muted { color: var(--ink2); }
+.small { font-size: 13px; }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 28px; align-items: center; padding: 4px 0 28px; }
+.hero-icon { width: 128px; height: 128px; border-radius: 28.5px; display: block; box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 14px 34px rgba(49,33,253,.28); }
+.hero h1 { font-size: clamp(30px, 4vw, 44px); font-weight: 700; letter-spacing: -.03em; line-height: 1.05; }
+.hero-sub { font-size: 17px; line-height: 1.45; color: var(--ink2); max-width: 58ch; margin: 8px 0 18px; }
+.hero-cta { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.get { background: var(--blue); color: #fff; font-weight: 600; font-size: 15px; padding: 8px 22px; border-radius: 99px; }
+.get:hover { text-decoration: none; filter: brightness(1.07); }
+.btn.pill { border-radius: 99px; padding: 8px 18px; font-size: 15px; color: var(--link); }
+.metrics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--line2); border-bottom: 1px solid var(--line2); padding: 14px 0; margin-bottom: 38px; text-align: center; }
+.metrics > div { padding: 0 10px; border-left: 1px solid var(--line2); }
+.metrics > div:first-child { border-left: 0; }
+.metrics small { display: block; font-size: 11px; font-weight: 600; letter-spacing: .06em; color: var(--ink2); }
+.metrics b { display: block; font-size: 22px; font-weight: 700; letter-spacing: -.02em; margin: 2px 0 1px; color: var(--ink2); }
+.metrics span { display: block; font-size: 12px; color: var(--ink2); }
+.thumbs img { transition: opacity .2s ease; }
+.thumbs.fading img, .hdr.fading img { opacity: 0; }
+
+/* Buttons and chips */
+.btn svg { flex: none; }
+.btn { appearance: none; border: 0; background: var(--btn); color: var(--btn-ink); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { text-decoration: none; filter: brightness(.96); }
+.btn.primary { background: var(--blue); color: #fff; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.linkbtn { appearance: none; border: 0; background: transparent; color: var(--link); cursor: pointer; padding: 0; font-size: 13.5px; }
+.linkbtn:hover { text-decoration: underline; }
+.chip { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; white-space: nowrap; color: var(--ink); }
+.chip .dot { width: 10px; height: 10px; flex: none; border-radius: 50%; background: var(--grey); }
+.chip .dot.y { background: var(--yellow); } .chip .dot.g { background: var(--green); } .chip .dot.b { background: var(--blue); }
+select.sel { appearance: none; border: 0; background: transparent; color: var(--link); font-size: 13.5px; cursor: pointer; padding: 4px 18px 4px 4px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230071e3' stroke-width='1.6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+select.sel option { color: #1d1d1f; }
+
+/* Banner */
+.banner { display: flex; gap: 14px; background: var(--banner); border: 1px solid var(--banner-line); border-radius: 10px; padding: 14px 16px; margin: 18px 0 24px; position: relative; }
+.banner .i { flex: none; width: 24px; height: 24px; border: 2px solid var(--blue); color: var(--blue); border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+.banner b { display: block; font-size: 15px; font-weight: 600; margin-bottom: 1px; }
+.banner p { margin: 0; font-size: 13.5px; }
+.banner .x { position: absolute; right: 14px; top: 10px; appearance: none; border: 0; background: transparent; color: var(--blue); font-size: 20px; cursor: pointer; line-height: 1; }
+
+/* Section tabs */
+.stabs { display: flex; gap: 18px; border-bottom: 1px solid var(--line); margin-top: 6px; }
+.stabs button { appearance: none; border: 0; background: transparent; color: var(--link); font-size: 15px; font-weight: 500; padding: 10px 2px 12px; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -1px; }
+.stabs button[aria-selected="true"] { border-bottom-color: var(--blue); }
+.spanel[hidden] { display: none; }
+
+/* Asset card (header / screenshots) */
+.acard { border: 1px solid var(--line); border-radius: 14px; background: var(--card); margin-top: 18px; overflow: hidden; }
+.acard-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 0; border-bottom: 1px solid var(--line2); }
+.itabs { display: flex; gap: 6px; }
+.itabs button { appearance: none; border: 0; background: transparent; display: flex; align-items: center; gap: 10px; padding: 6px 14px 14px; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--ink2); }
+.itabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.itabs svg { width: 22px; height: 30px; }
+.acard-top .btn { margin-bottom: 10px; }
+.acard-body { padding: 22px 24px; }
+.acard-foot { display: flex; gap: 16px; padding: 12px 22px; border-top: 1px solid var(--line2); font-size: 13.5px; align-items: center; }
+.acard-foot .cnt { margin-right: 4px; }
+.acard-foot .dis { color: var(--grey); }
+.hdr { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid var(--line2); background: var(--sel); }
+.hdr img { display: block; width: 100%; height: auto; }
+.hdr .mask { position: absolute; top: 0; bottom: 0; background: rgba(10,10,20,.58); opacity: 0; transition: opacity .25s; pointer-events: none; }
+.hdr .mask.l { left: 0; width: 13.54%; } .hdr .mask.r { right: 0; width: 13.54%; }
+.hdr.crop .mask { opacity: 1; }
+.hdr .tag { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); background: rgba(0,0,0,.72); color: #fff; font-size: 12px; padding: 3px 12px; border-radius: 99px; opacity: 0; transition: opacity .25s; pointer-events: none; white-space: nowrap; }
+.hdr.crop .tag { opacity: 1; }
+.shots-card .acard-top { border-bottom: 0; }
+.shots-card .itabs button { margin-bottom: 0; }
+.dtabs button { align-items: center; padding: 4px 20px 14px 16px; line-height: 1.25; }
+.dtabs button + button { border-left: 1px solid var(--line2); margin-left: 0; }
+.dtabs button:first-child { padding-left: 4px; }
+.dtabs svg { width: 22px; height: 33px; flex: none; }
+.dtabs b { display: block; font-weight: 600; color: var(--ink); }
+.dtabs span { text-align: left; }
+.thumbs { display: flex; gap: 10px; overflow-x: auto; padding: 20px 24px 8px; }
+.thumb { flex: none; height: 270px; aspect-ratio: 1320 / 2868; border-radius: 14px; overflow: hidden; background: var(--sel); border: 0; padding: 0; cursor: zoom-in; transition: transform .18s, box-shadow .18s; }
+.thumb:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb.add { border: 2px dashed var(--line); background: transparent; display: grid; place-items: center; color: var(--blue); font-size: 30px; line-height: 1; cursor: copy; }
+.thumb.add:hover { border-color: var(--blue); box-shadow: none; }
+.thumb.ghost { border: 2px dashed var(--line2); background: transparent; cursor: default; }
+.thumb.ghost:hover { transform: none; box-shadow: none; }
+.using { display: flex; align-items: center; gap: 8px; padding: 12px 24px 20px; font-size: 13.5px; }
+.using { position: relative; }
+.using .q { width: 18px; height: 18px; border-radius: 50%; background: var(--sel); color: var(--ink2); font-size: 11.5px; font-weight: 700; display: inline-grid; place-items: center; cursor: help; }
+.using .q:hover::after, .using .q:focus::after { content: attr(data-tip); position: absolute; left: 24px; bottom: calc(100% - 6px); max-width: 280px; background: var(--ink); color: var(--bg); font-weight: 400; font-size: 12.5px; line-height: 1.4; padding: 8px 10px; border-radius: 8px; z-index: 5; text-align: left; }
+.using .cnt { margin-left: auto; color: var(--ink2); }
+.locale-note { font-size: 12.5px; color: var(--ink2); }
+
+/* Search result mock */
+.sr { max-width: 460px; margin: 0 auto; border: 1px solid var(--line2); border-radius: 18px; padding: 16px; background: var(--bg); }
+.sr-top { display: flex; gap: 12px; align-items: center; }
+.sr-top .appicon { width: 58px; height: 58px; font-size: 30px; border-radius: 14px; }
+.sr-top b { display: block; font-size: 16px; } .sr-top span { color: var(--ink2); font-size: 13px; }
+.sr-top .get { margin-left: auto; background: var(--btn); color: var(--blue); font-weight: 700; padding: 6px 18px; border-radius: 99px; font-size: 14px; }
+.sr-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.sr-shots img { width: 100%; border-radius: 12px; border: 1px solid var(--line2); display: block; }
+
+/* Info rows (App Information style) */
+.rows { border-top: 0; }
+.rows .row:first-child { padding-top: 4px; }
+.rows .row:last-child { border-bottom: 0; }
+.row { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--line2); }
+.row > .k { font-weight: 600; font-size: 14px; } .row > .k small { display: block; color: var(--ink2); font-weight: 400; font-size: 12.5px; margin-top: 2px; }
+.row .v { min-width: 0; }
+.check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--blue); flex: none; }
+.check b { font-weight: 600; } .check .d { display: block; color: var(--ink2); font-size: 13.5px; }
+
+/* Steps */
+.step { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; padding: 20px 0; border-bottom: 1px solid var(--line2); }
+.step:last-child { border-bottom: 0; }
+.step .num { width: 26px; height: 26px; border-radius: 50%; background: transparent; box-shadow: inset 0 0 0 1.5px var(--line); color: var(--ink2); display: grid; place-items: center; font-weight: 700; font-size: 13px; transition: background .2s, color .2s; }
+.step.done .num { background: var(--green); box-shadow: none; color: #fff; font-size: 0; }
+.step.done .num::after { content: "\2713"; font-size: 13px; }
+.step.done h3 { color: var(--ink2); }
+.step-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.step h3 { margin-bottom: 4px; }
+.step .markdone { display: inline-flex; gap: 7px; align-items: center; font-size: 12.5px; color: var(--ink2); cursor: pointer; flex: none; padding-top: 2px; }
+.step .markdone input { accent-color: var(--green); width: 16px; height: 16px; }
+.step p, .step li { color: var(--ink2); } .step ul { padding-left: 20px; margin: 6px 0; }
+.step strong { color: var(--ink); } .step code { color: var(--ink); }
+:not(pre) > code { background: var(--sel); border: 1px solid var(--line2); padding: 1px 6px; border-radius: 6px; font-size: .88em; }
+.note { display: flex; gap: 12px; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 14px 0; background: var(--card); font-size: 13.5px; }
+.note.warn { background: var(--warn); border-color: var(--warn-line); color: var(--warn-ink); }
+.note b { display: block; } .note p { margin: 2px 0 0; color: inherit; }
+.note .i { flex: none; font-weight: 800; }
+
+/* Code */
+.code { background: var(--code); border: 1px solid var(--code-line); border-radius: 12px; margin: 10px 0; overflow: hidden; }
+.code-head { display: flex; align-items: center; justify-content: space-between; padding: 7px 8px 7px 14px; font-size: 11.5px; color: var(--code-dim); border-bottom: 1px solid var(--code-line); letter-spacing: 0; }
+.code pre { margin: 0; padding: 12px 16px; overflow-x: auto; color: var(--code-ink); font-size: 13px; line-height: 1.6; }
+.code.tall pre { max-height: 400px; overflow: auto; }
+.code .c { color: var(--code-dim); }
+.copy { appearance: none; border: 0; background: var(--card); color: var(--link); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 99px; cursor: pointer; box-shadow: 0 0 0 1px var(--code-line); }
+.copy:hover { filter: brightness(.97); } .copy.done { color: var(--green); }
+.mini-tabs { display: flex; gap: 4px; margin-top: 8px; border-bottom: 1px solid var(--line2); }
+.mini-tabs button { appearance: none; border: 0; background: transparent; color: var(--ink2); padding: 6px 12px; cursor: pointer; font-size: 13px; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.mini-tabs button[aria-selected="true"] { color: var(--blue); border-bottom-color: var(--blue); }
+
+/* Tables */
+table.t { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.t th { text-align: left; font-weight: 500; color: var(--ink2); font-size: 12.5px; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+table.t td { padding: 12px; border-bottom: 1px solid var(--line2); vertical-align: top; }
+table.t tbody tr:last-child td { border-bottom: 0; }
+.tbl-wrap { overflow-x: auto; }
+.tbl-wrap table.t th:first-child, .tbl-wrap table.t td:first-child { padding-left: 0; }
+table.t th { border-bottom: 1px solid var(--line); }
+.kind { font-size: 13px; color: var(--ink2); }
+.tbl-wrap table.t td:first-child code { white-space: nowrap; }
+
+/* Gift wrap: the thank-you note is unwrapped by scrolling */
+.giftstage { position: relative; margin-top: 32px; }
+.giftsticky { position: relative; }
+.giftstage .thanks { margin-top: 0; }
+.wrap { display: none; position: absolute; inset: 0; z-index: 20; perspective: 1800px; pointer-events: none; border-radius: inherit; }
+body.giftfx .wrap { display: block; }
+.paper { position: absolute; top: 0; bottom: 0; width: 50.5%; backface-visibility: visible; will-change: transform, opacity;
+  background: radial-gradient(circle at 14px 14px, rgba(255,255,255,.26) 3.2px, transparent 3.8px) 0 0 / 30px 30px, radial-gradient(120% 90% at 30% 0%, #ff8a7a, transparent 60%), linear-gradient(155deg, #ff6b6b, #ff2d6f 55%, #e0105a); }
+.paper.l { left: 0; transform-origin: left center; box-shadow: inset -14px 0 22px -14px rgba(90,0,30,.45); }
+.paper.r { right: 0; transform-origin: right center; box-shadow: inset 14px 0 22px -14px rgba(90,0,30,.45); }
+.ribbon { position: absolute; background: linear-gradient(90deg, #f2ae1e, #ffe28c 42%, #fff0b8 50%, #ffe28c 58%, #f2ae1e); box-shadow: 0 0 0 1px rgba(160,90,0,.18), 0 6px 16px rgba(120,20,40,.25); will-change: transform, opacity; }
+.ribbon.v { left: 50%; top: 0; bottom: 0; width: 58px; margin-left: -29px; transform-origin: center; }
+.ribbon.h { top: 50%; left: 0; right: 0; height: 58px; margin-top: -29px; transform-origin: center; background: linear-gradient(180deg, #f2ae1e, #ffe28c 42%, #fff0b8 50%, #ffe28c 58%, #f2ae1e); }
+.wrap .bow { position: absolute; left: 50%; top: 50%; width: 230px; transform: translate(-50%, -50%); filter: drop-shadow(0 16px 22px rgba(120,10,40,.4)); will-change: transform, opacity; }
+.gtag { position: absolute; left: calc(50% + 70px); top: calc(50% + 46px); transform: rotate(-8deg); transform-origin: top left; display: flex; align-items: center; gap: 9px; background: #fffaf0; color: #3a2a10; padding: 8px 14px 8px 8px; border-radius: 10px; box-shadow: 0 10px 24px rgba(90,0,30,.35); font-weight: 650; font-size: 14px; white-space: nowrap; }
+.gtag img { width: 30px; height: 30px; border-radius: 50%; }
+.gtag::before { content: ""; position: absolute; left: -7px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: #e0105a; box-shadow: 0 0 0 3px #fffaf0; }
+.scrollcue { position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; color: #fff; font-size: 13.5px; font-weight: 600; padding: 8px 16px; border-radius: 99px; background: rgba(110,0,40,.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 0 0 1px rgba(255,255,255,.25); white-space: nowrap; }
+.scrollcue i { display: block; width: 8px; height: 8px; margin: -3px 0 0; border-right: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(45deg); animation: cue 1.6s ease-in-out infinite; }
+@keyframes cue { 0%, 100% { transform: translateY(-3px) rotate(45deg); opacity: .5; } 50% { transform: translateY(3px) rotate(45deg); opacity: 1; } }
+.giftstage.is-flow .wrap .bow, .giftstage.is-flow .ribbon.h { top: min(50%, 36vh); } .giftstage.is-flow .gtag { top: calc(min(50%, 36vh) + 70px); } .giftstage.is-flow .scrollcue { top: calc(min(50%, 36vh) + 140px); bottom: auto; }
+@media (max-width: 640px) { .d-gift, .d-heart { display: none; } .d-star { width: 44px !important; right: 3% !important; top: 8px !important; } .wrap .bow { width: 170px; } .gtag { left: 50%; top: calc(50% + 70px); transform: translateX(-50%) rotate(-4deg); } .ribbon.v { width: 44px; margin-left: -22px; } .ribbon.h { height: 44px; margin-top: -22px; } }
+
+/* Cards / grids */
+.grid { display: grid; gap: 14px; } .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--card); }
+.card h3 { font-size: 15px; margin-bottom: 4px; } .card p { margin: 0; color: var(--ink2); font-size: 13.5px; }
+.card .rule { margin-top: 8px; font-size: 12.5px; font-weight: 650; }
+.layer-n { width: 26px; height: 26px; border-radius: 8px; background: var(--sel); display: grid; place-items: center; font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+.flow-wrap { overflow-x: auto; margin-top: 16px; } .flow { width: 100%; min-width: 640px; height: auto; display: block; }
+.flow rect.box { fill: var(--card); stroke: var(--line); stroke-width: 1.5; } .flow rect.hot { fill: var(--banner); stroke: var(--blue); stroke-width: 1.5; }
+.flow text { fill: var(--ink); font: 600 13px -apple-system, system-ui, sans-serif; } .flow text.s { fill: var(--ink2); font-weight: 400; font-size: 11.5px; }
+.flow path { stroke: var(--ink2); stroke-width: 1.5; fill: none; }
+
+/* Ratings page / thanks */
+.thanks { position: relative; margin-top: 32px; border-radius: 22px; overflow: hidden; color: #fff; padding: clamp(28px, 4.4vw, 56px); background: radial-gradient(900px 420px at 88% -10%, rgba(157,184,255,.55), transparent 60%), radial-gradient(700px 380px at -10% 110%, rgba(255,168,138,.35), transparent 60%), linear-gradient(150deg, #2a1cf0, #3a3cfa 55%, #5a87fb); display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: clamp(20px, 3.4vw, 40px); align-items: center; box-shadow: 0 24px 60px rgba(49,33,253,.25); }
+.thanks .tag { display: inline-block; font-size: 14px; font-weight: 600; color: rgba(255,255,255,.8); }
+.thanks h2 { color: #fff; font-size: clamp(24px, 3.2vw, 36px); margin: 22px 0 10px; letter-spacing: -.03em; line-height: 1.1; }
+.thanks p { color: rgba(255,255,255,.9); margin: 9px 0; font-size: 15.5px; } .thanks .fine { font-size: 13px; color: rgba(255,255,255,.72); } .thanks strong { color: #fff; }
+.thanks-copy { position: relative; z-index: 2; padding: 4px clamp(0px, 1.4vw, 18px) 4px clamp(0px, 1vw, 10px); }
+.author { display: flex; align-items: center; gap: 14px; }
+.author img { width: 56px; height: 56px; border-radius: 50%; display: block; object-fit: cover; box-shadow: 0 0 0 3px rgba(255,255,255,.85), 0 8px 20px rgba(10,5,70,.35); }
+.author b { display: block; font-size: 16px; color: #fff; letter-spacing: -.01em; }
+.author small { display: block; font-size: 13px; color: rgba(255,255,255,.75); }
+.app { display: flex; align-items: center; gap: 14px; margin: 20px 0 12px; padding: 11px 13px; border-radius: 16px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); }
+.app-icon { width: 52px; height: 52px; border-radius: 12px; background: #fff; display: block; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+.app b { display: block; font-size: 16px; } .app small { display: block; color: rgba(255,255,255,.8); font-size: 13px; line-height: 1.35; }
+.actions { width: 100%; }
+.stores { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.store { display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 0; height: 56px; padding: 0 18px; border-radius: 14px; background: #fff; color: #1d1d1f; box-shadow: 0 8px 22px rgba(10,5,70,.22); transition: transform .15s, box-shadow .15s; }
+.store:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(10,5,70,.3); text-decoration: none; }
+.store svg { width: 24px; height: 24px; flex: none; }
+.store .t { display: flex; flex-direction: column; min-width: 0; line-height: 1.1; }
+.store .k { font-size: 11px; font-weight: 500; color: #6e6e73; } .store .v { font-size: 20px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.deco { position: absolute; z-index: 1; pointer-events: none; filter: drop-shadow(0 14px 18px rgba(20,10,90,.35)); will-change: transform; }
+.d-star { width: 70px; right: 1.5%; top: 1.2%; z-index: 3; } .d-heart { width: 60px; left: 52.5%; bottom: 4%; z-index: 3; } .d-gift { width: 64px; left: 52%; top: 1.5%; }
+@keyframes bob { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-10px) rotate(3deg); } }
+.review { position: relative; z-index: 2; margin: 0; background: #fff; color: #1c1c28; border-radius: 18px; padding: 12px 14px 12px; max-width: 360px; justify-self: end; width: 100%; will-change: transform; box-shadow: 0 22px 50px rgba(10,5,70,.38); font-size: 14.5px; }
+.rv-top { display: flex; align-items: center; justify-content: space-between; font-weight: 700; padding-bottom: 8px; border-bottom: 1px solid #ececf4; font-size: 13.5px; }
+.rv-top em { font-style: normal; font-size: 12.5px; font-weight: 500; color: #8a8a99; }
+.rv-app { display: flex; align-items: center; gap: 10px; margin: 10px 0 0; } .rv-app img { width: 34px; height: 34px; border-radius: 10px; border: 1px solid #ececf4; } .rv-app b { display: block; } .rv-app small { color: #6c6c80; font-size: 12.5px; }
+.rv-stars { display: flex; justify-content: center; gap: 4px; padding: 6px 0 8px; }
+.rv-stars button { appearance: none; border: 0; background: transparent; cursor: pointer; padding: 2px; line-height: 0; transition: transform .12s; } .rv-stars button:hover { transform: scale(1.12); }
+.rv-stars svg { width: 28px; height: 28px; display: block; } .rv-stars .on path { fill: #ffb800; stroke: #e69c00; } .rv-stars .off path { fill: #e9e9f2; stroke: #d6d6e4; }
+.thanks .review .rv-t { font-weight: 700; font-size: 13.5px; padding: 7px 10px; border: 1px solid #e3e3ee; border-radius: 11px; background: #fafafd; color: #1c1c28; }
+.thanks .review .rv-body { margin: 7px 0 0; padding: 7px 10px; border: 1px solid #e3e3ee; border-radius: 11px; background: #fafafd; color: #34344a; font-size: 13px; line-height: 1.45; }
+.rv-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 9px; font-size: 11.5px; color: #6c6c80; } .thanks .review .rv-foot span { flex: 1; }
+.rv-send { flex: none; background: #3121fd; color: #fff; font-weight: 700; font-size: 13px; padding: 7px 13px; border-radius: 99px; } .rv-send:hover { background: #2517d6; text-decoration: none; }
+@media (prefers-reduced-motion: reduce) { .deco { animation: none; } }
+
+/* compare illustration */
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 560px; }
+.cmp .pane { position: relative; aspect-ratio: 1320 / 2868; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
+.cmp .ref { background: repeating-linear-gradient(135deg, var(--sel) 0 12px, transparent 12px 24px); display: grid; place-items: center; text-align: center; color: var(--ink2); font-size: 13px; padding: 14px; }
+.cmp img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cmp .g { position: absolute; background: #ff1a66; opacity: .85; pointer-events: none; }
+.cmp .gx { top: 0; bottom: 0; width: 1px; left: 7.88%; } .cmp .gy { left: 0; right: 0; height: 1px; }
+.cmp .cap { position: absolute; left: 8px; bottom: 8px; font-size: 11px; background: rgba(0,0,0,.65); color: #fff; padding: 2px 8px; border-radius: 99px; }
+
+/* ppo */
+.exp { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 18px 20px; }
+.exp-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.split { display: flex; height: 10px; border-radius: 99px; overflow: hidden; margin: 14px 0 6px; } .split i { display: block; } .split .a { width: 50%; background: var(--grey); } .split .b { width: 50%; background: var(--blue); }
+.exp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.exp-col h4 { margin: 0 0 8px; font-size: 13px; } .exp-thumbs { display: flex; gap: 8px; }
+.exp-thumbs div { flex: 1; aspect-ratio: 1320 / 2868; border-radius: 10px; overflow: hidden; border: 1px solid var(--line2); background: var(--sel); } .exp-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.exp-thumbs.empty { height: 100%; } .exp-thumbs.empty div { aspect-ratio: auto; display: grid; place-items: center; text-align: center; color: var(--ink2); font-size: 13px; border: 1px dashed var(--line); background: none; }
+
+/* details */
+details { border: 1px solid var(--line); border-radius: 10px; margin: 8px 0; background: var(--card); }
+summary { cursor: pointer; padding: 12px 14px; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+summary::-webkit-details-marker { display: none; } summary::after { content: "+"; color: var(--blue); font-weight: 700; font-size: 18px; line-height: 1; } details[open] summary::after { content: "\2212"; }
+details > div { padding: 0 14px 12px; color: var(--ink2); }
+
+/* lightbox & toast */
+.lb { position: fixed; inset: 0; z-index: 90; background: rgba(8,8,14,.82); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 12px; padding: 20px; }
+.lb.open { display: flex; }
+.lb img { max-height: 82vh; max-width: 92vw; border-radius: 26px; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.lb button { position: absolute; appearance: none; border: 0; background: rgba(255,255,255,.14); color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 22px; cursor: pointer; } .lb button:hover { background: rgba(255,255,255,.26); }
+.lb .prev { left: 24px; top: 50%; transform: translateY(-50%); } .lb .next { right: 24px; top: 50%; transform: translateY(-50%); } .lb .close { right: 24px; top: 24px; }
+.toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 30px); opacity: 0; background: #1d1d1f; color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 13.5px; z-index: 100; transition: all .25s; pointer-events: none; max-width: 90vw; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+footer.foot { border-top: 1px solid var(--line); margin-top: 40px; padding: 20px 0 0; color: var(--ink2); font-size: 12.5px; }
+
+/* platform toggle */
+body[data-platform="ios"] .android-only { display: none !important; } body[data-platform="android"] .ios-only { display: none !important; }
+
+@media (max-width: 1000px) {
+
+  .body { grid-template-columns: 1fr; gap: 0; padding-top: 18px; }
+  aside.side { display: none; position: static; max-height: none; border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 20px; }
+  aside.side.open { display: block; }
+  .btn.menu-btn { display: inline-flex; align-items: center; gap: 6px; background: none; padding: 6px 0; color: var(--link); font-size: 15px; font-weight: 500; margin: 0 0 10px; }
+  .theme { min-width: 44px; min-height: 44px; }
+  .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .thanks { grid-template-columns: 1fr; } .d-star { width: 66px; right: 5%; top: 14px; } .d-gift { left: auto; right: 24%; top: 14px; width: 54px; } .d-heart { display: none; } .thanks h2 { margin-top: 34px; }
+}
+@media (max-width: 640px) {
+  .shell { padding: 0 16px; } .top-in { padding: 0 16px; } .user > div { display: none; }
+  .row { grid-template-columns: 1fr; gap: 8px; } .g2, .g3, .g4 { grid-template-columns: 1fr; }
+  .exp-cols { grid-template-columns: 1fr; } .apphead { gap: 14px; padding-top: 26px; } .tabs { gap: 16px; }
+  .stores { grid-template-columns: 1fr; } .rv-foot { flex-direction: column; align-items: stretch; text-align: center; } .cmp { grid-template-columns: 1fr 1fr; }
+  .stabs { overflow-x: auto; scrollbar-width: none; gap: 16px; } .stabs::-webkit-scrollbar { display: none; } .stabs button { white-space: nowrap; flex: none; font-size: 14px; margin-bottom: 0; }
+  .acard-body { padding: 16px 14px; } .acard-top { padding: 10px 12px 0; flex-wrap: wrap; gap: 8px; } .itabs { overflow-x: auto; max-width: 100%; flex: 1 1 100%; } .itabs button { padding: 6px 10px 12px; white-space: nowrap; flex: none; } .dtabs span { white-space: nowrap; } .acard-top .btn { margin: 0 0 10px auto; }
+  .thumbs { padding: 14px 14px 6px; } .thumb { height: 230px; } .using { padding: 10px 14px 16px; }
+  .acard-top .itabs.dtabs { overflow-x: visible; } .acard-top .dtabs button { flex: 1 1 0; min-width: 0; padding: 4px 6px 12px; gap: 6px; white-space: normal; } .acard-top .dtabs button:first-child { padding-left: 2px; } .acard-top .dtabs span { white-space: normal; font-size: 12px; } .acard-top .dtabs svg { width: 16px; height: 24px; }
+  table.files thead, table.files td:nth-child(2) { display: none; } table.files tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--line2); } table.files td { display: block; border: 0; padding: 2px 0 !important; }
+  .lb img { max-width: calc(100vw - 32px); max-height: 74vh; } .lb .prev, .lb .next { top: auto; bottom: 22px; transform: none; } .lb .prev { left: calc(50% - 56px); } .lb .next { right: calc(50% - 56px); }
+  .hero { grid-template-columns: 1fr; text-align: left; } .hero-icon { width: 96px; height: 96px; border-radius: 22px; } .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .metrics { row-gap: 16px; } .metrics > div:nth-child(2n+1) { border-left: 0; } .metrics > div:last-child { grid-column: 1 / -1; border-left: 0; }
+}
+@media print { .top, aside.side, .tabs, .apphead { display: none; } .page { display: block !important; } }
+</style>
+</head>
+<body data-platform="ios" class="nojs">
+
+<header class="top">
+  <div class="top-in">
+    <a class="logo" href="#overview"><img alt="" src="data:image/webp;base64,{{ICON96}}"> Store Art Studio</a>
+    <div class="user">
+      <a class="ghlink" href="https://github.com/halilyuce/store-art-studio" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a>
+      <button class="theme" id="theme" aria-label="Toggle light and dark theme" title="Theme">&#9680;</button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="apphead">
+    <div class="titlewrap">
+      <img class="appicon-img" alt="" src="data:image/webp;base64,{{ICON96}}">
+      <button class="apptitle" id="apptitle" aria-haspopup="true" aria-expanded="false">
+        <span>Setup Guide</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg>
+      </button>
+      <div class="appmenu" id="appmenu" role="menu" aria-label="Choose platform">
+        <button role="menuitemradio" data-platform="ios" aria-checked="true">iOS App &middot; SwiftUI</button>
+        <button role="menuitemradio" data-platform="android" aria-checked="false">Android App &middot; Compose</button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs" aria-label="Sections">
+      <a href="#overview" data-tab="setup" class="on">Setup</a>
+      <a href="#prompts" data-tab="prompts">Prompts</a>
+      <a href="#files" data-tab="files">Files</a>
+    </nav>
+  </div>
+
+  <div class="body">
+    <aside class="side" id="side" aria-label="Guide navigation">
+      <div class="grp">
+        <h4 id="plat-label">iOS App</h4>
+        <a class="item" href="#skill" data-go="skill"><span class="dot" data-dot="skill"></span>Install the skill</a>
+        <a class="item" href="#project" data-go="project"><span class="dot" data-dot="project"></span>Add to your project</a>
+        <a class="item" href="#firstrun" data-go="firstrun"><span class="dot" data-dot="firstrun"></span>First run</a>
+        <a class="item" href="#job" data-go="job"><span class="dot" data-dot="job"></span>Your first job</a>
+        <div class="progress"><span id="prog-text">0 of 0 steps done</span><div class="bar-track"><div class="bar-fill" id="prog-fill"></div></div></div>
+        <a class="addp" href="#" id="addplat">Add Platform</a>
+      </div>
+      <div class="grp">
+        <h4>General</h4>
+        <a class="item" href="#overview" data-go="overview">Overview</a>
+        <a class="item" href="#before" data-go="before">Before you start</a>
+        <a class="item" href="#gates" data-go="gates">History</a>
+      </div>
+      <div class="grp">
+        <h4>Store Art</h4>
+        <div class="sub" style="margin-top:0">Trust &amp; Safety</div>
+        <a class="item" href="#rules" data-go="rules">Hard rules</a>
+        <a class="item" href="#trouble" data-go="trouble">Troubleshooting</a>
+        <a class="item" href="#overview/thanks" data-go="thanks">Ratings and Reviews</a>
+        <div class="sub">Growth &amp; Marketing</div>
+        <a class="item" href="#match" data-go="match">Match a Set <span class="new">New</span></a>
+        <a class="item" href="#art" data-go="art">Asset Library <span class="new">New</span></a>
+        <a class="item" href="#ship" data-go="ship" title="Product Page Optimization"><span class="lbl">Product Page Optimization</span><span class="new">New</span></a>
+        <div class="sub">Resources</div>
+        <a class="item" href="#prompts" data-go="prompts">Prompts</a>
+        <a class="item" href="#files" data-go="files">Files</a>
+      </div>
+    </aside>
+
+    <main>
+      <button class="btn menu-btn" id="menubtn" aria-expanded="false" aria-controls="side"><svg width="17" height="14" viewBox="0 0 17 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M1 2h15M1 7h15M1 12h15"/></svg>Sections</button>
+
+      <!-- ===================== OVERVIEW ===================== -->
+      <section class="page" id="page-overview">
+        <div class="hero">
+          <img class="hero-icon" alt="Store Art Studio app icon" src="data:image/webp;base64,{{ICON360}}">
+          <div>
+            <h1>Store Art Studio</h1>
+            <p class="hero-sub">Studio-grade App Store and Google Play screenshots, rendered from your own app's real views, in every language you sell in.</p>
+            <div class="hero-cta"><a class="get" href="#skill" data-go="skill">Get Started</a><a class="btn pill" href="#prompts" data-go="prompts">Copy a Prompt</a><a class="btn pill" href="https://github.com/halilyuce/store-art-studio" target="_blank" rel="noopener noreferrer">View on GitHub</a></div>
+          </div>
+        </div>
+        <div class="metrics" role="list">
+          <div role="listitem"><small>PRICE</small><b>Free</b><span>for the community</span></div>
+          <div role="listitem"><small>LANGUAGES</small><b>22</b><span>in its first app, one codebase</span></div>
+          <div role="listitem"><small>MOCKUPS</small><b>0</b><span>AI-drawn UI</span></div>
+          <div role="listitem"><small>PLATFORMS</small><b>2</b><span>iOS proven, Android planned</span></div>
+          <div role="listitem"><small>LAYERS</small><b>4</b><span>truth to delivery</span></div>
+        </div>
+        <div class="h2row"><h2>Product Page Information</h2>
+          <div style="display:flex;align-items:center;gap:14px">
+            <button class="linkbtn" id="cycle" aria-pressed="false">Play languages</button>
+            <select class="sel" id="locale" aria-label="Language"></select>
+          </div>
+        </div>
+        <p class="small muted">The assets below show what a finished set looks like. Every screen is the app's real UI with real data, rendered from its own views or redrawn at its own sizes, in the language you pick. <a href="#rules" data-go="rules">Learn more…</a></p>
+
+        <div class="banner" id="banner"><div class="i">i</div><div><b>New Ways to Market Apps</b><p>Match a reference set by measurement, render every language from one codebase, and ship through fastlane. You can now also build the Android half from the iOS template.</p></div><button class="x" id="banner-x" aria-label="Dismiss">&times;</button></div>
+
+        <div class="stabs" role="tablist" id="ptabs">
+          <button role="tab" aria-selected="false" data-p="header">Header and Search Results</button>
+          <button role="tab" aria-selected="true" data-p="shots">App Previews and Screenshots</button>
+        </div>
+
+        <div class="spanel" data-p="header" hidden>
+          <p class="small muted" style="margin-top:14px">Customize your app's product page and how it appears in App Store search results using creative assets. <a href="#ship" data-go="ship">See best practices</a></p>
+          <div class="acard">
+            <div class="acard-top">
+              <div class="itabs" role="tablist" id="itabs">
+                <button role="tab" aria-selected="true" data-i="hdr"><svg viewBox="0 0 22 30" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="28" rx="5"/><rect x="3" y="3" width="16" height="7" rx="2" fill="currentColor" opacity=".25" stroke="none"/></svg>Header</button>
+                <button role="tab" aria-selected="false" data-i="sr"><svg viewBox="0 0 22 30" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="28" rx="5"/><rect x="3" y="12" width="16" height="6" rx="2" fill="currentColor" opacity=".25" stroke="none"/></svg>Search Results</button>
+              </div>
+              <button class="btn" id="crop-btn" aria-pressed="false"><svg width="10" height="14" viewBox="0 0 10 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x=".65" y=".65" width="8.7" height="12.7" rx="2"/></svg> Preview</button>
+            </div>
+            <div class="acard-body">
+              <div data-i="hdr">
+                <div class="hdr" id="hdr"><img id="hdr-img" alt="Product page header, 3840 by 1646" src="assets/examples/en-US/header.jpg"><span class="mask l"></span><span class="mask r"></span><span class="tag">iPhone shows only this middle part</span></div>
+                <p class="locale-note" style="margin-top:10px">3840 x 1646, PNG, no alpha. Press <b>Preview</b> to see what an iPhone crops away. Keep the headline and every readable word inside x 520 to 3320.</p>
+              </div>
+              <div data-i="sr" hidden>
+                <div class="sr"><div class="sr-top"><div class="appicon">S</div><div><b>Your App</b><span>Your subtitle goes here</span></div><span class="get">GET</span></div>
+                  <div class="sr-shots" id="sr-shots"></div></div>
+              </div>
+            </div>
+            <div class="acard-foot"><span class="cnt">1 of 1 Header Asset</span><button class="linkbtn" data-toast="Headers are uploaded by scripts/ppo.rb headers, not by hand.">Browse Assets</button><span class="dis">Upload</span><span class="dis">Remove</span></div>
+          </div>
+        </div>
+
+        <div class="spanel" data-p="shots">
+          <div class="acard shots-card">
+            <div class="acard-top">
+              <div class="itabs dtabs" role="tablist" id="dtabs">
+                <button role="tab" aria-selected="true" data-d="iphone"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="31" rx="5.5"/><rect x="7.5" y="3.5" width="7" height="2.4" rx="1.2" fill="currentColor" stroke="none"/></svg><span>iPhone with Dynamic Island<b>(6.9" display)</b></span></button>
+                <button role="tab" aria-selected="false" data-d="ipad"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="31" rx="3"/></svg><span>iPad<b>13" display</b></span></button>
+                <button role="tab" aria-selected="false" data-d="watch"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="9" width="16" height="15" rx="4.5"/><path d="M7 9V3.5h8V9M7 24v5.5h8V24"/></svg><span>Apple Watch<b>Ultra 3</b></span></button>
+              </div>
+              <button class="btn" id="preview-btn"><svg width="10" height="14" viewBox="0 0 10 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x=".65" y=".65" width="8.7" height="12.7" rx="2"/></svg> Preview</button>
+            </div>
+            <div class="dpanel" data-d="iphone">
+              <div class="thumbs" id="shots" role="group" aria-label="Example screenshots"></div>
+              <div class="using">Using Existing Assets <span class="q" tabindex="0" role="img" aria-label="About these assets. Rendered by scripts/screenshots/render.sh from the app's own views." data-tip="Rendered by scripts/screenshots/render.sh from the app's own views. Click a screenshot to enlarge it, then use the arrow keys.">?</span></div>
+            </div>
+            <div class="dpanel" data-d="ipad" hidden>
+              <div class="thumbs"><span class="thumb ghost" style="height:210px;aspect-ratio:2064/2752"></span><span class="thumb ghost" style="height:210px;aspect-ratio:2064/2752"></span><span class="thumb ghost" style="height:210px;aspect-ratio:2064/2752"></span></div>
+              <div class="using">The same pipeline renders an iPad set, at 2064 x 2752. Not part of this sample.</div>
+            </div>
+            <div class="dpanel" data-d="watch" hidden>
+              <div class="thumbs"><span class="thumb ghost" style="height:210px;aspect-ratio:422/514"></span><span class="thumb ghost" style="height:210px;aspect-ratio:422/514"></span><span class="thumb ghost" style="height:210px;aspect-ratio:422/514"></span></div>
+              <div class="using">Watch art is composed on the Ultra bezel inside your iPhone slots. Not part of this sample.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thank-you note -->
+        <div class="giftstage" id="giftstage"><div class="giftsticky" id="giftsticky">
+        <aside class="thanks" id="thanks" aria-labelledby="thanks-h" data-ios="https://apps.apple.com/app/id1533789849" data-ios-review="https://apps.apple.com/app/id1533789849?action=write-review" data-android="https://play.google.com/store/apps/details?id=com.labters.standingswidget">
+          <img class="deco d-star" alt="" src="data:image/webp;base64,{{STAR}}">
+          <img class="deco d-heart" alt="" src="data:image/webp;base64,{{HEART}}">
+          <img class="deco d-gift" alt="" src="data:image/webp;base64,{{GIFT}}">
+          <div class="thanks-copy">
+            <div class="author"><img alt="Halil Yüce" src="data:image/webp;base64,{{AVATAR}}"><div><b>Halil Yüce</b><small>A note from the maker of Standings</small></div></div>
+            <h2 id="thanks-h">I was going to sell this. I'm giving it away instead.</h2>
+            <p>I was planning to sell this skill. Then I decided to give it back to the community.</p>
+            <p>If it helps you ship better screenshots, the thank you I would love is simple: download my app, <strong>Standings</strong>, and if you enjoy it, leave a 5-star rating. It means a lot to a small indie app.</p>
+            <p class="fine">No strings attached. The skill is yours either way.</p>
+            <div class="actions">
+            <div class="app"><img class="app-icon" alt="Standings app icon" src="data:image/webp;base64,{{ICON}}"><div><b>Standings</b><small>Live scores, standings and widgets for the teams you follow</small></div></div>
+            <div class="stores">
+              <a class="store ios" href="https://apps.apple.com/app/id1533789849" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.3.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.8-1.1-2.8-4.2zM13.9 5.2c.7-.8 1.2-2 1-3.2-1 .1-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.5 2.9-1.3z"/></svg><span class="t"><span class="k">Download on the</span><span class="v">App Store</span></span></a>
+              <a class="store android" href="https://play.google.com/store/apps/details?id=com.labters.standingswidget" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.6v18.8c0 .5.5.8.9.6l10.4-10-10.4-10c-.4-.2-.9.1-.9.6z" fill="#34a853"/><path d="M15.3 12 5 22.1c.2.1.5.1.7 0l12.4-7.1z" fill="#ea4335"/><path d="M15.3 12 18.1 9 5.7 1.9c-.2-.1-.5-.1-.7 0z" fill="#4285f4"/><path d="m18.1 9-2.8 3 2.8 3 3.2-1.8c.9-.5.9-1.9 0-2.4z" fill="#fbbc04"/></svg><span class="t"><span class="k">GET IT ON</span><span class="v">Google Play</span></span></a>
+            </div>
+            </div>
+          </div>
+          <figure class="review" aria-label="Example of a 5-star review">
+            <div class="rv-top"><span>Write a Review</span><em>Example</em></div>
+            <div class="rv-app"><img alt="" src="data:image/webp;base64,{{ICON}}"><div><b>Standings</b><small id="rv-label">5 stars</small></div></div>
+            <div class="rv-stars" id="rv-stars" role="radiogroup" aria-label="Rating"></div>
+            <div class="rv-t">Everything I follow, on my Home Screen</div>
+            <p class="rv-body">Clean, fast, great widgets. The Live Activity is perfect on game day, even on my Apple Watch.</p>
+            <div class="rv-foot"><span>An example. Use your own words.</span><a class="rv-send" id="rv-send" href="https://apps.apple.com/app/id1533789849?action=write-review" target="_blank" rel="noopener noreferrer">Leave a rating</a></div>
+          </figure>
+          <div class="wrap" id="wrap" aria-hidden="true">
+            <div class="paper l"></div><div class="paper r"></div>
+            <div class="ribbon v"></div><div class="ribbon h"></div>
+            <img class="bow" alt="" src="data:image/webp;base64,{{BOW}}">
+            <div class="gtag"><img alt="" src="data:image/webp;base64,{{AVATAR}}">A gift for you</div>
+            <div class="scrollcue">Scroll to unwrap<i></i></div>
+          </div>
+        </aside>
+        </div></div>
+
+        <h2 style="margin-top:44px">How it works</h2>
+        <p class="muted">Four layers, one rule each. A model never draws your UI, and a design tool never drifts from your app.</p>
+        <div class="grid g4" style="margin-top:14px">
+          <div class="card"><div class="layer-n">1</div><h3>Truth</h3><p>Your real views, rendered host-less from your data.</p><div class="rule">Never redraw app UI</div></div>
+          <div class="card"><div class="layer-n">2</div><h3>Atmosphere</h3><p>Higgsfield makes objects, stickers, hands and light.</p><div class="rule">Never UI, never text</div></div>
+          <div class="card"><div class="layer-n">3</div><h3>Page</h3><p>Headline, pill, background and layout in code, placed by baseline.</p><div class="rule">Never shrink a headline</div></div>
+          <div class="card"><div class="layer-n">4</div><h3>Delivery</h3><p>fastlane and the store APIs, with an approval list.</p><div class="rule">Never submit for review</div></div>
+        </div>
+        <div class="flow-wrap"><svg class="flow" viewBox="0 0 880 150" role="img" aria-label="Your data and your views feed the render target, which combines page and generated art into a PNG that fastlane uploads">
+          <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" style="fill:var(--ink2);stroke:none"/></marker></defs>
+          <rect class="box" x="4" y="14" width="150" height="54" rx="12"/><text x="79" y="38" text-anchor="middle">Your data</text><text class="s" x="79" y="55" text-anchor="middle">real or sample payloads</text>
+          <rect class="box" x="4" y="84" width="150" height="54" rx="12"/><text x="79" y="108" text-anchor="middle">Your views</text><text class="s" x="79" y="125" text-anchor="middle">screens, widgets</text>
+          <path d="M154 41 C190 41 190 75 226 75" marker-end="url(#ar)"/><path d="M154 111 C190 111 190 75 226 75" marker-end="url(#ar)"/>
+          <rect class="hot" x="228" y="40" width="190" height="70" rx="14"/><text x="323" y="71" text-anchor="middle">Render target</text><text class="s" x="323" y="90" text-anchor="middle">host-less test bundle</text>
+          <rect class="box" x="228" y="118" width="190" height="28" rx="10"/><text class="s" x="323" y="136" text-anchor="middle">+ Higgsfield art, page type</text>
+          <path d="M418 75 L474 75" marker-end="url(#ar)"/>
+          <rect class="box" x="476" y="40" width="150" height="70" rx="14"/><text x="551" y="71" text-anchor="middle">PNG per slot</text><text class="s" x="551" y="90" text-anchor="middle">exact size, no alpha</text>
+          <path d="M626 75 L682 75" marker-end="url(#ar)"/>
+          <rect class="box" x="684" y="40" width="190" height="70" rx="14"/><text x="779" y="71" text-anchor="middle">fastlane</text><text class="s" x="779" y="90" text-anchor="middle">preview, allow-list, verify</text>
+        </svg></div>
+      </section>
+
+      <!-- ===================== BEFORE ===================== -->
+      <section class="page" id="page-before">
+        <div class="ph"><div><h1>Before you start</h1><div class="sub">Everything the skill expects to find</div></div></div>
+        <div class="rows">
+          <div class="row"><div class="k">Claude Code<small>Required</small></div><div class="v"><label class="check"><input type="checkbox" data-k="claude"><span><b>Installed</b><span class="d">The skill runs inside it. Check with <code>claude --version</code>.</span></span></label></div></div>
+          <div class="row"><div class="k">Higgsfield MCP<small>Required</small></div><div class="v"><label class="check"><input type="checkbox" data-k="hf"><span><b>Connected, with credits</b><span class="d">In Claude Code run <code>/mcp</code> and authenticate. The skill asks before it spends.</span></span></label></div></div>
+          <div class="row"><div class="k">Command line tools<small>Required</small></div><div class="v"><label class="check"><input type="checkbox" data-k="magick"><span><b>ImageMagick and Swift</b><span class="d"><code>magick -version</code> (<code>brew install imagemagick</code>) and <code>swift --version</code>. The helper scripts are plain Swift files.</span></span></label></div></div>
+          <div class="row ios-only"><div class="k">Xcode<small>iOS</small></div><div class="v"><label class="check"><input type="checkbox" data-k="xcode"><span><b>With an iOS simulator runtime</b><span class="d"><code>xcodebuild -version</code>. The renderer is an Xcode unit test bundle.</span></span></label></div></div>
+          <div class="row ios-only"><div class="k">Product bezels<small>iOS</small></div><div class="v"><label class="check"><input type="checkbox" data-k="bezel"><span><b>Downloaded from Apple Design Resources</b><span class="d">Their licence forbids redistribution, so they are not in the repo.</span></span></label></div></div>
+          <div class="row android-only"><div class="k">JDK and Gradle<small>Android</small></div><div class="v"><label class="check"><input type="checkbox" data-k="jdk"><span><b>A build that already works</b><span class="d">The renderer is a JVM test. Check what your project pins: AGP, Kotlin, Compose BOM, JDK.</span></span></label></div></div>
+          <div class="row android-only"><div class="k">Screenshot library<small>Android</small></div><div class="v"><label class="check"><input type="checkbox" data-k="shot"><span><b>Paparazzi or Roborazzi</b><span class="d">Use whichever the project already has. If neither, the agent proposes one and waits for you.</span></span></label></div></div>
+          <div class="row"><div class="k">Store credentials<small>For uploads</small></div><div class="v"><label class="check"><input type="checkbox" data-k="fastlane"><span><b>fastlane and an API key</b><span class="d"><span class="ios-only">App Store Connect API key: key id, issuer id and the <code>.p8</code> file, in <code>fastlane/.env</code>.</span><span class="android-only">A Google Play service account JSON for <code>supply</code>. Keep it out of git.</span></span></span></label></div></div>
+        </div>
+        <div class="note"><span class="i">i</span><div><b>One rule before anything else</b><p>Never launch your real app to take a screenshot. An app that syncs state can overwrite real keychains and saved data. This pipeline renders views from sample data in a test bundle with no host app.</p></div></div>
+      </section>
+
+      <!-- ===================== STEP 1 ===================== -->
+      <section class="page" id="page-skill">
+        <div class="ph"><div><span class="eyebrow">Step 1 of 4</span><h1>Install the skill</h1><div class="sub">One folder. It works for iOS and Android, so you do this once.</div></div><span class="chip"><span class="dot"></span>Not Started</span></div>
+        <div class="step" data-task="skill"><div class="num">1</div><div>
+          <div class="step-head"><h3>Clone it where Claude Code looks</h3><label class="markdone"><input type="checkbox" data-k="s1a"> Done</label></div>
+          <div class="mini-tabs" data-tabs role="tablist" aria-label="Install scope"><button type="button" role="tab" aria-selected="true">Every project</button><button type="button" role="tab" aria-selected="false">One project</button></div>
+          <div data-panel><div class="code" data-copy><div class="code-head"><span>Terminal</span></div><pre>git clone https://github.com/halilyuce/store-art-studio.git ~/.claude/skills/store-art-studio</pre></div></div>
+          <div data-panel hidden><div class="code" data-copy><div class="code-head"><span>Terminal, from your project's root</span></div><pre>git clone https://github.com/halilyuce/store-art-studio.git .claude/skills/store-art-studio</pre></div></div>
+          <p>To update later: <code>git -C ~/.claude/skills/store-art-studio pull</code>. No git? <a href="https://github.com/halilyuce/store-art-studio/archive/refs/heads/main.zip">Download the zip</a> and copy the unzipped folder to the same place, named <code>store-art-studio</code>.</p>
+        </div></div>
+        <div class="step" data-task="skill"><div class="num">2</div><div>
+          <div class="step-head"><h3>Restart Claude Code and check it is there</h3><label class="markdone"><input type="checkbox" data-k="s1b"> Done</label></div>
+          <p>Ask: <em>"Is the store-art-studio skill available?"</em> It should answer with the skill and its description. If not, the file must be at <code>skills/store-art-studio/SKILL.md</code>, not one folder deeper.</p>
+        </div></div>
+        <div class="step" data-task="skill"><div class="num">3</div><div>
+          <div class="step-head"><h3>Connect Higgsfield</h3><label class="markdone"><input type="checkbox" data-k="s1c"> Done</label></div>
+          <p>Add the Higgsfield MCP server the way Higgsfield documents it, then run <code>/mcp</code> in Claude Code and authenticate. Ask Claude to check your balance. The skill asks before any step costs more than your budget (default 40 credits).</p>
+        </div></div>
+      </section>
+
+      <!-- ===================== STEP 2 ===================== -->
+      <section class="page" id="page-project">
+        <div class="ph"><div><span class="eyebrow">Step 2 of 4</span><h1>Add to your <span class="ios-only">Xcode</span><span class="android-only">Gradle</span> project</h1><div class="sub">Nothing in your shipping app changes. The render target is test-only code beside it.</div></div><span class="chip"><span class="dot"></span>Not Started</span></div>
+
+        <div class="ios-only">
+          <div class="code" style="margin-top:0"><div class="code-head"><span>What gets added</span></div><pre><span class="c">your-repo/</span>
++ StoreArt/                       <span class="c">the render target (test bundle)</span>
++   StoreArtKit.swift             <span class="c">canvas, render(), fonts, placement</span>
++   StoreArtChrome.swift          <span class="c">status bar, device bezel</span>
++   StoreArtPage.swift            <span class="c">palette, headline, pill, body</span>
++   SampleSlot.swift              <span class="c">one complete sample slot</span>
++   StoreArtRenderTests.swift     <span class="c">one testXxx per slot, width tests</span>
++   Fonts/  Art/bezels/ (you add)  Output/ (created on render)
++ scripts/screenshots/render.sh   <span class="c">runs one test on a dedicated simulator</span>
++ scripts/screenshots/tools/      <span class="c">chromakey, compare, probe, verify-export</span>
+<span class="c">  MyApp/  Widgets/  ...           untouched</span></pre></div>
+          <div class="step" data-task="project"><div class="num">1</div><div><div class="step-head"><h3>Copy the template and scripts in</h3><label class="markdone"><input type="checkbox" data-k="p1"> Done</label></div>
+            <div class="code" data-copy><div class="code-head"><span>Terminal, from your repo root</span></div><pre>SKILL=~/.claude/skills/store-art-studio
+mkdir -p StoreArt scripts/screenshots/tools
+cp -R $SKILL/templates/ios/* StoreArt/
+mv StoreArt/render.sh scripts/screenshots/render.sh
+cp $SKILL/scripts/* scripts/screenshots/tools/
+printf 'StoreArt/Art/bezels/\nStoreArt/Output/\nbuild/\n' &gt;&gt; .gitignore</pre></div></div></div>
+          <div class="step" data-task="project"><div class="num">2</div><div><div class="step-head"><h3>Create a unit test target with no host app</h3><label class="markdone"><input type="checkbox" data-k="p2"> Done</label></div>
+            <p>Xcode: File, New, Target, <strong>Unit Testing Bundle</strong>, named <code>StoreArt</code>. In General set <strong>Host Application</strong> to <strong>None</strong>. That is what makes it safe: no app is installed or launched. Set its minimum deployment target to <strong>iOS 18</strong> (the page background uses <code>MeshGradient</code>).</p></div></div>
+          <div class="step" data-task="project"><div class="num">3</div><div><div class="step-head"><h3>Give it the views you want to render</h3><label class="markdone"><input type="checkbox" data-k="p3"> Done</label></div>
+            <ul><li>Add <code>StoreArt/*.swift</code> to the new target.</li><li>Add the Swift files of the screens, widgets or activities you want in screenshots to the target's membership.</li><li><strong>Do not</strong> add your <code>@main</code> app entry point, or anything that touches the Keychain or a live account.</li><li>Add your <code>Localizable.strings</code> and asset catalogs to its resources, then enable <code>StoreArt.forwardMainBundle()</code> in <code>setUp</code>.</li></ul>
+            <div class="note warn"><span class="i">!</span><div><b>Adding files means editing project.pbxproj</b><p>By hand: a file reference, a group entry, a build file and a Sources entry per file, with fresh 24-character hex ids. Build after each edit. Do not use the <code>xcodeproj</code> gem, it re-sorts the file and can drop entries. Or ask Claude to hand-edit the pbxproj for you.</p></div></div></div></div>
+          <div class="step" data-task="project"><div class="num">4</div><div><div class="step-head"><h3>Pin the time zone in the scheme</h3><label class="markdone"><input type="checkbox" data-k="p4"> Done</label></div>
+            <p>Edit the <code>StoreArt</code> scheme, Test, Arguments, Environment Variables: <code>TZ</code> = <code>America/Chicago</code>, or change <code>StoreArt.timeZone</code> in <code>StoreArtKit.swift</code>. The test fails on purpose when the two disagree, so a clock never drifts.</p></div></div>
+          <div class="step" data-task="project"><div class="num">5</div><div><div class="step-head"><h3>Edit the top of render.sh</h3><label class="markdone"><input type="checkbox" data-k="p5"> Done</label></div>
+            <div class="code" data-copy><div class="code-head"><span>scripts/screenshots/render.sh</span></div><pre>PROJECT="MyApp.xcodeproj"            <span class="c"># or use -workspace below</span>
+SCHEME="StoreArt"
+TEST_TARGET="StoreArt"
+TEST_CLASS="StoreArtRenderTests"
+SIM_NAME="StoreArt iPhone 17 Pro Max"  <span class="c"># created on first run, never has your app</span></pre></div></div></div>
+          <div class="step" data-task="project"><div class="num">6</div><div><div class="step-head"><h3>Drop in the bezel</h3><label class="markdone"><input type="checkbox" data-k="p6"> Done</label></div>
+            <p>Put Apple's iPhone 17 Pro Max, Deep Blue, portrait PNG in <code>StoreArt/Art/bezels/</code>. For another file, edit <code>BezelSpec</code> in <code>StoreArtChrome.swift</code> (size, screen hole, corner radius). Without it the template draws a plain dark frame.</p></div></div>
+        </div>
+
+        <div class="android-only">
+          <div class="note warn" style="margin-top:0"><span class="i">!</span><div><b>The Android path is designed, not yet proven</b><p>The iOS template is proven in production. The Android one is built by Claude inside your project by porting the iOS template. Its first run is a real experiment, and the skill asks it to record what broke so the next developer does not hit it.</p></div></div>
+          <h3 style="margin:18px 0 10px">What the agent builds, file by file</h3>
+          <div class="tbl-wrap"><table class="t"><thead><tr><th>iOS template</th><th>Android counterpart</th><th>Job</th></tr></thead><tbody>
+            <tr><td><code>StoreArtKit.swift</code></td><td><code>StoreArtKit.kt</code></td><td>Canvas in px and dp, fixed Density, fonts, opaque PNG output, locale and time zone switch, baseline helpers</td></tr>
+            <tr><td><code>StoreArtChrome.swift</code></td><td><code>StoreArtChrome.kt</code></td><td>Minimal status bar from a real emulator shot, optional plain frame</td></tr>
+            <tr><td><code>StoreArtPage.swift</code></td><td><code>StoreArtPage.kt</code></td><td>Palette, headline with tracking and width measurement, pill, body lines</td></tr>
+            <tr><td><code>SampleSlot.swift</code></td><td><code>SampleSlot.kt</code></td><td>One complete sample slot</td></tr>
+            <tr><td><code>StoreArtRenderTests.swift</code></td><td>Paparazzi or Roborazzi test</td><td>Renders slots, fails when a headline is too wide</td></tr>
+            <tr><td><code>render.sh</code></td><td>Gradle task or script</td><td>Runs one test, lists the PNGs</td></tr></tbody></table></div>
+          <div class="step" data-task="project"><div class="num">1</div><div><div class="step-head"><h3>Copy the helper scripts into your repo</h3><label class="markdone"><input type="checkbox" data-k="a1"> Done</label></div>
+            <div class="code" data-copy><div class="code-head"><span>Terminal, from your repo root</span></div><pre>SKILL=~/.claude/skills/store-art-studio
+mkdir -p scripts/screenshots/tools
+cp $SKILL/scripts/* scripts/screenshots/tools/
+printf 'StoreArt/Output/\nbuild/\n' &gt;&gt; .gitignore</pre></div>
+            <p>The agent also reads <code>templates/ios</code> from the skill folder as its reference, so leave the skill installed.</p></div></div>
+          <div class="step" data-task="project"><div class="num">2</div><div><div class="step-head"><h3>Let the agent read your build first</h3><label class="markdone"><input type="checkbox" data-k="a2"> Done</label></div>
+            <p>It checks AGP, Kotlin, the Compose BOM, the JDK and any screenshot library you use, then <strong>tells you its choice and the dependency changes before editing any Gradle file</strong>. If you have Paparazzi or Roborazzi it uses that. It will not add two.</p></div></div>
+          <div class="step" data-task="project"><div class="num">3</div><div><div class="step-head"><h3>Decide where the code lives</h3><label class="markdone"><input type="checkbox" data-k="a3"> Done</label></div>
+            <p>A test source set in an existing module (for example <code>app/src/test/kotlin/storeart/</code>) or a dedicated test-only module. The agent proposes, you answer. Shipping app code is not modified.</p></div></div>
+          <div class="step" data-task="project"><div class="num">4</div><div><div class="step-head"><h3>Give it fakes, not a live app</h3><label class="markdone"><input type="checkbox" data-k="a4"> Done</label></div>
+            <p>Screens are rendered from sample data. If a screen needs a ViewModel, the agent gives it a fake and tells you. No network, no account, no signed-in emulator.</p></div></div>
+          <div class="step" data-task="project"><div class="num">5</div><div><div class="step-head"><h3>Paste the starter prompt</h3><label class="markdone"><input type="checkbox" data-k="a5"> Done</label></div>
+            <p>From your Android project's root, with the skill installed:</p>
+            <div class="code tall" data-copy><div class="code-head"><span>Prompt for Claude Code</span></div><pre>{{ANDROID_PROMPT}}</pre></div></div></div>
+          <div class="step" data-task="project"><div class="num">6</div><div><div class="step-head"><h3>Check Gate 0 yourself</h3><label class="markdone"><input type="checkbox" data-k="a6"> Done</label></div>
+            <p>The agent must stop and show you all five. Do not approve without them:</p>
+            <ul><li>The sample slot, 1080 x 1920, opaque, which it opened and looked at.</li><li>One of your real screens rendered from sample data, offline.</li><li>The same slot in two locales with different strings and number formats.</li><li><code>verify-export.sh</code> passing on the output.</li><li>A list of what broke, also written into <code>references/android-compose.md</code>.</li></ul>
+            <details><summary>Shape of the Gradle test, for orientation only</summary><div><p>Versions and <code>DeviceConfig</code> fields change between releases, so the agent verifies these against your versions.</p>
+              <div class="code" data-copy><div class="code-head"><span>Kotlin sketch, not a drop-in</span></div><pre>plugins { id("app.cash.paparazzi") version "&lt;latest compatible&gt;" }
+
+class StoreArtTest {
+  @get:Rule val paparazzi = Paparazzi(deviceConfig = /* 1080 x 1920 px, density 3.0 */)
+  @Test fun sample() { paparazzi.snapshot { SampleSlot() } }
+}</pre></div></div></details></div></div>
+        </div>
+      </section>
+
+      <!-- ===================== STEP 3 ===================== -->
+      <section class="page" id="page-firstrun">
+        <div class="ph"><div><span class="eyebrow">Step 3 of 4</span><h1>First run</h1><div class="sub">Prove the pipeline with the sample before any real slot depends on it.</div></div><span class="chip"><span class="dot"></span>Not Started</span></div>
+        <div class="ios-only">
+          <div class="step" data-task="firstrun"><div class="num">1</div><div><div class="step-head"><h3>Render the sample</h3><label class="markdone"><input type="checkbox" data-k="f1"> Done</label></div>
+            <div class="code" data-copy><div class="code-head"><span>Terminal</span></div><pre>scripts/screenshots/render.sh Sample</pre></div>
+            <p>The first run creates the simulator "StoreArt iPhone 17 Pro Max" and builds. It writes <code>StoreArt/Output/default_en-US_iphone_01.png</code>.</p></div></div>
+          <div class="step" data-task="firstrun"><div class="num">2</div><div><div class="step-head"><h3>Verify the file</h3><label class="markdone"><input type="checkbox" data-k="f2"> Done</label></div>
+            <div class="code" data-copy><div class="code-head"><span>Terminal</span></div><pre>scripts/screenshots/tools/verify-export.sh StoreArt/Output 1320x2868
+sips -g pixelWidth -g pixelHeight -g hasAlpha StoreArt/Output/default_en-US_iphone_01.png</pre></div>
+            <p>Expect <code>1320</code>, <code>2868</code> and <code>hasAlpha: no</code>.</p></div></div>
+          <div class="step" data-task="firstrun"><div class="num">3</div><div><div class="step-head"><h3>Open the PNG and compare</h3><label class="markdone"><input type="checkbox" data-k="f3"> Done</label></div>
+            <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap"><img alt="The sample slot rendered by the template" src="data:image/jpeg;base64,{{SAMPLE}}" style="width:150px;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow)"><p style="flex:1;min-width:220px;margin-top:0">You should see a pastel page, a two-line headline with a pill, two lines of body copy and a phone with a placeholder screen. That image was rendered by the shipped template on an iOS 26 simulator. The pill's tile is empty because no glyph exists yet. You will generate one with Higgsfield in your first job.</p></div></div></div>
+          <div class="step" data-task="firstrun"><div class="num">4</div><div><div class="step-head"><h3>Put one of your real views in</h3><label class="markdone"><input type="checkbox" data-k="f4"> Done</label></div>
+            <div class="code" data-copy><div class="code-head"><span>StoreArt/SampleSlot.swift</span></div><pre>private struct SampleScreen: View {
+    var body: some View {
+        MyHomeView(model: .sample)      <span class="c">// your real view, fed with sample data</span>
+            .environment(\.colorScheme, .light)
+    }
+}</pre></div>
+            <p>If it needs <code>onAppear</code>, <code>.task</code> or remote images, those never run in a render. Pass the data in through the model. The full list of traps is in <code>references/ios-swiftui-renderer.md</code>.</p></div></div>
+        </div>
+        <div class="android-only">
+          <div class="step" data-task="firstrun"><div class="num">1</div><div><div class="step-head"><h3>Render the sample slot</h3><label class="markdone"><input type="checkbox" data-k="g1"> Done</label></div>
+            <p>Run the Gradle task the agent created for you (it prints the exact command). Expect a 1080 x 1920 PNG, opaque, in the output folder it names.</p></div></div>
+          <div class="step" data-task="firstrun"><div class="num">2</div><div><div class="step-head"><h3>Verify the file</h3><label class="markdone"><input type="checkbox" data-k="g2"> Done</label></div>
+            <div class="code" data-copy><div class="code-head"><span>Terminal</span></div><pre>scripts/screenshots/tools/verify-export.sh &lt;output-dir&gt; 1080x1920</pre></div>
+            <p>Google Play wants each side between 320 and 3840 px, the long side at most twice the short one, JPEG or 24-bit PNG, no alpha, 8 MB at most, 2 to 8 screenshots. A 20:9 screen is not a valid shot as is, which is why slots are 9:16. Check the current Play Console help page before you upload.</p></div></div>
+          <div class="step" data-task="firstrun"><div class="num">3</div><div><div class="step-head"><h3>Render one real screen offline</h3><label class="markdone"><input type="checkbox" data-k="g3"> Done</label></div>
+            <p>One of your own composables, from sample data, with no network. Render it at a realistic phone size (about 412 x 915 dp) and scale it into the slot.</p></div></div>
+        </div>
+      </section>
+
+      <!-- ===================== STEP 4 ===================== -->
+      <section class="page" id="page-job">
+        <div class="ph"><div><span class="eyebrow">Step 4 of 4</span><h1>Your first job</h1><div class="sub">Give the agent a brief. It stops at every gate and waits for you.</div></div><span class="chip"><span class="dot"></span>Not Started</span></div>
+        <div class="step" data-task="job"><div class="num">1</div><div><div class="step-head"><h3>Write the brief</h3><label class="markdone"><input type="checkbox" data-k="j1"> Done</label></div>
+          <p>Copy <code>templates/brief-template.md</code> from the skill folder to <code>docs/screenshots/brief.md</code> in your project and fill what you know: banned words, the world (one date, time and set of figures every device agrees on), your accent colours, the storyboard.</p></div></div>
+        <div class="step" data-task="job"><div class="num">2</div><div><div class="step-head"><h3>Start the session</h3><label class="markdone"><input type="checkbox" data-k="j2"> Done</label></div>
+          <div class="code" data-copy><div class="code-head"><span>Prompt for Claude Code</span></div><pre>Use the store-art-studio skill. Read docs/screenshots/brief.md and start at Gate 0.
+<span class="ios-only">Platform: iOS, iPhone 6.9", default language first.</span><span class="android-only">Platform: Android, Google Play phone screenshots, default language first.</span></pre></div></div></div>
+        <div class="step" data-task="job"><div class="num">3</div><div><div class="step-head"><h3>Approve one gate at a time</h3><label class="markdone"><input type="checkbox" data-k="j3"> Done</label></div>
+          <p>Each gate ends with what rendered, what differs from your reference, the credits spent and left, what was redrawn instead of rendered, and the decisions needed. Roll out locales only after the default market is approved. See <a href="#gates" data-go="gates">History</a> for the six gates.</p></div></div>
+      </section>
+
+      <!-- ===================== GATES / HISTORY ===================== -->
+      <section class="page" id="page-gates">
+        <div class="ph"><div><h1>History</h1><div class="sub">Six gates. The agent stops at each one and waits for your approval.</div></div></div>
+        <div class="tbl-wrap"><table class="t"><thead><tr><th>Gate</th><th>What you get</th><th>You approve</th></tr></thead><tbody>
+          <tr><td><b>Gate 0</b><br><span class="muted small">Setup</span></td><td>Render target, a contact sheet of every real view you need in light and dark, a plan with a credit estimate</td><td>The plan and the contact sheet</td></tr>
+          <tr><td><b>Gate 1</b><br><span class="muted small">Style tile</span></td><td>Palette, type, pill, device, and one calibration slot. Chrome checked against a real simulator, not memory</td><td>The look</td></tr>
+          <tr><td><b>Gate 2</b><br><span class="muted small">Hero and hard slots</span></td><td>The hero, plus any slot with hands, warps or scenes. Slots that risk a store guideline are named in one line</td><td>Slots at risk, straight variants or not</td></tr>
+          <tr><td><b>Gate 3</b><br><span class="muted small">The set</span></td><td>The remaining slots, then all of them side by side at store-thumbnail size</td><td>The story across the first three slots</td></tr>
+          <tr><td><b>Gate 4</b><br><span class="muted small">Localize</span></td><td>One market at a time: data, time zone, language, transcreated copy, width tests</td><td>Each market, and which copy needs native review</td></tr>
+          <tr><td><b>Gate 5</b><br><span class="muted small">Deliver</span></td><td>verify-export, then an upload to a target that cannot go live, pulled back and compared</td><td>Locales on the approval list</td></tr>
+        </tbody></table></div>
+        <h2 style="margin-top:30px">The review loop</h2>
+        <p class="muted">Before any render reaches you, the agent does this every time.</p>
+        <div class="grid g3" style="margin-top:12px">
+          <div class="card"><h3>1. Look</h3><p>Open the PNG, then look again at about 300 px wide. If the point of the slot is gone, it fails.</p></div>
+          <div class="card"><h3>2. Measure</h3><p>With a reference: compare.swift puts reference and render side by side with shared guides. probe.swift measures colours, ink bounds and text rows.</p></div>
+          <div class="card"><h3>3. List and fix</h3><p>Every difference by category: palette, type, margins, pill, device, depth, light, empty areas. Fix and repeat until minor.</p></div>
+        </div>
+      </section>
+
+      <!-- ===================== RULES ===================== -->
+      <section class="page" id="page-rules">
+        <div class="ph"><div><h1>Hard rules</h1><div class="sub">What the skill enforces, whatever you ask</div></div></div>
+        <div class="rows">
+          <div class="row"><div class="k">Never launch your real app</div><div class="v">Render views in a host-less test bundle on a dedicated simulator that never has the app installed. Apps that sync state can overwrite real keychains and saved user data.</div></div>
+          <div class="row"><div class="k">UI is real code</div><div class="v">If a view cannot render host-less, it is redrawn at the app's own point sizes from the same payloads, and you are told which screens are redraws.</div></div>
+          <div class="row"><div class="k">Never shrink a headline</div><div class="v">One pixel size in every slot and language. When a wording is too wide, shorten the wording. A width test enforces it.</div></div>
+          <div class="row"><div class="k">One market first</div><div class="v">Render the default market, get approval, then roll out. Never all locales unprompted.</div></div>
+          <div class="row"><div class="k">Approved chrome is frozen</div><div class="v">The status bar, bezel metrics and Lock Screen are shared by every slot. Changing one silently restyles slots you already approved.</div></div>
+          <div class="row"><div class="k">Exact exports</div><div class="v">Right pixel size, opaque PNG, no alpha, checked by verify-export.sh.</div></div>
+          <div class="row"><div class="k">Provenance</div><div class="v">Every generated asset gets a <code>.txt</code>: model id, prompt, seed, generation id, credits.</div></div>
+          <div class="row"><div class="k">Spend deliberately</div><div class="v">Balance checked, cost preflighted, and a question before any gate costs more than your budget (default 40 credits).</div></div>
+          <div class="row"><div class="k">Copy is transcreated</div><div class="v">Each locale is written as if authored there, marked "not native-reviewed", and you are asked which languages you can review.</div></div>
+          <div class="row"><div class="k">No borrowed identity</div><div class="v">No real people or brands you do not own, no third-party icons, no AI-generated Apple hardware. Claims such as user counts or awards only when you supply and can back them.</div></div>
+          <div class="row"><div class="k">Licensed inputs stay out of git</div><div class="v">Apple bezels and provider images are gitignored and re-fetched by script.</div></div>
+          <div class="row"><div class="k">Match craft, never content</div><div class="v">A reference set teaches composition, rhythm and finish. Its brand, copy, icons and photography are never copied.</div></div>
+          <div class="row"><div class="k">No em dashes</div><div class="v">Not in copy, comments or messages. They read as machine writing, and in store copy that costs conversions.</div></div>
+        </div>
+      </section>
+
+      <!-- ===================== TROUBLE ===================== -->
+      <section class="page" id="page-trouble">
+        <div class="ph"><div><h1>Troubleshooting</h1><div class="sub">When something looks wrong</div></div></div>
+        <div class="ios-only">
+          <details><summary>Strings print as raw keys</summary><div><p><code>Bundle.main</code> is the test runner. Call <code>StoreArt.forwardMainBundle()</code> in <code>setUp</code> and add your Localizable.strings to the target's resources. Overriding <code>localizedString</code> alone fixes <code>.localized</code> but not <code>Text("key")</code>.</p></div></details>
+          <details><summary>"Font ... did not register"</summary><div><p>The PostScript name in <code>StoreArtFace</code> does not match the file. Check it with <code>UIFont(name:size:)</code>. Use static font instances, not variable fonts.</p></div></details>
+          <details><summary>"The process runs in ... but StoreArt.timeZone is ..."</summary><div><p>Set <code>TZ</code> in the StoreArt scheme's test environment, or change the constant.</p></div></details>
+          <details><summary>A widget has no background, or a progress bar is a yellow box</summary><div><p><code>containerBackground</code> draws nothing host-less, so the template paints the tile itself. A UIKit-backed <code>ProgressView</code> needs a custom <code>ProgressViewStyle</code>. Frosted materials do not blur; <code>.blur</code> does.</p></div></details>
+          <details><summary>Xcode complains about a stale module cache after render.sh</summary><div><p><code>render.sh</code> uses its own <code>build/StoreArtDerivedData</code>. Do not point it at Xcode's DerivedData.</p></div></details>
+          <details><summary>The phone is a plain dark frame</summary><div><p>The bezel PNG is missing or named differently from <code>BezelSpec.name</code>.</p></div></details>
+          <details><summary>The whole slot shifts when I add one layer</summary><div><p>A <code>placed(x:)</code> at a negative or oversize position widens the ZStack. Use <code>.placed(x: 0, y: 0).offsetPx(...)</code> for anything that starts off the canvas.</p></div></details>
+        </div>
+        <div class="android-only">
+          <details><summary>Paparazzi will not build</summary><div><p>Paparazzi releases pin a Gradle, compileSdk and JDK range. Check the release notes against your build before upgrading either.</p></div></details>
+          <details><summary>A font silently falls back</summary><div><p>Bundle static TTFs and assert in a test that each face loaded, the way the iOS template does with <code>verifyRegistered</code>.</p></div></details>
+          <details><summary>Text moves between locales or devices</summary><div><p>Pin <code>Density</code> and <code>fontScale = 1.0</code> in the test and place text by baseline, not by top edge.</p></div></details>
+          <details><summary>The screen looks short or cramped in the slot</summary><div><p>Render the app composable at a realistic phone size (about 412 x 915 dp) and scale it into the device frame. Do not lay it out in the 360 x 640 dp slot.</p></div></details>
+          <details><summary>A screen needs a ViewModel, network or a login</summary><div><p>Give it a fake and sample data. If that cannot be done, tell the agent to redraw that screen at the app's own sizes from the same payloads, and expect it to say so.</p></div></details>
+        </div>
+        <details><summary>A headline does not fit in some language</summary><div><p>Never shrink the type. Shorten the wording: a shorter synonym, a shorter structure, or drop the lead word. The width test exists to enforce this.</p></div></details>
+        <details><summary>Higgsfield calls are not available</summary><div><p>Run <code>/mcp</code>, authenticate, and restart the session.</p></div></details>
+        <details><summary>A red subject turned brown after keying</summary><div><p>The default despill removes the key colour's direction. Key it with <code>--spill 0</code>, or generate it on solid green.</p></div></details>
+        <details><summary>Copy reads translated</summary><div><p>It is probably transcreated, not native-reviewed. Ask the agent which locales you can read and review those. Never ask a non-native to sign off.</p></div></details>
+      </section>
+
+      <!-- ===================== MATCH ===================== -->
+      <section class="page" id="page-match">
+        <div class="ph"><div><h1>Match a Set</h1><div class="sub">Found screenshots you love? The agent measures them, it does not guess.</div></div></div>
+        <div class="grid g2">
+          <div class="card"><h3>What it takes</h3><p>Composition, margins, baselines, type scale, tracking, palette relationships, device scale, depth and the rhythm across the set.</p></div>
+          <div class="card"><h3>What it never takes</h3><p>The other brand, its copy, icons, photography or app UI. Your app and your content go in their place.</p></div>
+        </div>
+        <h2 style="margin-top:28px">The compare loop</h2>
+        <p class="muted">compare.swift draws the same guides across the reference and your render, so margins and baselines are checked by eye and by number.</p>
+        <div class="cmp" style="margin-top:12px">
+          <div class="pane ref"><div>Your reference<br><span class="small">cut to slots at native size</span></div><span class="g gx"></span><span class="g gy" style="top:10.9%"></span><span class="g gy" style="top:18.65%"></span><span class="g gy" style="top:30.3%"></span><span class="cap">reference</span></div>
+          <div class="pane"><img alt="A render with the same guides drawn on it" src="assets/examples/en-US/04.jpg"><span class="g gx"></span><span class="g gy" style="top:10.9%"></span><span class="g gy" style="top:18.65%"></span><span class="g gy" style="top:30.3%"></span><span class="cap">render</span></div>
+        </div>
+        <div class="step" style="margin-top:14px"><div class="num">1</div><div><h3>Add the set and say what to take from it</h3>
+          <div class="code" data-copy><div class="code-head"><span>Prompt for Claude Code</span></div><pre>Match this set: docs/screenshots/references/board.jpg.
+Take its layout and type, keep our own colours and content.
+Use the store-art-studio skill and start with the style tile.</pre></div></div></div>
+        <div class="step"><div class="num">2</div><div><h3>It measures, then loops until the gap is small</h3><p>The agent cuts the board into slots, reads margins, baselines, type size and palette with <code>probe.swift</code>, and builds a style tile for your approval. Then it renders, compares, writes a difference list by category and fixes it, repeatedly.</p></div></div>
+        <div class="step"><div class="num">3</div><div><h3>Add a near-miss when it is wrong</h3><p>Save the failed attempt as <code>zz-rejected-&lt;reason&gt;.png</code> beside the reference and say what is wrong with it. It becomes a negative reference and is never repeated.</p></div></div>
+      </section>
+
+      <!-- ===================== ART ===================== -->
+      <section class="page" id="page-art">
+        <div class="ph"><div><h1>Asset Library</h1><div class="sub">Atmosphere from Higgsfield. Precise UI stays code.</div></div></div>
+        <div class="grid g2">
+          <div class="card"><h3>Generate</h3><p>3D clay glyphs for pill tiles, objects that fit your app, stickers, hands holding a plain slab, a scene or light behind a device, glow around a real card.</p></div>
+          <div class="card"><h3>Never generate</h3><p>Readable UI, tables, figures, buttons, any text or numbers, Apple hardware, logos, real brands, real people, proportion-critical chrome like a search bar.</p></div>
+        </div>
+        <h2 style="margin-top:26px">Three assets made with the skill's own recipe</h2>
+        <p class="muted">Generated on flat magenta, keyed to alpha with <code>chromakey.swift</code>. These are the three used in the thank-you note on the overview.</p>
+        <div class="grid g3" style="margin-top:12px">
+          <div class="card" style="text-align:center"><img alt="3D clay star" src="data:image/webp;base64,{{STAR}}" style="height:110px"><h3 style="margin-top:8px">star.png</h3><p>gpt_image_2_5, 1:1, count 2</p><span class="chip" style="margin-top:8px"><span class="dot g"></span>In the repo</span></div>
+          <div class="card" style="text-align:center"><img alt="3D clay heart" src="data:image/webp;base64,{{HEART}}" style="height:110px"><h3 style="margin-top:8px">heart.png</h3><p>keyed with --spill 0</p><span class="chip" style="margin-top:8px"><span class="dot g"></span>In the repo</span></div>
+          <div class="card" style="text-align:center"><img alt="3D clay gift box" src="data:image/webp;base64,{{GIFT}}" style="height:110px"><h3 style="margin-top:8px">gift.png</h3><p>pastel lilac, soft yellow ribbon</p><span class="chip" style="margin-top:8px"><span class="dot g"></span>In the repo</span></div>
+        </div>
+        <div class="step" style="margin-top:14px"><div class="num">1</div><div><h3>The sticker prompt</h3>
+          <div class="code" data-copy><div class="code-head"><span>Higgsfield, gpt_image_2_5, aspect 1:1, count 2</span></div><pre>Glossy soft-3D clay render of &lt;single object&gt;, &lt;colour and one distinguishing detail&gt;, slightly
+tilted, soft studio lighting from top left, gentle ambient occlusion, playful premium app-icon
+style, matching a set of 3D clay &lt;family&gt;. No logos, no text, no brand marks. Centered, filling
+70% of the frame. Solid flat #FF00FF background, no shadow on the background.</pre></div></div></div>
+        <div class="step"><div class="num">2</div><div><h3>Key it, then record where it came from</h3>
+          <div class="code" data-copy><div class="code-head"><span>Terminal</span></div><pre>swift scripts/screenshots/tools/chromakey.swift in.png out.png --key "#FF00FF" --crop</pre></div>
+          <p>Every generated asset is recorded in a provenance file next to it: model, prompt, generation id and credits.</p></div></div>
+      </section>
+
+      <!-- ===================== SHIP ===================== -->
+      <section class="page" id="page-ship">
+        <div class="ph"><div><h1>Product Page Optimization</h1><div class="sub">fastlane, with a seatbelt</div></div></div>
+        <div class="exp ios-only">
+          <div class="exp-top"><div><b>Localized screenshots</b><div class="muted small">Experiment &middot; 22 localizations</div></div><span class="chip"><span class="dot"></span>Not Started</span></div>
+          <div class="split"><i class="a"></i><i class="b"></i></div>
+          <div class="small muted" style="display:flex;justify-content:space-between"><span>Control 50%</span><span>Treatment 50%</span></div>
+          <div class="exp-cols">
+            <div class="exp-col"><h4>Original product page</h4><div class="exp-thumbs empty"><div>Your current<br>screenshots</div></div></div>
+            <div class="exp-col"><h4>Treatment: Localized art</h4><div class="exp-thumbs" id="exp-thumbs"></div></div>
+          </div>
+          <p class="small muted" style="margin-bottom:0">ppo.rb creates this through the App Store Connect API and never starts the test. Starting it sends the treatment to App Review, which you do on purpose.</p>
+        </div>
+        <h2 style="margin-top:28px">Before anything leaves your machine</h2>
+        <div class="rows" style="margin-top:10px">
+          <div class="row"><div class="k">Approval list</div><div class="v"><label class="check"><input type="checkbox" data-k="d1"><span><b>The locale is on the list</b><span class="d"><code>upload.locales</code> in <code>screenshots.yml</code>. Anything not listed is refused.</span></span></label></div></div>
+          <div class="row"><div class="k">Exact exports</div><div class="v"><label class="check"><input type="checkbox" data-k="d2"><span><b>verify-export.sh passes</b><span class="d">Exact sizes, no alpha. The stores reject both only at upload time.</span></span></label></div></div>
+          <div class="row"><div class="k">Safe target</div><div class="v"><label class="check"><input type="checkbox" data-k="d3"><span><b>It cannot go live</b><span class="d"><span class="ios-only">A deliver preview or a Product Page Optimization treatment.</span><span class="android-only">An internal track, never production, from the first lane.</span></span></span></label></div></div>
+          <div class="row"><div class="k">No review</div><div class="v"><label class="check"><input type="checkbox" data-k="d4"><span><b>Never submitted</b><span class="d"><code>submit_for_review: false</code> and automatic release off.</span></span></label></div></div>
+          <div class="row"><div class="k">Pulled back</div><div class="v"><label class="check"><input type="checkbox" data-k="d5"><span><b>Compared against the store</b><span class="d">The store's page shows the right count and order. A success line has been wrong before.</span></span></label></div></div>
+        </div>
+        <div class="ios-only">
+          <h3 style="margin-top:22px">Add the lanes</h3>
+          <div class="code" data-copy><div class="code-head"><span>Terminal, from your repo root</span></div><pre>SKILL=~/.claude/skills/store-art-studio
+cp $SKILL/templates/fastlane/screenshots.yml .
+cat $SKILL/templates/fastlane/Fastfile.snippet.rb   <span class="c"># paste inside platform :ios do ... end</span></pre></div>
+          <p class="small muted">screenshots.yml lives at the repo root and lists your markets, slots and the upload approval list. Then:</p>
+          <div class="code" data-copy><div class="code-head"><span>fastlane lanes (templates/fastlane)</span></div><pre>fastlane render slot:Sample locales:en-US
+fastlane verify
+fastlane upload locales:en-US          <span class="c"># shows the HTML preview and asks first</span></pre></div>
+          <p class="small muted">Experiments and product page headers cannot go through <code>deliver</code>. <code>scripts/ppo.rb</code> does them through the API. Details in <code>references/fastlane-and-delivery.md</code>.</p>
+        </div>
+        <div class="android-only">
+          <div class="code"><div class="code-head"><span>fastlane/metadata/android/en-US/</span></div><pre>images/
+  icon.png               <span class="c">512 x 512, with alpha</span>
+  featureGraphic.png     <span class="c">1024 x 500, no alpha</span>
+  phoneScreenshots/      <span class="c">01_*.png, 02_*.png ... ordered by name</span></pre></div>
+          <p class="small muted">The layout fastlane <code>supply</code> reads, as summarised by third-party guides. Check the supply docs for current names and limits before you rely on it.</p>
+        </div>
+      </section>
+
+      <!-- ===================== PROMPTS ===================== -->
+      <section class="page" id="page-prompts">
+        <div class="ph"><div><h1>Prompts</h1><div class="sub">Copy, paste, adjust the brackets</div></div></div>
+        <div class="step"><div class="num">1</div><div><h3>Start a real job</h3><div class="code" data-copy><div class="code-head"><span>Claude Code</span></div><pre>Use the store-art-studio skill. Read docs/screenshots/brief.md and start at Gate 0.
+Platform: &lt;iOS or Android&gt;, default language first.</pre></div></div></div>
+        <div class="step"><div class="num">2</div><div><h3>Add the files to the Xcode target</h3><div class="code" data-copy><div class="code-head"><span>Claude Code</span></div><pre>Add the files under StoreArt/ to the StoreArt unit test target by hand-editing project.pbxproj:
+a PBXFileReference, a group entry, a PBXBuildFile and a Sources entry per file, fresh 24-hex ids.
+Do not use the xcodeproj gem. Build after each edit and tell me when it compiles.</pre></div></div></div>
+        <div class="step"><div class="num">3</div><div><h3>Match a set I like</h3><div class="code" data-copy><div class="code-head"><span>Claude Code</span></div><pre>Match this set: docs/screenshots/references/board.jpg.
+Take its layout and type, keep our own colours and content.
+Use the store-art-studio skill and start with the style tile.</pre></div></div></div>
+        <div class="step"><div class="num">4</div><div><h3>Localize an approved set</h3><div class="code" data-copy><div class="code-head"><span>Claude Code</span></div><pre>The default market is approved. Roll out to &lt;locales&gt;, one market at a time.
+Write each language as if authored there, run the width tests, and list which copy
+needs native review. Do not render markets I did not name.</pre></div></div></div>
+        <div class="step"><div class="num">5</div><div><h3>Build the Android half</h3><div class="code tall" data-copy><div class="code-head"><span>Claude Code, from your Android project's root</span></div><pre>{{ANDROID_PROMPT}}</pre></div></div></div>
+      </section>
+
+      <!-- ===================== FILES ===================== -->
+      <section class="page" id="page-files">
+        <div class="ph"><div><h1>Files</h1><div class="sub">What is in the repo</div></div></div>
+        <div class="tbl-wrap"><table class="t files"><thead><tr><th>Name</th><th>Type</th><th>What it is</th></tr></thead><tbody>
+          <tr><td><code>SKILL.md</code></td><td><span class="kind skill">Skill</span></td><td>The contract: layers, hard rules, gates, review loop, slop checklist</td></tr>
+          <tr><td><code>index.html</code></td><td><span class="kind skill">Guide</span></td><td>This page, also the Vercel site. Built from <code>site/</code></td></tr>
+          <tr><td><code>INSTALL.md</code></td><td><span class="kind skill">Guide</span></td><td>The same guide as plain text</td></tr>
+          <tr><td><code>README.md</code></td><td><span class="kind skill">Guide</span></td><td>What the skill is and what is verified</td></tr>
+          <tr><td><code>references/architecture.md</code></td><td><span class="kind ref">Reference</span></td><td>Layers, repo layout, the slot pattern, naming, the world</td></tr>
+          <tr><td><code>references/ios-swiftui-renderer.md</code></td><td><span class="kind ref">Reference</span></td><td>Building the host-less target, every trap with its fix</td></tr>
+          <tr><td><code>references/android-compose.md</code></td><td><span class="kind ref">Reference</span></td><td>The same contract for Compose and Play (designed, not yet proven)</td></tr>
+          <tr><td><code>references/higgsfield-art.md</code></td><td><span class="kind ref">Reference</span></td><td>What to generate, MCP flow, keying and compositing recipes</td></tr>
+          <tr><td><code>references/style-and-copy.md</code></td><td><span class="kind ref">Reference</span></td><td>Default palette, type, pill, archetypes, localization rules</td></tr>
+          <tr><td><code>references/reference-matching.md</code></td><td><span class="kind ref">Reference</span></td><td>How to match a set you share, step by step</td></tr>
+          <tr><td><code>references/fastlane-and-delivery.md</code></td><td><span class="kind ref">Reference</span></td><td>deliver, Product Page Optimization, headers, safety checklist</td></tr>
+          <tr><td><code>templates/ios/</code></td><td><span class="kind tpl">Template</span></td><td>StoreArt kit, sample slot and tests. Compiles and renders 1320 x 2868</td></tr>
+          <tr><td><code>templates/fastlane/</code></td><td><span class="kind tpl">Template</span></td><td>screenshots.yml manifest and the lanes</td></tr>
+          <tr><td><code>templates/brief-template.md</code></td><td><span class="kind tpl">Template</span></td><td>Fill this in to start a new app</td></tr>
+          <tr><td><code>templates/android/START-HERE.md</code></td><td><span class="kind tpl">Template</span></td><td>A prompt that builds the Android target from the iOS template</td></tr>
+          <tr><td><code>scripts/chromakey.swift</code></td><td><span class="kind scr">Script</span></td><td>Key a flat colour out of generated art, with despill</td></tr>
+          <tr><td><code>scripts/cutout.swift</code></td><td><span class="kind scr">Script</span></td><td>Vision foreground cutout</td></tr>
+          <tr><td><code>scripts/screenswap.swift</code></td><td><span class="kind scr">Script</span></td><td>Warp a rendered screen onto a green slab in a photo</td></tr>
+          <tr><td><code>scripts/compare.swift</code></td><td><span class="kind scr">Script</span></td><td>Reference left, render right, shared guides</td></tr>
+          <tr><td><code>scripts/probe.swift</code></td><td><span class="kind scr">Script</span></td><td>Measure colours, ink bounds and text rows in any PNG</td></tr>
+          <tr><td><code>scripts/verify-export.sh</code></td><td><span class="kind scr">Script</span></td><td>Exact sizes and no alpha, before every upload</td></tr>
+          <tr><td><code>scripts/ppo.rb</code></td><td><span class="kind scr">Script</span></td><td>Product Page Optimization and header upload through spaceship</td></tr>
+          <tr><td><code>site/</code></td><td><span class="kind tpl">Source</span></td><td>The source of this page: <code>index.template.html</code> and <code>build.py</code>, which writes <code>index.html</code></td></tr>
+          <tr><td><code>vercel.json</code></td><td><span class="kind tpl">Config</span></td><td>Static hosting settings for the Vercel site</td></tr>
+          <tr><td><code>assets/</code></td><td><span class="kind tpl">Assets</span></td><td>The app icon, the example screenshots this page shows, and the 3D art in the thank-you note; the icon and the art carry their provenance</td></tr>
+        </tbody></table></div>
+        <p class="small muted" style="margin-top:14px"><b>Licences.</b> Inter and Inter Tight are bundled under the SIL Open Font License. Apple bezels, provider images and anything generated under your own Higgsfield account are yours to license and are not included. The iOS template compiles and renders; the Android path is a plan until you prove it.</p>
+      </section>
+
+      <footer class="foot">Store Art Studio &middot; a Claude Code skill &middot; <a href="https://github.com/halilyuce/store-art-studio">GitHub</a>. This guide is styled after App Store Connect as a tribute and is not affiliated with Apple.</footer>
+    </main>
+  </div>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Screenshot preview"><button class="close" aria-label="Close">&times;</button><button class="prev" aria-label="Previous">&#8249;</button><img id="lb-img" alt=""><button class="next" aria-label="Next">&#8250;</button></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  var body = document.body, root = document.documentElement;
+  body.classList.remove("nojs");
+  function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  var $ = function (s, c) { return (c || document).querySelector(s); }, $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  function toast(msg) { var t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove("show"); }, 2600); }
+  $$("[data-toast]").forEach(function (b) { b.addEventListener("click", function () { toast(b.dataset.toast); }); });
+
+  /* ---------- platform ---------- */
+  var thanks = $("#thanks");
+  function setPlatform(p, persist) {
+    body.setAttribute("data-platform", p);
+    $$("#appmenu button").forEach(function (b) { b.setAttribute("aria-checked", b.dataset.platform === p ? "true" : "false"); });
+    $("#plat-label").textContent = p === "android" ? "Android App" : "iOS App";
+    $("#addplat").textContent = p === "android" ? "Add Platform: iOS" : "Add Platform: Android";
+    var a = $("#rv-send"); if (a && thanks) a.href = p === "android" ? thanks.dataset.android : thanks.dataset.iosReview;
+    if (persist) store("sac-platform", p);
+    progress();
+  }
+  $("#addplat").addEventListener("click", function (e) { e.preventDefault(); setPlatform(body.getAttribute("data-platform") === "ios" ? "android" : "ios", true); });
+  var title = $("#apptitle"), menu = $("#appmenu");
+  title.addEventListener("click", function (e) { e.stopPropagation(); var o = menu.classList.toggle("open"); title.setAttribute("aria-expanded", o); });
+  document.addEventListener("click", function () { menu.classList.remove("open"); title.setAttribute("aria-expanded", "false"); });
+  $$("#appmenu button").forEach(function (b) { b.addEventListener("click", function () { setPlatform(b.dataset.platform, true); }); });
+
+  /* ---------- theme ---------- */
+  var th = load("sac-theme"); if (th) root.setAttribute("data-theme", th);
+  $("#theme").addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") === "dark" || (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+    var n = dark ? "light" : "dark"; root.setAttribute("data-theme", n); store("sac-theme", n);
+  });
+
+  /* ---------- routing ---------- */
+  var PAGES = ["overview", "before", "skill", "project", "firstrun", "job", "gates", "rules", "trouble", "match", "art", "ship", "prompts", "files"];
+  var TAB = { prompts: "prompts", files: "files" };
+  function route() {
+    var h = location.hash.replace("#", "") || "overview", parts = h.split("/"), page = parts[0];
+    if (page === "android" || page === "ios") { setPlatform(page, true); page = "overview"; }
+    if (PAGES.indexOf(page) < 0) page = "overview";
+    $$(".page").forEach(function (s) { s.classList.toggle("on", s.id === "page-" + page); });
+    if (page !== "overview" && typeof stopCycle === "function") stopCycle();
+    $$("[data-go]").forEach(function (a) { var g = a.dataset.go; a.classList.toggle("on", (g === page && parts[1] !== "thanks") || (g === "thanks" && parts[1] === "thanks" && page === "overview")); });
+    $$("#tabs a").forEach(function (a) { var on = a.dataset.tab === (TAB[page] || "setup"); a.classList.toggle("on", on); if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    $("#side").classList.remove("open"); $("#menubtn").setAttribute("aria-expanded", "false");
+    if (parts[1] === "thanks") { setTimeout(function () { var t = $("#thanks"); if (t) t.scrollIntoView({ behavior: "smooth", block: "center" }); }, 60); } else { window.scrollTo(0, 0); }
+  }
+  window.addEventListener("hashchange", route);
+  $$('[data-go="thanks"]').forEach(function (a) { a.addEventListener("click", function () { if (location.hash === "#overview/thanks") route(); }); });
+  $("#menubtn").addEventListener("click", function () { var o = $("#side").classList.toggle("open"); this.setAttribute("aria-expanded", o); });
+
+  /* ---------- progress dots ---------- */
+  function progress() {
+    var total = 0, done = 0;
+    ["skill", "project", "firstrun", "job"].forEach(function (id) {
+      var sec = $("#page-" + id), plat = body.getAttribute("data-platform");
+      var vis = $$(".markdone input", sec).filter(function (b) { var o = b.closest(".ios-only, .android-only"); return !o || o.classList.contains(plat + "-only"); });
+      var n = vis.length, d = vis.filter(function (b) { return b.checked; }).length;
+      total += n; done += d;
+      var dot = $('[data-dot="' + id + '"]'); dot.className = "dot" + (n && d === n ? " done" : d ? " part" : "");
+      $$(".step", sec).forEach(function (st) { var c = $(".markdone input", st); st.classList.toggle("done", !!(c && c.checked)); });
+      var chip = $(".ph .chip", sec); if (chip) { var st = n && d === n ? ["g", "Done"] : d ? ["y", "In Progress"] : ["", "Not Started"]; chip.innerHTML = '<span class="dot ' + st[0] + '"></span>' + st[1]; }
+    });
+    $("#prog-text").textContent = done + " of " + total + " steps done";
+    $("#prog-fill").style.width = (total ? Math.round(done / total * 100) : 0) + "%";
+  }
+  $$("input[type=checkbox][data-k]").forEach(function (c) {
+    var k = "sac-" + c.dataset.k; c.checked = load(k) === "1";
+    c.addEventListener("change", function () { store(k, c.checked ? "1" : "0"); progress(); });
+  });
+
+  /* ---------- copy buttons ---------- */
+  $$(".code[data-copy]").forEach(function (box) {
+    var head = $(".code-head", box), btn = document.createElement("button");
+    btn.className = "copy"; btn.type = "button"; btn.textContent = "Copy"; head.appendChild(btn);
+    btn.addEventListener("click", function () {
+      var text = $("pre", box).innerText;
+      function done() { btn.textContent = "Copied"; btn.classList.add("done"); setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("done"); }, 1600); }
+      function fb() { var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); done(); } catch (e) {} ta.remove(); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fb); else fb();
+    });
+  });
+  $$("[data-tabs]").forEach(function (t) {
+    var tabs = $$("button", t), panels = $$("[data-panel]", t.parentNode);
+    tabs.forEach(function (tab, i) { tab.addEventListener("click", function () { tabs.forEach(function (x, j) { x.setAttribute("aria-selected", i === j ? "true" : "false"); panels[j].hidden = i !== j; }); }); });
+  });
+
+  /* ---------- banner ---------- */
+  if (load("sac-banner") === "0") $("#banner").style.display = "none";
+  $("#banner-x").addEventListener("click", function () { $("#banner").style.display = "none"; store("sac-banner", "0"); });
+
+  /* ---------- gallery ---------- */
+  var LOCALES = [
+    { id: "en-US", name: "English (U.S.)" }, { id: "tr", name: "Turkish" }, { id: "ja", name: "Japanese" }, { id: "ar-SA", name: "Arabic" }
+  ];
+  var sel = $("#locale"); LOCALES.forEach(function (l) { var o = document.createElement("option"); o.value = l.id; o.textContent = l.name; sel.appendChild(o); });
+  var cur = LOCALES[0], list = [];
+  function renderGallery() {
+    var box = $("#shots"); box.innerHTML = ""; list = [];
+    for (var i = 1; i <= 7; i++) {
+      var n = ("0" + i).slice(-2), src = "assets/examples/" + cur.id + "/" + n + ".jpg";
+      list.push({ src: src, label: "Screenshot " + i + " of 7, " + cur.name });
+      var b = document.createElement("button"); b.className = "thumb"; b.dataset.i = i - 1; b.setAttribute("aria-label", "Open screenshot " + i + " of 7");
+      b.innerHTML = '<img loading="lazy" alt="Screenshot ' + i + ', ' + cur.name + '" src="' + src + '">'; box.appendChild(b);
+    }
+    $("#hdr-img").src = "assets/examples/" + cur.id + "/header.jpg";
+    $("#sr-shots").innerHTML = [1, 2, 3].map(function (n) { return '<img alt="" src="assets/examples/' + cur.id + '/0' + n + '.jpg">'; }).join("");
+    $("#exp-thumbs").innerHTML = [1, 2, 3, 4].map(function (n) { return '<div><img alt="" src="assets/examples/' + cur.id + '/0' + n + '.jpg"></div>'; }).join("");
+  }
+  function setLocale(l, persist) {
+    var box = $("#shots"), hdr = $("#hdr"); box.classList.add("fading"); hdr.classList.add("fading");
+    setTimeout(function () { cur = l; sel.value = l.id; renderGallery(); box.classList.remove("fading"); hdr.classList.remove("fading"); }, 200);
+    if (persist) store("sac-locale", l.id);
+  }
+  var cycleTimer = null, steps = 0, playBtn = $("#cycle");
+  function stopCycle() { clearInterval(cycleTimer); cycleTimer = null; playBtn.textContent = "Play languages"; playBtn.setAttribute("aria-pressed", "false"); }
+  function playCycle(once) {
+    if (cycleTimer) return; steps = 0; playBtn.textContent = "Pause"; playBtn.setAttribute("aria-pressed", "true");
+    cycleTimer = setInterval(function () {
+      var k = LOCALES.indexOf(cur); setLocale(LOCALES[(k + 1) % LOCALES.length], false);
+      if (once && ++steps >= LOCALES.length) stopCycle();
+    }, 2600);
+  }
+  playBtn.addEventListener("click", function () { if (cycleTimer) stopCycle(); else playCycle(false); });
+  sel.addEventListener("change", function () { stopCycle(); setLocale(LOCALES.filter(function (l) { return l.id === sel.value; })[0], true); });
+  LOCALES.forEach(function (l) { for (var i = 1; i <= 7; i++) { new Image().src = "assets/examples/" + l.id + "/0" + i + ".jpg"; } });
+  var sl = load("sac-locale"); if (sl) { var f = LOCALES.filter(function (l) { return l.id === sl; })[0]; if (f) { cur = f; sel.value = f.id; } }
+  renderGallery();
+  $(".shots-card").addEventListener("pointerdown", stopCycle);
+  $(".shots-card").addEventListener("focusin", stopCycle);
+  $("#shots").addEventListener("click", function (e) {
+    var b = e.target.closest("button.thumb"); if (!b) return;
+    openLb(parseInt(b.dataset.i, 10));
+  });
+  var idx = 0, lb = $("#lb");
+  var opener = null;
+  function openLb(i) {
+    stopCycle();
+    if (!lb.classList.contains("open")) opener = document.activeElement;
+    idx = (i + list.length) % list.length; $("#lb-img").src = list[idx].src; $("#lb-img").alt = list[idx].label;
+    lb.classList.add("open"); $(".lb .close").focus();
+  }
+  function closeLb() { lb.classList.remove("open"); if (opener && opener.focus) opener.focus(); opener = null; }
+  $(".lb .close").addEventListener("click", closeLb); $(".lb .prev").addEventListener("click", function () { openLb(idx - 1); }); $(".lb .next").addEventListener("click", function () { openLb(idx + 1); });
+  lb.addEventListener("click", function (e) { if (e.target === lb) closeLb(); });
+  document.addEventListener("keydown", function (e) { if (!lb.classList.contains("open")) return; if (e.key === "Escape") closeLb(); if (e.key === "Tab") { var f = $$(".lb button"), k = f.indexOf(document.activeElement); e.preventDefault(); f[(k + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus(); } if (e.key === "ArrowLeft") openLb(idx - 1); if (e.key === "ArrowRight") openLb(idx + 1); });
+
+  /* page tabs, inner tabs, crop preview */
+  $$("#ptabs button").forEach(function (b) { b.addEventListener("click", function () {
+    $$("#ptabs button").forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
+    $$(".spanel").forEach(function (p) { p.hidden = p.dataset.p !== b.dataset.p; });
+  }); });
+  $$("#itabs button").forEach(function (b) { b.addEventListener("click", function () {
+    $$("#itabs button").forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
+    $$('[data-i="hdr"], [data-i="sr"]').forEach(function (p) { if (p.tagName === "DIV") p.hidden = p.dataset.i !== b.dataset.i; });
+  }); });
+  $$("#dtabs button").forEach(function (b) { b.addEventListener("click", function () {
+    $$("#dtabs button").forEach(function (x) { x.setAttribute("aria-selected", x === b ? "true" : "false"); });
+    $$(".dpanel").forEach(function (p) { p.hidden = p.dataset.d !== b.dataset.d; });
+    $("#preview-btn").disabled = b.dataset.d !== "iphone";
+  }); });
+  $("#preview-btn").addEventListener("click", function () { openLb(0); });
+  $("#crop-btn").addEventListener("click", function () { var on = $("#hdr").classList.toggle("crop"); this.setAttribute("aria-pressed", String(on)); });
+
+  /* ---------- thanks: stars ---------- */
+  var starsBox = $("#rv-stars"), label = $("#rv-label");
+  var STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path stroke-width="1.2" stroke-linejoin="round" d="M12 2.6l2.9 6.1 6.7.8-4.9 4.6 1.3 6.6L12 17.4 6 20.7l1.3-6.6L2.4 9.5l6.7-.8z"/></svg>';
+  function setStars(n) { $$("button", starsBox).forEach(function (b, i) { b.className = i < n ? "on" : "off"; b.setAttribute("aria-checked", i + 1 === n ? "true" : "false"); }); label.textContent = n + (n === 1 ? " star" : " stars"); }
+  for (var s = 1; s <= 5; s++) { var sb = document.createElement("button"); sb.type = "button"; sb.setAttribute("role", "radio"); sb.setAttribute("aria-label", s + (s === 1 ? " star" : " stars")); sb.innerHTML = STAR; (function (n) { sb.addEventListener("click", function () { setStars(n); }); })(s); starsBox.appendChild(sb); }
+  setStars(5);
+
+  var start = load("sac-platform"); if (location.hash.indexOf("android") < 0 && location.hash.indexOf("ios") < 0) setPlatform(start === "android" ? "android" : "ios", false);
+  /* ---------- the gift: unwrap on scroll, stickers follow the mouse ---------- */
+  (function gift() {
+    var stage = $("#giftstage"), pin = $("#giftsticky"), sec = $("#thanks"); if (!stage || !sec) return;
+    var mql = matchMedia("(prefers-reduced-motion: reduce)"), reduce = mql.matches, stopped = false, onScreen = true, last = 0;
+    var wrap = $("#wrap"), bow = $(".wrap .bow"), pl = $(".paper.l"), pr = $(".paper.r"), rv = $(".ribbon.v"), rh = $(".ribbon.h"),
+        tag = $(".gtag"), cue = $(".scrollcue"), copy = $(".thanks-copy"), review = $(".review");
+    var decos = [{ el: $(".d-star"), d: 30, r: 10 }, { el: $(".d-gift"), d: 20, r: -8 }, { el: $(".d-heart"), d: 24, r: 12 }];
+    var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; }, seg = function (p, a, b) { return clamp((p - a) / (b - a)); };
+    var out = function (t) { return 1 - Math.pow(1 - t, 3); }, inout = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }, back = function (t) { var c = 1.7; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+    var mode = "", dist = 0, top = 0, lastH = 0, lastW = 0, force = false, mx = 0, my = 0, tx = 0, ty = 0;
+    if (reduce) return;
+    body.classList.add("giftfx");
+    function layout() {
+      var h = sec.offsetHeight, vh = innerHeight; lastH = h; lastW = innerWidth;
+      if (!(force && location.hash === "#overview/thanks") && innerWidth > 1000 && h < vh - 100) {
+        mode = "pin"; dist = Math.round(Math.min(900, vh * 0.95)); top = Math.max(64, Math.round((vh - h) / 2));
+        stage.style.height = (h + dist) + "px"; pin.style.position = "sticky"; pin.style.top = top + "px";
+      } else { mode = "flow"; stage.style.height = ""; pin.style.position = "relative"; pin.style.top = ""; }
+      stage.classList.toggle("is-flow", mode === "flow");
+    }
+    function amount() {
+      if (force) return 1;
+      if (typeof window.__giftP === "number") return window.__giftP;
+      var r = stage.getBoundingClientRect(), vh = innerHeight;
+      return mode === "pin" ? clamp((top - r.top) / dist) : clamp((vh * 0.5 - r.top) / (vh * 0.55));
+    }
+    addEventListener("mousemove", function (e) { tx = (e.clientX / innerWidth - 0.5) * 2; ty = (e.clientY / innerHeight - 0.5) * 2; }, { passive: true });
+    addEventListener("resize", function () { lastH = -1; });
+    sec.addEventListener("focusin", function () { force = true; });
+    window.addEventListener("hashchange", function () { if (location.hash === "#overview/thanks") { force = true; lastH = -1; } else if (location.hash === "#overview") { force = false; lastH = -1; } });
+    new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }, { rootMargin: "200px" }).observe(stage);
+    mql.addEventListener("change", function (ev) { if (!ev.matches) return; stopped = true; body.classList.remove("giftfx"); stage.style.height = ""; pin.style.position = ""; pin.style.top = "";
+      [copy, review].concat(decos.map(function (o) { return o.el; })).forEach(function (el) { if (el) { el.style.transform = ""; el.style.opacity = ""; } }); });
+    if (location.hash === "#overview/thanks") force = true;
+    function frame(now) {
+      if (stopped) return;
+      requestAnimationFrame(frame);
+      if (!sec.offsetParent || !onScreen) { last = now; return; }
+      if (sec.offsetHeight !== lastH || innerWidth !== lastW) layout();
+      var k = 1 - Math.pow(0.93, Math.min(4, (now - (last || now)) / 16.7 || 1)); last = now;
+      mx += (tx - mx) * k; my += (ty - my) * k;
+      var p = amount();
+      var r = sec.getBoundingClientRect(), sc = ((r.top + r.height / 2) - innerHeight / 2) / innerHeight, t = now / 1000;
+      var a = out(seg(p, 0, 0.28)), b = out(seg(p, 0.04, 0.3)), c = out(seg(p, 0.26, 0.74)), d = out(seg(p, 0.34, 0.8)), e = seg(p, 0.7, 1);
+      bow.style.transform = "translate(-50%, -50%) translate(" + (mx * 10) + "px, " + (-a * 200 + my * 8) + "px) rotate(" + (-a * 45 + mx * 4) + "deg) scale(" + (1 - a * 0.5) + ")";
+      bow.style.opacity = 1 - a;
+      tag.style.opacity = 1 - out(seg(p, 0, 0.18)); cue.style.opacity = 1 - seg(p, 0, 0.12);
+      rv.style.transform = "scaleY(" + (1 - b) + ")"; rh.style.transform = "scaleX(" + (1 - b) + ")"; rv.style.opacity = rh.style.opacity = 1 - seg(p, 0.2, 0.3);
+      pl.style.transform = "rotateY(" + (c * 100) + "deg)"; pr.style.transform = "rotateY(" + (-c * 100) + "deg)";
+      pl.style.opacity = pr.style.opacity = 1 - seg(p, 0.62, 0.76);
+      wrap.style.visibility = p >= 0.999 ? "hidden" : "visible"; wrap.style.pointerEvents = p < 0.85 ? "auto" : "none";
+      copy.style.opacity = 0.1 + 0.9 * d; copy.style.transform = "translateY(" + ((1 - d) * 20) + "px)";
+      review.style.opacity = 0.1 + 0.9 * d;
+      review.style.transform = "perspective(900px) translateY(" + ((1 - d) * 28) + "px) rotateX(" + (-my * 4 * d) + "deg) rotateY(" + (mx * 6 * d) + "deg)";
+      decos.forEach(function (o, i) {
+        if (!o.el) return;
+        var f = Math.sin(t * (0.9 + i * 0.27) + i * 2.1) * 6, s = e >= 1 ? 1 : 0.3 + 0.7 * back(e);
+        o.el.style.opacity = Math.min(1, e * 3);
+        o.el.style.transform = "translate(" + (mx * o.d) + "px, " + (my * o.d - sc * o.d * 3 + f) + "px) rotate(" + (mx * o.r + f * 0.8) + "deg) scale(" + s + ")";
+      });
+    }
+    layout(); requestAnimationFrame(frame);
+  })();
+
+  route(); progress();
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setTimeout(function () { if ($("#page-overview").classList.contains("on") && !cycleTimer && !lb.classList.contains("open")) playCycle(true); }, 2200);
+})();
+</script>
+</body>
+</html>
