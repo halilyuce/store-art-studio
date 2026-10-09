@@ -1,6 +1,6 @@
 # Installation guide
 
-Prefer a visual version? Open the web guide: https://store-art-studio.vercel.app It looks like App Store Connect, has an iOS and Android switch, copy buttons, tick-off steps and example screenshots in English, Turkish, Japanese and Arabic.
+Prefer a visual version? Open the web guide at https://store-art-studio.vercel.app. It looks like App Store Connect, has an iOS and Android switch, copy buttons, tick-off steps and example screenshots in English, Turkish, Japanese and Arabic.
 
 How to install the `store-art-studio` skill and run it for the first time. About 20 minutes the
 first time, most of it waiting for Xcode.
