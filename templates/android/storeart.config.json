@@ -1,0 +1,39 @@
+{
+  "_readme": "The one list of markets. You own it: the render module, slots.html, header.html, render-all.sh and widthtest.sh all read it, and nothing else hard-codes a locale. The two entries are EXAMPLES to replace: one left to right, one right to left, so both paths stay testable. Add a market here, add its copy in page/copy.js and its data in the world (SampleWorld.kt). See references/android-compose.md, 'Adding a market'. upload: true puts a market on the allow list of the upload_art lane; set it only after the owner approved that market's renders.",
+  "moment": "2026-10-11T21:41",
+  "default": "us",
+  "_surfaces": "What your app has. Phone screens are always on. Add only what you ship: widgets, notification (a live notification, Live Update or live card), wear (a Wear OS app or tile), tablet. Leave the list as [\"screens\"] and every optional render, slot part and staging step is skipped. The sample lists them all so every path stays testable.",
+  "surfaces": ["screens", "widgets", "notification", "wear"],
+  "markets": [
+    {
+      "code": "us",
+      "storeLocale": "en-US",
+      "appLocale": "en-rUS",
+      "languageTag": "en-US",
+      "timeZone": "America/New_York",
+      "clock24h": false,
+      "rtl": false,
+      "currency": "USD",
+      "digits": "",
+      "fontFamily": "",
+      "fontWeights": "",
+      "upload": true,
+      "example": true
+    },
+    {
+      "code": "sa",
+      "storeLocale": "ar",
+      "appLocale": "ar-rSA",
+      "languageTag": "ar-SA",
+      "timeZone": "Asia/Riyadh",
+      "clock24h": true,
+      "rtl": true,
+      "currency": "SAR",
+      "digits": "latn",
+      "fontFamily": "Noto Sans Arabic",
+      "fontWeights": "500;700",
+      "upload": false,
+      "example": true
+    }
+  ]
+}

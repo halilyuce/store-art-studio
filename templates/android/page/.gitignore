@@ -1,0 +1,13 @@
+# Store art page kit. Commit the sources (slots.html, header.html, kit.*, copy.js, COPY_NOTES.md,
+# tools/) and the PICKED art in art/, page-sized, each with its provenance .txt: it cost credits
+# to make. Keyed PNGs at 512 px on the long side (the largest draw on a page is about 360 px),
+# opaque photos as JPEG q90 (about 90% smaller than the PNG). Everything below is either
+# reproducible from the Higgsfield library by generation id, or rebuilt by the tools.
+art/**/*-src.png
+art/**/*rejected*
+art/**/*.log
+art/**/checks/
+# Renders: ui/ comes from the storeart module (storeart/scripts/export.sh), out/ from tools/.
+ui/
+out/
+checks/

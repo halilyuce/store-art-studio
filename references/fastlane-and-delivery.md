@@ -89,11 +89,42 @@ The manifest's `pages:` section can describe custom product pages (for example o
 their own slot lists and locales. Render with the same slots and a different story. Upload each
 through the API the way PPO does, never through the version's default screenshots.
 
+## Google Play
+
+The Android side keeps its allow list in the developer's `storeart.config.json` (`"upload": true`
+per market), not in a second manifest. `templates/android/page/tools/stage-play.sh` builds the
+`supply` tree (`out/play/<locale>/images/phoneScreenshots/01..NN.png`, `featureGraphic.png`) and
+runs `verify-export.sh` on it; `--variant <name>` takes slot 1 from an alternate render `01-<name>.png`, and `wearScreenshots/` is
+added only when the config's `surfaces` lists `wear`.
+
+`templates/fastlane/Fastfile.android.snippet.rb` has the `upload_art` lane:
+
+- Images only: `skip_upload_apk`, `skip_upload_aab`, `skip_upload_metadata`,
+  `skip_upload_changelogs`, `sync_image_upload: true`.
+- Refuses a locale that is not in the config, not approved for upload, or not staged.
+- Copies only the requested locales into a temporary tree and uploads from that, so no other
+  locale is touched.
+- `validate_only:true` is the dry run: Play validates the edit and changes nothing. Always run it
+  first.
+
+Facts that differ from the App Store:
+
+- **No draft for listing art.** Images are live once the edit commits. There is no preview step to
+  hide behind, which is why the dry run and the allow list matter.
+- The language must already exist on the store listing, or the edit fails. Add it in Play Console.
+- `supply` replaces the locale's images of each uploaded type (all phone screenshots, the feature
+  graphic). It does not merge.
+- fastlane may be a Homebrew install without a Gemfile: then run `fastlane`, not `bundle exec`.
+- Authenticate with a service account JSON key kept out of git.
+- **The agent never runs the real upload.** It stages, verifies, runs the dry run if the developer
+  allows it, and hands over the exact command. Afterwards, pull the listing back and compare.
+
 ## Safety checklist before anything leaves the machine
 
-- [ ] Locale is on `upload.locales`.
+- [ ] Locale is on the allow list (`upload.locales` on iOS, `"upload": true` in `storeart.config.json` on Android).
 - [ ] `verify-export.sh` passes: sizes exact, no alpha.
-- [ ] The target cannot go live (preview, PPO treatment, internal track).
+- [ ] The target cannot go live (preview, PPO treatment, internal track). On Play, listing art has
+      no such target: the dry run passed and the developer runs the upload.
 - [ ] `submit_for_review` is false and automatic release is off.
 - [ ] After upload, the store shows the right count per locale and the right order; compare by pulling
       back, not by trusting the log.

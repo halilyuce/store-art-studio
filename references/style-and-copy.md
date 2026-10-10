@@ -97,6 +97,25 @@ Write each locale as if it began there. Do not translate English fragments.
 - Mark every locale you wrote "not native-reviewed" in the summary, and ask the user to review the
   ones they read. Never ask a non-native to sign off.
 
+### Back-translation notes
+
+Keep one `COPY_NOTES.md` next to the copy (template: `templates/android/page/COPY_NOTES.md`). Per
+locale: the register and glossary terms used, then a table of every slot with the headline, its
+literal back-translation, the body and its back-translation. The owner can then check meaning in a
+language they do not read, and the next agent sees why a line reads the way it does.
+
+- Mark every locale "not native-reviewed" until a native speaker signs it off, with the date and
+  the reviewer.
+- **Surface conflicts as questions.** A project's translation rules can disagree with copy the owner
+  already approved elsewhere (another platform's set used an informal register the ruleset forbids,
+  or a word the ruleset bans). Do not silently pick one: follow the ruleset, note the conflict in a
+  "Decisions" table, and ask the owner.
+- **Language rules beat house style.** A lowercase headline style applies to the words a language
+  lets you lowercase. In German, nouns keep their capital (lowercasing one is a spelling error), so a
+  lowercase German headline still capitalises its nouns. Write such a rule into the notes once.
+- A figure keeps one written form per locale, chosen with the owner (decimal mark, grouping,
+  percent position).
+
 ### Fitting a wording
 
 When a line is too wide, in this order: shorter synonym, shorter structure, drop the lead word. Never
@@ -108,17 +127,25 @@ character, Hangul about 165, kana and kanji about 180; a pill adds about 283.
 
 - Glue with a no-break space (`\u{00A0}`) anything that must not wrap: a figure and its unit, a proper
   name. Use `\u{2060}` (word joiner) in ja and zh where no space exists.
-- Arabic: left-align like the other locales unless the reference mirrors, mirror the app layout but
-  not the status bar, and verify bidi order by rendering.
-- CJK and Arabic headlines fall back to a system face because the display face lacks the glyphs;
-  weight must be set explicitly.
+- Right-to-left scripts: mirror the page (margins, pill, tile order) and the app layout, never the
+  status bar, and verify bidi order by rendering. Isolate figures (`direction: ltr;
+  unicode-bidi: isolate`), or "-12%" can render as "%12-". The width test measures an RTL line from its
+  left edge.
+- When the display face lacks a script, the headline falls back to another face. Load one that
+  covers the script, with every weight you use set explicitly, or the browser or the OS synthesises
+  a fake bold that also measures differently.
+- Translations run longer than the source. Anything placed beside a headline (an object, a sticker)
+  is placed by measuring the rendered line, not by a fixed position per locale.
 - Body sentences are always two lines and tables always the same row count, so every card is the same
   height in every language. When a long language runs to three lines, use a shorter sentence form.
 
 ## Claims and store rules
 
-- No awards, laurels, ratings, "#1" or user counts unless the user supplies the claim and can back
-  it. Apple's header rules forbid awards, prices, URLs and other platforms, and require 4+ suitability.
+- No awards, laurels, ratings, "#1" or user counts by default. The templates carry none. Add a
+  claim only when the developer asks for one and can back it; the developer can prompt Claude to add
+  one. Google Play may treat user counts and rankings in listing art as a policy risk even when true,
+  so keep a version of the slot without it.
+- Apple's header rules forbid awards, prices, URLs and other platforms, and require 4+ suitability.
 - Never show real athletes, real kits or colour pairs, broadcaster names or third-party icons.
 - Apple's guidelines discourage tilted or obstructed bezels and graphics leaving a screen. When the
   design uses them, flag it and offer straight-bezel variants.

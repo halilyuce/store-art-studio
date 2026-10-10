@@ -6,7 +6,7 @@
 
 <p align="center">
   <b>Studio-grade App Store and Google Play screenshots, rendered from your app's real views, in every language you sell in.</b><br>
-  A Claude Code skill. SwiftUI proven, Jetpack Compose planned. Higgsfield for the art, fastlane for delivery.
+  A Claude Code skill. SwiftUI and Jetpack Compose proven. Higgsfield for the art, fastlane for delivery.
 </p>
 
 <p align="center">
@@ -58,10 +58,10 @@ git -C ~/.claude/skills/store-art-studio pull
 
 Restart Claude Code and ask *"Is the store-art-studio skill available?"*.
 
-Then connect the Higgsfield MCP (run `/mcp` in Claude Code and sign in) and follow the setup for your platform:
+Then connect the Higgsfield MCP and follow the setup for your platform. [INSTALL.md](INSTALL.md) is the connection checklist for both.
 
 - **iOS:** add the `StoreArt` render target to your Xcode project. Step by step in the [web guide](https://store-art-studio.vercel.app) or [INSTALL.md](INSTALL.md).
-- **Android:** paste the prompt in [templates/android/START-HERE.md](templates/android/START-HERE.md). Claude builds the Compose render target in your project from the iOS template.
+- **Android:** follow [docs/android-end-to-end.md](docs/android-end-to-end.md), the full walkthrough from connecting the tools to the Play submission checklist (Wear OS, the AI declaration). [templates/android/START-HERE.md](templates/android/START-HERE.md) has the Paparazzi render module and HTML page kit to copy, and the Gate 0 prompt.
 
 <details>
 <summary><b>Requirements</b></summary>
@@ -74,7 +74,7 @@ Then connect the Higgsfield MCP (run `/mcp` in Claude Code and sign in) and foll
 | ImageMagick and `swift` | Keying and compositing art, the helper scripts |
 | fastlane and an App Store Connect API key | Uploads and Product Page Optimization |
 | Apple's product bezels | Download from Apple Design Resources. Their licence forbids redistribution, so they are not in this repo |
-| Android: a JDK, Gradle, Paparazzi or Roborazzi | The Compose renderer is a JVM test |
+| Android: a JDK, Gradle, Paparazzi, Google Chrome | The Compose renderer is a JVM test; the HTML page kit renders with headless Chrome |
 
 </details>
 
@@ -113,21 +113,23 @@ The skill cuts the board into slots and measures margins, baselines, type size a
 ```
 SKILL.md                     the contract: layers, hard rules, gates, review loop, slop checklist
 INSTALL.md                   step-by-step setup and troubleshooting
+docs/
+  android-end-to-end.md      Android from zero to a live Play set: connect, gates, store checklist
 index.html                   the web guide (styled like App Store Connect)
 references/
   architecture.md            layers, repo layout, the slot pattern, naming, "the world"
   ios-swiftui-renderer.md    building the host-less target, every trap with its fix
-  android-compose.md         the same contract for Compose and Google Play
+  android-compose.md         Compose, Glance widgets and Google Play, every trap with its fix
   higgsfield-art.md          what to generate, the MCP flow, keying and compositing recipes
   style-and-copy.md          palette, type, pill, layout archetypes, localization rules
   reference-matching.md      how a shared set is measured and matched
   fastlane-and-delivery.md   deliver, Product Page Optimization, headers, a safety checklist
 templates/
   ios/                       StoreArt kit, sample slot and tests (compiles, renders 1320 x 2868)
-  android/START-HERE.md      the prompt that builds the Android target
+  android/                   storeart Paparazzi module, HTML page kit, START-HERE.md
   fastlane/                  screenshots.yml manifest and the lanes
   brief-template.md          start a new app here
-scripts/                     chromakey, cutout, screenswap, compare, probe, verify-export, ppo.rb
+scripts/                     chromakey, edgekey, cutout, screenswap, greenbox, compare, probe, verify-export, ppo.rb
 assets/                      the icon, example screenshots for the web guide, 3D art with provenance
 site/                        source of index.html (template and build script)
 ```
@@ -136,7 +138,7 @@ site/                        source of index.html (template and build script)
 
 - The iOS template and every Swift script compile. The template renders a 1320 x 2868 opaque PNG on an iOS 26 simulator.
 - The method shipped a full 22-language set to App Store Connect, including a Product Page Optimization experiment and headers.
-- **Android is a plan, not a result.** If you are the first to run it, the skill records what broke in `references/android-compose.md`. Please send that back.
+- The Android pipeline produced a full Play set for one production app: real composables, real Glance widgets and the real notification layout rendered by Paparazzi, an HTML page layer, 8 slots and a feature graphic per locale, left to right and right to left. `templates/android` is that pipeline made generic and domain-neutral: a sample app, two example markets, and one config you own for your markets. The generic Kotlin has not been built as it is. If something breaks, add it to "What broke" in `references/android-compose.md` and send it back.
 
 ## The web guide
 
