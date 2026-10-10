@@ -475,7 +475,7 @@ body[data-platform="ios"] .android-only { display: none !important; } body[data-
           <div role="listitem"><small>PRICE</small><b>Free</b><span>for the community</span></div>
           <div role="listitem"><small>LANGUAGES</small><b>22</b><span>in its first app, one codebase</span></div>
           <div role="listitem"><small>MOCKUPS</small><b>0</b><span>AI-drawn UI</span></div>
-          <div role="listitem"><small>PLATFORMS</small><b>2</b><span>iOS proven, Android planned</span></div>
+          <div role="listitem"><small>PLATFORMS</small><b>2</b><span>iOS and Android proven</span></div>
           <div role="listitem"><small>LAYERS</small><b>4</b><span>truth to delivery</span></div>
         </div>
         <div class="h2row"><h2>Product Page Information</h2>
@@ -679,25 +679,25 @@ SIM_NAME="StoreArt iPhone 17 Pro Max"  <span class="c"># created on first run, n
         </div>
 
         <div class="android-only">
-          <div class="note warn" style="margin-top:0"><span class="i">!</span><div><b>The Android path is designed, not yet proven</b><p>The iOS template is proven in production. The Android one is built by Claude inside your project by porting the iOS template. Its first run is a real experiment, and the skill asks it to record what broke so the next developer does not hit it.</p></div></div>
-          <h3 style="margin:18px 0 10px">What the agent builds, file by file</h3>
+          <div class="note warn" style="margin-top:0"><span class="i">!</span><div><b>The Android template is new</b><p>The Android pipeline is proven on one production app: real composables and Glance widgets rendered by Paparazzi, an HTML page layer, a full Play set. The template in <code>templates/android</code> is that pipeline made generic and has not been run as it is. If something breaks, the skill records it under "What broke" so the next developer does not hit it.</p></div></div>
+          <h3 style="margin:18px 0 10px">What the template gives you, file by file</h3>
           <div class="tbl-wrap"><table class="t"><thead><tr><th>iOS template</th><th>Android counterpart</th><th>Job</th></tr></thead><tbody>
-            <tr><td><code>StoreArtKit.swift</code></td><td><code>StoreArtKit.kt</code></td><td>Canvas in px and dp, fixed Density, fonts, opaque PNG output, locale and time zone switch, baseline helpers</td></tr>
-            <tr><td><code>StoreArtChrome.swift</code></td><td><code>StoreArtChrome.kt</code></td><td>Minimal status bar from a real emulator shot, optional plain frame</td></tr>
-            <tr><td><code>StoreArtPage.swift</code></td><td><code>StoreArtPage.kt</code></td><td>Palette, headline with tracking and width measurement, pill, body lines</td></tr>
-            <tr><td><code>SampleSlot.swift</code></td><td><code>SampleSlot.kt</code></td><td>One complete sample slot</td></tr>
-            <tr><td><code>StoreArtRenderTests.swift</code></td><td>Paparazzi or Roborazzi test</td><td>Renders slots, fails when a headline is too wide</td></tr>
-            <tr><td><code>render.sh</code></td><td>Gradle task or script</td><td>Runs one test, lists the PNGs</td></tr></tbody></table></div>
+            <tr><td><code>StoreArtKit.swift</code></td><td><code>storeart/.../StoreArtSupport.kt</code></td><td>Paparazzi at 412 x 915 dp and 3x, transparent theme, image files with loud failure, 12/24 h, RTL, PNG output</td></tr>
+            <tr><td>Widget and activity tiles</td><td><code>StoreArtSupport.kt</code></td><td>Real Glance widgets through GlanceRemoteViews and an AppWidgetHostView, Material You from a wallpaper</td></tr>
+            <tr><td>Sample data</td><td><code>storeart/.../SampleWorld.kt</code></td><td>The frozen world: markets, one fixed moment, full data that adds up</td></tr>
+            <tr><td><code>StoreArtRenderTests.swift</code></td><td><code>SampleSurfacesTest.kt</code></td><td>One card, one widget, one screen, light and dark, plus an RTL market</td></tr>
+            <tr><td><code>StoreArtPage.swift</code>, <code>SampleSlot.swift</code></td><td><code>page/slots.html</code>, <code>kit.css</code>, <code>copy.js</code></td><td>HTML page layer: headline by baseline, pill, phone, status bar, width test</td></tr>
+            <tr><td><code>render.sh</code></td><td><code>page/tools/render.sh</code>, <code>storeart/scripts/export.sh</code></td><td>Renders the surfaces and the slots, lists the PNGs</td></tr></tbody></table></div>
           <div class="step" data-task="project"><div class="num">1</div><div><div class="step-head"><h3>Copy the helper scripts into your repo</h3><label class="markdone"><input type="checkbox" data-k="a1"> Done</label></div>
             <div class="code" data-copy><div class="code-head"><span>Terminal, from your repo root</span></div><pre>SKILL=~/.claude/skills/store-art-studio
 mkdir -p scripts/screenshots/tools
 cp $SKILL/scripts/* scripts/screenshots/tools/
 printf 'StoreArt/Output/\nbuild/\n' &gt;&gt; .gitignore</pre></div>
-            <p>The agent also reads <code>templates/ios</code> from the skill folder as its reference, so leave the skill installed.</p></div></div>
+            <p>The agent also copies <code>templates/android</code> from the skill folder, so leave the skill installed.</p></div></div>
           <div class="step" data-task="project"><div class="num">2</div><div><div class="step-head"><h3>Let the agent read your build first</h3><label class="markdone"><input type="checkbox" data-k="a2"> Done</label></div>
             <p>It checks AGP, Kotlin, the Compose BOM, the JDK and any screenshot library you use, then <strong>tells you its choice and the dependency changes before editing any Gradle file</strong>. If you have Paparazzi or Roborazzi it uses that. It will not add two.</p></div></div>
           <div class="step" data-task="project"><div class="num">3</div><div><div class="step-head"><h3>Decide where the code lives</h3><label class="markdone"><input type="checkbox" data-k="a3"> Done</label></div>
-            <p>A test source set in an existing module (for example <code>app/src/test/kotlin/storeart/</code>) or a dedicated test-only module. The agent proposes, you answer. Shipping app code is not modified.</p></div></div>
+            <p>The template is a dedicated test-only module, <code>storeart/</code>, that depends on the modules holding your composables; nothing depends on it. The agent proposes where it goes, you answer. Shipping app code only gains small seams (plain state in, a clock parameter).</p></div></div>
           <div class="step" data-task="project"><div class="num">4</div><div><div class="step-head"><h3>Give it fakes, not a live app</h3><label class="markdone"><input type="checkbox" data-k="a4"> Done</label></div>
             <p>Screens are rendered from sample data. If a screen needs a ViewModel, the agent gives it a fake and tells you. No network, no account, no signed-in emulator.</p></div></div>
           <div class="step" data-task="project"><div class="num">5</div><div><div class="step-head"><h3>Paste the starter prompt</h3><label class="markdone"><input type="checkbox" data-k="a5"> Done</label></div>
@@ -939,7 +939,7 @@ needs native review. Do not render markets I did not name.</pre></div></div></di
           <tr><td><code>README.md</code></td><td><span class="kind skill">Guide</span></td><td>What the skill is and what is verified</td></tr>
           <tr><td><code>references/architecture.md</code></td><td><span class="kind ref">Reference</span></td><td>Layers, repo layout, the slot pattern, naming, the world</td></tr>
           <tr><td><code>references/ios-swiftui-renderer.md</code></td><td><span class="kind ref">Reference</span></td><td>Building the host-less target, every trap with its fix</td></tr>
-          <tr><td><code>references/android-compose.md</code></td><td><span class="kind ref">Reference</span></td><td>The same contract for Compose and Play (designed, not yet proven)</td></tr>
+          <tr><td><code>references/android-compose.md</code></td><td><span class="kind ref">Reference</span></td><td>Compose, Glance widgets and Play, every trap with its fix</td></tr>
           <tr><td><code>references/higgsfield-art.md</code></td><td><span class="kind ref">Reference</span></td><td>What to generate, MCP flow, keying and compositing recipes</td></tr>
           <tr><td><code>references/style-and-copy.md</code></td><td><span class="kind ref">Reference</span></td><td>Default palette, type, pill, archetypes, localization rules</td></tr>
           <tr><td><code>references/reference-matching.md</code></td><td><span class="kind ref">Reference</span></td><td>How to match a set you share, step by step</td></tr>
@@ -959,7 +959,7 @@ needs native review. Do not render markets I did not name.</pre></div></div></di
           <tr><td><code>vercel.json</code></td><td><span class="kind tpl">Config</span></td><td>Static hosting settings for this page</td></tr>
           <tr><td><code>assets/</code></td><td><span class="kind tpl">Assets</span></td><td>The app icon, the example screenshots this page shows, and the 3D art in the thank-you note; the icon and the art carry their provenance</td></tr>
         </tbody></table></div>
-        <p class="small muted" style="margin-top:14px"><b>Licences.</b> Inter and Inter Tight are bundled under the SIL Open Font License. Apple bezels, provider images and anything generated under your own Higgsfield account are yours to license and are not included. The iOS template compiles and renders; the Android path is a plan until you prove it.</p>
+        <p class="small muted" style="margin-top:14px"><b>Licences.</b> Inter and Inter Tight are bundled under the SIL Open Font License. Apple bezels, provider images and anything generated under your own Higgsfield account are yours to license and are not included. The iOS template compiles and renders; the Android pipeline is proven in production and its generic template is new.</p>
       </section>
 
       <footer class="foot">Store Art Studio &middot; a Claude Code skill &middot; <a href="https://github.com/halilyuce/store-art-studio">GitHub</a>. This guide is styled after App Store Connect as a tribute and is not affiliated with Apple.</footer>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Play feature graphic. Authored at 2048 x 1000 and downsampled to 1024 x 500 by
+     tools/render-header.sh (a 1x render gives soft type). A brand image: one headline in the
+     centre, real widget renders and 3D art round the edges, key content in the middle 60%, no
+     ratings, no prices, no user counts. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700&family=Noto+Sans+Arabic:wght@700&display=block">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 2048px; height: 1000px; overflow: hidden; background: #2A25F0; }
+  .page { position: relative; width: 2048px; height: 1000px; overflow: hidden;
+          background: radial-gradient(900px 620px at 50% 52%, #5A63FF 0%, #3D3BF7 45%, #2A22E6 75%, #2219C9 100%); }
+  .obj { position: absolute; object-fit: contain; filter: drop-shadow(0 26px 30px rgba(10,6,80,.35)); }
+  .w { position: absolute; border-radius: 34px; filter: drop-shadow(0 26px 36px rgba(10,6,80,.40)); }
+  .h { position: absolute; left: 0; width: 2048px; text-align: center; color: #fff;
+       font: 700 172px/0.98 'Inter Tight', 'Noto Sans Arabic', sans-serif; letter-spacing: -0.035em; }
+</style>
+<script src="copy.js"></script>
+</head><body><div class="page" id="p"></div>
+<script>
+const q = new URLSearchParams(location.search);
+const L = q.get('l') || 'en-US';
+const MARKET = { 'en-US': 'us', 'ar': 'sa' };
+const C = MARKET[L] || 'us';
+if (L === 'ar') document.documentElement.dir = 'rtl';
+const p = document.getElementById('p');
+// Missing files are dropped, not boxed: the header must read without them.
+function img(cls, src, css) { const i = document.createElement('img'); i.className = cls; Object.assign(i.style, css);
+  i.onerror = () => i.remove(); i.src = src; p.appendChild(i); return i; }
+const UI = id => `ui/${C}/${id}.png`, ART = n => `art/${n}.png`;
+
+// Real widget renders, tilted, partly off the edge.
+img('w', UI('widget_table_big-dyn-dark'), { left: '120px', top: '-110px', width: '560px', transform: 'rotate(-5deg)' });
+img('w', UI('widget_table_big-dyn'), { left: '1420px', top: '560px', width: '560px', transform: 'rotate(4deg)' });
+// 3D objects (art/objects/*.png, keyed, each with a provenance .txt).
+img('obj', ART('objects/one'), { left: '1560px', top: '40px', width: '300px', transform: 'rotate(-10deg)' });
+img('obj', ART('objects/two'), { left: '180px', top: '640px', width: '300px', transform: 'rotate(8deg)' });
+
+const h = document.createElement('div'); h.className = 'h'; h.style.top = '330px';
+h.innerHTML = ((window.HEADER || {})[L] || HEADER['en-US']).join('<br>'); p.appendChild(h);
+</script></body></html>

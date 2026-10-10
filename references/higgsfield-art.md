@@ -33,6 +33,15 @@ trust a remembered id.
    original outcome is known.
 5. Download with `curl` into `StoreArt/Art/<slot>/` and write the provenance `.txt` immediately.
 
+Record the model the job reports, not the one you asked for. Jobs submitted as `nano_banana_pro`
+have come back reporting `nano_banana_2`. Write both ("nano_banana_pro requested, job reports
+nano_banana_2") and tell the user, since a regeneration may be worth it.
+
+If the MCP tools do not load in the current session (a child or background Claude Code session
+started before the server was added can miss it), a headless `claude -p "<task>" --allowedTools
+"mcp__higgsfield__balance,mcp__higgsfield__generate_image,..."` started from the project root works
+as a bridge. Allow only the tools that task needs, and keep the same spending rules.
+
 ### Giving the model a reference image
 
 `media_upload` returns a presigned URL. Then:
@@ -75,6 +84,12 @@ vanished on a blue background) is a rejection, record it in the `.txt`.
 
 White glyphs for a pill tile: "Glossy soft-3D clay icon of a white <object>, rotated -30 degrees,
 solid #FF00FF background, no text." Pass `--key` and keep the white.
+
+Models sometimes ignore the key colour and return white, off-white or a framed background. When the
+background is flat and light, key it with `swift scripts/edgekey.swift in.png out.png --crop`: a
+flood fill from the border that removes only light background connected to the edge, so a white
+glyph inside the tile survives. Note it in the `.txt` ("model ignored the green key"). A vignette or
+a frame is not flat: regenerate.
 
 ### A figure for a hero
 

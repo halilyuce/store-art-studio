@@ -1,0 +1,125 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Google Play phone slots, 1080 x 1920. One URL per slot: slots.html?l=<locale>&s=<slot>.
+     Renders by tools/render.sh, width test by tools/widthtest.sh. The page only places PNGs: app
+     surfaces from ui/<market>/ (written by the storeart module), generated art from art/ (each
+     with its provenance .txt). It never draws app UI. A missing PNG shows as a labelled box. -->
+<link rel="stylesheet" href="kit.css">
+<script src="copy.js"></script>
+</head>
+<body>
+<div id="slot" class="slot"></div>
+<script>
+const q = new URLSearchParams(location.search);
+const L = q.get('l') || 'en-US', S = +(q.get('s') || 1);
+const copy = COPY[L][S];
+// Store locale -> render market (the storeart module's Market.code), clock and direction.
+const MARKETS = {
+  'en-US': { market: 'us', clock: '9:41', rtl: false },
+  'ar':    { market: 'sa', clock: '9:41', rtl: true },
+};
+const M = MARKETS[L];
+const RTL = M.rtl;
+document.documentElement.lang = L;
+const slot = document.getElementById('slot');
+if (RTL) slot.setAttribute('dir', 'rtl');
+const UI = id => `ui/${M.market}/${id}.png`;
+const ART = p => `art/${p}.png`;
+
+function el(tag, cls, css, html) { const e = document.createElement(tag); if (cls) e.className = cls;
+  if (css) Object.assign(e.style, css); if (html != null) e.innerHTML = html; return e; }
+function add(parent, e) { parent.appendChild(e); return e; }
+
+// A render, or a labelled placeholder until it exists. id may be "a|b|c": the first that loads.
+// phH: the placeholder's height in px (a real PNG keeps its own aspect ratio).
+function ui(parent, id, css, cls = 'card', phH = 400) {
+  const ids = id.split('|');
+  const img = el('img', cls, css); let k = 0; img.src = UI(ids[0]);
+  img.onerror = () => { k++; if (k < ids.length) { img.src = UI(ids[k]); return; }
+    img.replaceWith(el('div', 'ph', { height: phH + 'px', ...css }, ids[0])); };
+  return add(parent, img);
+}
+// Dynamic dark first, then plain dark, then light: whichever the storeart module wrote.
+const W = id => id + '-dyn-dark|' + id + '-dark|' + id;
+
+// Headline lines placed by baseline. Inter Tight's ascent at line-height 1 is about 0.84 em.
+function headline(lines, tile) {
+  const h = add(slot, el('div', 'h'));
+  const css = getComputedStyle(document.documentElement);
+  const base1 = parseFloat(css.getPropertyValue('--h-base-1')), pitch = parseFloat(css.getPropertyValue('--h-pitch'));
+  const size = parseFloat(css.getPropertyValue('--h-size'));
+  lines.forEach((raw, i) => {
+    const line = add(h, el('div', 'line'));
+    line.style.top = (base1 + i * pitch - 0.84 * size) + 'px';
+    raw.split(/(\[.*?\])/).filter(Boolean).forEach(part => {
+      const pill = part.startsWith('[');
+      const host = pill ? add(line, el('span', 'pill')) : line;
+      const text = pill ? part.slice(1, -1) : part;
+      text.split(/(\{tile\})/).filter(Boolean).forEach((t, k) => {
+        if (t === '{tile}') {
+          const im = add(host, el('img', 'tile' + (k === 0 ? ' lead' : '')));
+          im.onerror = () => im.replaceWith(el('span', 'tile ph', { position: 'relative', fontSize: '18px' }, 'tile'));
+          im.src = ART('tiles/' + tile);
+        } else add(host, el('span', null, null, t.replace(/ /g, '&nbsp;')));
+      });
+    });
+  });
+  return h;
+}
+function body(lines, top) { return add(slot, el('div', 'body', { top: top + 'px' }, lines.join('<br>'))); }
+
+// Status bar, measured once from a real emulator capture in SystemUI demo mode, 1280 px wide
+// (references/android-compose.md, "Status bar chrome"): clock left 86 px, centred at y 77, 42 px;
+// icons end 58 px from the right. Remeasure from your own capture, then freeze it.
+function statusBar(parent, w, dark = true) {
+  const k = w / 1280, c = dark ? '#F1F1F4' : '#1B1B1F';
+  const bar = add(parent, el('div', null, { position: 'absolute', left: '0', top: '0', width: w + 'px', height: (154 * k) + 'px', zIndex: 4, direction: 'ltr' }));
+  // Pixels use Google Sans here; Roboto is the closest face on Google Fonts. Match your capture.
+  add(bar, el('div', null, { position: 'absolute', left: (86 * k) + 'px', top: (77 * k) + 'px', transform: 'translateY(-50%)',
+    font: `400 ${42 * k}px 'Roboto', 'Inter', sans-serif`, color: c }, M.clock));
+  const ic = add(bar, el('div', null, { position: 'absolute', right: (58 * k) + 'px', top: (77 * k) + 'px', transform: 'translateY(-50%)',
+    display: 'flex', alignItems: 'center', gap: (14 * k) + 'px' }));
+  ic.innerHTML = `
+    <svg width="${44*k}" height="${34*k}" viewBox="0 0 24 18"><path fill="${c}" d="M12 17.6 0.4 5.6C3.5 2.6 7.6 1 12 1s8.5 1.6 11.6 4.6z"/></svg>
+    <svg width="${36*k}" height="${34*k}" viewBox="0 0 20 18"><path fill="${c}" d="M19 1v16H3z"/></svg>
+    <span style="display:inline-flex;align-items:center;height:${34*k}px;padding:0 ${8*k}px;border-radius:${10*k}px;background:${c};color:${dark ? '#121318' : '#fff'};font:500 ${26*k}px 'Roboto','Inter';letter-spacing:-0.02em">100</span>`;
+  return bar;
+}
+
+// A phone at x,y, outer width W, outer height H, showing a full-screen render (412 x 915 dp, 1236 px
+// wide at 3x) below the status bar.
+function phone(x, y, Wd, H, screenId, dark = true) {
+  const w = Wd - 32, k = w / 1280;
+  const p = add(slot, el('div', 'phone', { left: x + 'px', top: y + 'px', width: Wd + 'px', height: H + 'px' }));
+  const scr = add(p, el('div', 'screen'));
+  add(scr, el('div', 'cam', { top: (52 * k) + 'px', width: (44 * k) + 'px', height: (44 * k) + 'px', marginLeft: (-22 * k) + 'px' }));
+  if (screenId) ui(scr, screenId, { position: 'absolute', top: (154 * k) + 'px', left: '0px', width: '100%' }, 'ui', Math.round(w * 915 / 412));
+  statusBar(scr, w, dark);
+  return p;
+}
+
+const layouts = {
+  // One headline, one body, one object: the real screen in a phone, with the real score card
+  // floating over its lower edge as a transparent cut-out.
+  1() {
+    headline(copy.h, copy.tile);
+    body(copy.body, 520);
+    phone(110, 700, 860, 1400, 'screen_table-dark|screen_table');
+    ui(slot, 'card_score-dark|card_score', { left: RTL ? '60px' : '280px', top: '1450px', width: '740px',
+      filter: 'drop-shadow(0 30px 44px rgba(20,20,50,.38))', transform: `rotate(${RTL ? 3 : -3}deg)` });
+  },
+};
+layouts[S]();
+
+// Width test: every headline line must end at x <= 1015 (the iOS 1240 / 1320 limit, scaled), or
+// start at x >= 65 in RTL. Never shrink the type: rewrite the line. tools/widthtest.sh reads the title.
+document.fonts.ready.then(() => {
+  const over = [...document.querySelectorAll('.h .line')].map((l, i) => {
+    const b = l.getBoundingClientRect(); return [i + 1, Math.round(RTL ? 1080 - b.left : b.right)];
+  }).filter(([, r]) => r > 1015);
+  document.title = over.length ? 'OVERFLOW ' + over.map(([i, r]) => `line${i}=${r}px`).join(' ') : 'WIDTH OK';
+  over.forEach(([i]) => { document.querySelectorAll('.h .line')[i - 1].style.outline = '6px solid red'; });
+  document.body.dataset.ready = '1';
+});
+</script>
+</body></html>

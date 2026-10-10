@@ -18,7 +18,7 @@ first time, most of it waiting for Xcode.
 | App Store Connect API key | Uploads and Product Page Optimization | Key id, issuer id and the `.p8` file |
 | Apple's product bezels | The phone frames | See step 4 |
 
-Android work also needs a JDK and Gradle for your project, and Paparazzi or Roborazzi. See step 7.
+Android work also needs a JDK and Gradle for your project, Paparazzi, and Google Chrome for the HTML page kit. See step 7.
 
 ## 2. Install the skill
 
@@ -111,8 +111,9 @@ and never launch your real app to take a screenshot. That is the first rule of t
 
 ## 7. Android
 
-Follow `templates/android/START-HERE.md`. It contains a prompt that makes Claude build the Android
-render target in your own project, using the iOS template as the reference.
+Follow `templates/android/START-HERE.md`. It has a Paparazzi render module (`storeart/`) and an HTML
+page kit (`page/`) to copy into your project, the setup steps, and a prompt that wires them to your
+real composables. The traps and their fixes are in `references/android-compose.md`.
 
 ## 8. Your first real job
 

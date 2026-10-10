@@ -1,0 +1,30 @@
+# Entries the storeart module needs in gradle/libs.versions.toml. Merge them into the sections you
+# already have; keep your own names where an entry exists under another name.
+# Proven together: AGP 9.3, Kotlin 2.4, compileSdk 36 and 37, Paparazzi 2.0.0-alpha05, Glance 1.2.0,
+# Coil 3.6. Paparazzi pins a Gradle, compileSdk and JDK range per release: read its notes first.
+
+[versions]
+compileSdk = "36"
+minSdk = "24"
+agp = "9.3.3"
+kotlin = "2.4.20"
+paparazzi = "2.0.0-alpha05"
+androidxComposeBom = "2026.09.00"
+androidxActivity = "1.11.0"
+androidxGlance = "1.2.0"
+coil = "3.6.3"
+junit4 = "4.13.2"
+
+[libraries]
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "androidxGlance" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+
+[plugins]
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }

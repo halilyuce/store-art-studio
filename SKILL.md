@@ -75,8 +75,8 @@ Ask only what you cannot read from the repo. Then state your defaults in one blo
 Each gate ends by stopping for approval. Do not start the next one on your own.
 
 **Gate 0, setup.** Read the repo and any brief. Create the host-less `StoreArt` test target from
-`templates/ios` (`references/ios-swiftui-renderer.md`), or the Android equivalent
-(`references/android-compose.md`). Prove the pipeline with one contact sheet that renders every real
+`templates/ios` (`references/ios-swiftui-renderer.md`), or the Android `storeart` module and page kit
+from `templates/android` (`references/android-compose.md`). Prove the pipeline with one contact sheet that renders every real
 view you will need, in light and dark. Check the Higgsfield MCP is authenticated (`balance`), run one
 cheap test generation, and write a plan with a credit estimate. Output: the plan and the contact
 sheet.
@@ -139,7 +139,8 @@ the store and compare. A success line is not proof. Never submit for review unle
 |---|---|
 | Architecture, repo layout, slot registry pattern | `references/architecture.md` |
 | Build the iOS render target, every host-less trap | `references/ios-swiftui-renderer.md` |
-| Android: Compose renderer, Play specs, supply | `references/android-compose.md` |
+| Android: Paparazzi renderer, Glance widgets, what broke, Play specs, supply | `references/android-compose.md` |
+| Android: the module and HTML page kit to copy | `templates/android/START-HERE.md` |
 | Generate art with Higgsfield, key it, composite it | `references/higgsfield-art.md` |
 | Palette, type, layout archetypes, copy and localization | `references/style-and-copy.md` |
 | The user shared a set to match | `references/reference-matching.md` |
@@ -147,10 +148,12 @@ the store and compare. A success line is not proof. Never submit for review unle
 | A brief to hand the agent for a new app | `templates/brief-template.md` |
 
 Paths in these files are relative to this skill folder. At Gate 0 copy `scripts/` into the project (for
-example `scripts/screenshots/tools/`) and `templates/ios` into `StoreArt/`, then use the project copies.
+example `scripts/screenshots/tools/`) and `templates/ios` into `StoreArt/` (Android: `templates/android`, see
+its `START-HERE.md`), then use the project copies.
 
 Scripts in `scripts/` run with plain `swift` (no packages): `chromakey.swift`, `cutout.swift`,
-`screenswap.swift`, `compare.swift`, `probe.swift`; `verify-export.sh` uses `sips`; `ppo.rb` needs
+`screenswap.swift`, `compare.swift`, `probe.swift`, `edgekey.swift` (keys a white background the model
+returned instead of the key colour), `greenbox.swift` (measures a green screen face to place a real render on); `verify-export.sh` uses `sips`; `ppo.rb` needs
 `spaceship` and `dotenv` (fastlane's bundle has both). Pillow is not required and was broken on the
 machine this came from, so measure with `probe.swift`.
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Placeholder strings for the sample surfaces. Not native-reviewed. -->
+<resources>
+    <string name="storeart_sample_table">الترتيب</string>
+    <string name="storeart_sample_live_minute">مباشر %1$d\'</string>
+    <string name="storeart_sample_points">%1$d نقطة</string>
+</resources>

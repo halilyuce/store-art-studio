@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Placeholder strings for the sample surfaces. Your real composables use your app's own strings. -->
+<resources>
+    <string name="storeart_sample_table">Table</string>
+    <string name="storeart_sample_live_minute">Live %1$d\'</string>
+    <string name="storeart_sample_points">%1$d pts</string>
+</resources>
