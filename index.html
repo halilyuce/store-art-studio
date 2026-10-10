@@ -475,7 +475,7 @@ body[data-platform="ios"] .android-only { display: none !important; } body[data-
           <div role="listitem"><small>PRICE</small><b>Free</b><span>for the community</span></div>
           <div role="listitem"><small>LANGUAGES</small><b>22</b><span>in its first app, one codebase</span></div>
           <div role="listitem"><small>MOCKUPS</small><b>0</b><span>AI-drawn UI</span></div>
-          <div role="listitem"><small>PLATFORMS</small><b>2</b><span>iOS proven, Android planned</span></div>
+          <div role="listitem"><small>PLATFORMS</small><b>2</b><span>iOS and Android proven</span></div>
           <div role="listitem"><small>LAYERS</small><b>4</b><span>truth to delivery</span></div>
         </div>
         <div class="h2row"><h2>Product Page Information</h2>
@@ -607,14 +607,17 @@ body[data-platform="ios"] .android-only { display: none !important; } body[data-
         <div class="ph"><div><h1>Before you start</h1><div class="sub">Everything the skill expects to find</div></div></div>
         <div class="rows">
           <div class="row"><div class="k">Claude Code<small>Required</small></div><div class="v"><label class="check"><input type="checkbox" data-k="claude"><span><b>Installed</b><span class="d">The skill runs inside it. Check with <code>claude --version</code>.</span></span></label></div></div>
-          <div class="row"><div class="k">Higgsfield MCP<small>Required</small></div><div class="v"><label class="check"><input type="checkbox" data-k="hf"><span><b>Connected, with credits</b><span class="d">In Claude Code run <code>/mcp</code> and authenticate. The skill asks before it spends.</span></span></label></div></div>
+          <div class="row"><div class="k">Higgsfield MCP<small>Required</small></div><div class="v"><label class="check"><input type="checkbox" data-k="hf"><span><b>Connected, with credits</b><span class="d"><code>claude mcp add --transport http --scope user higgsfield https://mcp.higgsfield.ai/mcp</code>, then a fresh session, <code>/mcp</code>, sign in, and ask for your <code>balance</code>. The skill asks before it spends.</span></span></label></div></div>
           <div class="row"><div class="k">Command line tools<small>Required</small></div><div class="v"><label class="check"><input type="checkbox" data-k="magick"><span><b>ImageMagick and Swift</b><span class="d"><code>magick -version</code> (<code>brew install imagemagick</code>) and <code>swift --version</code>. The helper scripts are plain Swift files.</span></span></label></div></div>
           <div class="row ios-only"><div class="k">Xcode<small>iOS</small></div><div class="v"><label class="check"><input type="checkbox" data-k="xcode"><span><b>With an iOS simulator runtime</b><span class="d"><code>xcodebuild -version</code>. The renderer is an Xcode unit test bundle.</span></span></label></div></div>
           <div class="row ios-only"><div class="k">Product bezels<small>iOS</small></div><div class="v"><label class="check"><input type="checkbox" data-k="bezel"><span><b>Downloaded from Apple Design Resources</b><span class="d">Their licence forbids redistribution, so they are not in the repo.</span></span></label></div></div>
-          <div class="row android-only"><div class="k">JDK and Gradle<small>Android</small></div><div class="v"><label class="check"><input type="checkbox" data-k="jdk"><span><b>A build that already works</b><span class="d">The renderer is a JVM test. Check what your project pins: AGP, Kotlin, Compose BOM, JDK.</span></span></label></div></div>
+          <div class="row android-only"><div class="k">JDK and Gradle<small>Android</small></div><div class="v"><label class="check"><input type="checkbox" data-k="jdk"><span><b>A build that already works</b><span class="d">The renderer is a JVM test. Read your AGP, Gradle and JDK (<code>./gradlew --version</code>) and check them against the Paparazzi release notes.</span></span></label></div></div>
+          <div class="row android-only"><div class="k">Google Chrome<small>Android</small></div><div class="v"><label class="check"><input type="checkbox" data-k="chrome"><span><b>For the page layer</b><span class="d">The HTML page kit renders with headless Chrome. Off macOS, set <code>CHROME</code> to the binary.</span></span></label></div></div>
+          <div class="row android-only"><div class="k">Emulator<small>Optional</small></div><div class="v"><label class="check"><input type="checkbox" data-k="emu"><span><b>Only for system chrome</b><span class="d">One status bar capture in SystemUI demo mode, on an emulator with no account and no app of yours. Never to run your app.</span></span></label></div></div>
           <div class="row android-only"><div class="k">Screenshot library<small>Android</small></div><div class="v"><label class="check"><input type="checkbox" data-k="shot"><span><b>Paparazzi or Roborazzi</b><span class="d">Use whichever the project already has. If neither, the agent proposes one and waits for you.</span></span></label></div></div>
-          <div class="row"><div class="k">Store credentials<small>For uploads</small></div><div class="v"><label class="check"><input type="checkbox" data-k="fastlane"><span><b>fastlane and an API key</b><span class="d"><span class="ios-only">App Store Connect API key: key id, issuer id and the <code>.p8</code> file, in <code>fastlane/.env</code>.</span><span class="android-only">A Google Play service account JSON for <code>supply</code>. Keep it out of git.</span></span></span></label></div></div>
+          <div class="row"><div class="k">Store credentials<small>For uploads</small></div><div class="v"><label class="check"><input type="checkbox" data-k="fastlane"><span><b>fastlane and an API key</b><span class="d"><span class="ios-only">App Store Connect API key: key id, issuer id and the <code>.p8</code> file, in <code>fastlane/.env</code>.</span><span class="android-only">A Google Play service account JSON with permission to manage the store listing, kept out of git. Check it with <code>fastlane run validate_play_store_json_key</code>. A <code>Gemfile</code> in the repo means <code>bundle exec fastlane</code>.</span></span></span></label></div></div>
         </div>
+        <div class="note android-only"><span class="i">i</span><div><b>The Android walkthrough</b><p><a href="https://github.com/halilyuce/store-art-studio/blob/main/docs/android-end-to-end.md" target="_blank" rel="noopener noreferrer">docs/android-end-to-end.md</a> connects every tool, gives the prompt for each gate, and ends with the Play submission checklist: Wear OS screenshots and the AI asset declaration.</p></div></div>
         <div class="note"><span class="i">i</span><div><b>One rule before anything else</b><p>Never launch your real app to take a screenshot. An app that syncs state can overwrite real keychains and saved data. This pipeline renders views from sample data in a test bundle with no host app.</p></div></div>
       </section>
 
@@ -679,74 +682,66 @@ SIM_NAME="StoreArt iPhone 17 Pro Max"  <span class="c"># created on first run, n
         </div>
 
         <div class="android-only">
-          <div class="note warn" style="margin-top:0"><span class="i">!</span><div><b>The Android path is designed, not yet proven</b><p>The iOS template is proven in production. The Android one is built by Claude inside your project by porting the iOS template. Its first run is a real experiment, and the skill asks it to record what broke so the next developer does not hit it.</p></div></div>
-          <h3 style="margin:18px 0 10px">What the agent builds, file by file</h3>
+          <div class="note warn" style="margin-top:0"><span class="i">!</span><div><b>The Android template is new</b><p>The Android pipeline is proven on one production app: real composables and Glance widgets rendered by Paparazzi, an HTML page layer, a full Play set. The template in <code>templates/android</code> is that pipeline made generic and has not been run as it is. If something breaks, the skill records it under "What broke" so the next developer does not hit it.</p></div></div>
+          <h3 style="margin:18px 0 10px">What the template gives you, file by file</h3>
           <div class="tbl-wrap"><table class="t"><thead><tr><th>iOS template</th><th>Android counterpart</th><th>Job</th></tr></thead><tbody>
-            <tr><td><code>StoreArtKit.swift</code></td><td><code>StoreArtKit.kt</code></td><td>Canvas in px and dp, fixed Density, fonts, opaque PNG output, locale and time zone switch, baseline helpers</td></tr>
-            <tr><td><code>StoreArtChrome.swift</code></td><td><code>StoreArtChrome.kt</code></td><td>Minimal status bar from a real emulator shot, optional plain frame</td></tr>
-            <tr><td><code>StoreArtPage.swift</code></td><td><code>StoreArtPage.kt</code></td><td>Palette, headline with tracking and width measurement, pill, body lines</td></tr>
-            <tr><td><code>SampleSlot.swift</code></td><td><code>SampleSlot.kt</code></td><td>One complete sample slot</td></tr>
-            <tr><td><code>StoreArtRenderTests.swift</code></td><td>Paparazzi or Roborazzi test</td><td>Renders slots, fails when a headline is too wide</td></tr>
-            <tr><td><code>render.sh</code></td><td>Gradle task or script</td><td>Runs one test, lists the PNGs</td></tr></tbody></table></div>
-          <div class="step" data-task="project"><div class="num">1</div><div><div class="step-head"><h3>Copy the helper scripts into your repo</h3><label class="markdone"><input type="checkbox" data-k="a1"> Done</label></div>
+            <tr><td><code>StoreArtKit.swift</code></td><td><code>storeart/.../StoreArtSupport.kt</code></td><td>Paparazzi at 412 x 915 dp and 3x, transparent theme, image files with loud failure, 12/24 h, RTL, PNG output</td></tr>
+            <tr><td>Widget and activity tiles</td><td><code>StoreArtSupport.kt</code></td><td>Real Glance widgets through GlanceRemoteViews and an AppWidgetHostView, Material You from a wallpaper</td></tr>
+            <tr><td>Sample data</td><td><code>storeart/.../SampleWorld.kt</code></td><td>The frozen world: one per market from your config, one fixed moment, aggregates computed from records</td></tr>
+            <tr><td><code>StoreArtRenderTests.swift</code></td><td><code>SampleSurfacesTest.kt</code></td><td>One card, one widget, one screen, light and dark, once per market in your config</td></tr>
+            <tr><td><code>StoreArtPage.swift</code>, <code>SampleSlot.swift</code></td><td><code>page/slots.html</code>, <code>kit.css</code>, <code>copy.js</code></td><td>HTML page layer: headline by baseline, pill, phone, status bar, width test</td></tr>
+            <tr><td><code>render.sh</code></td><td><code>page/tools/render.sh</code>, <code>storeart/scripts/export.sh</code></td><td>Renders the surfaces and the slots, lists the PNGs</td></tr></tbody></table></div>
+          <div class="step" data-task="project"><div class="num">1</div><div><div class="step-head"><h3>Copy the template into your repo</h3><label class="markdone"><input type="checkbox" data-k="a1"> Done</label></div>
             <div class="code" data-copy><div class="code-head"><span>Terminal, from your repo root</span></div><pre>SKILL=~/.claude/skills/store-art-studio
-mkdir -p scripts/screenshots/tools
-cp $SKILL/scripts/* scripts/screenshots/tools/
-printf 'StoreArt/Output/\nbuild/\n' &gt;&gt; .gitignore</pre></div>
-            <p>The agent also reads <code>templates/ios</code> from the skill folder as its reference, so leave the skill installed.</p></div></div>
+mkdir -p store/tools
+cp $SKILL/templates/android/storeart.config.json store/
+cp -R $SKILL/templates/android/page store/page
+cp -R $SKILL/templates/android/storeart storeart
+cp $SKILL/scripts/* store/tools/</pre></div>
+            <p>Then add <code>include(":storeart")</code> to your settings and merge <code>storeart/libs.versions.snippet.toml</code> into your catalog, or let the agent do it once it has read your versions. <code>store/storeart.config.json</code> is the only list of markets, and its <code>surfaces</code> says what your app has: screens always, widgets, a live notification, Wear OS or a tablet layout only if you ship them. You own it.</p></div></div>
           <div class="step" data-task="project"><div class="num">2</div><div><div class="step-head"><h3>Let the agent read your build first</h3><label class="markdone"><input type="checkbox" data-k="a2"> Done</label></div>
             <p>It checks AGP, Kotlin, the Compose BOM, the JDK and any screenshot library you use, then <strong>tells you its choice and the dependency changes before editing any Gradle file</strong>. If you have Paparazzi or Roborazzi it uses that. It will not add two.</p></div></div>
           <div class="step" data-task="project"><div class="num">3</div><div><div class="step-head"><h3>Decide where the code lives</h3><label class="markdone"><input type="checkbox" data-k="a3"> Done</label></div>
-            <p>A test source set in an existing module (for example <code>app/src/test/kotlin/storeart/</code>) or a dedicated test-only module. The agent proposes, you answer. Shipping app code is not modified.</p></div></div>
+            <p>The template is a dedicated test-only module, <code>storeart/</code>, that depends on the modules holding your composables; nothing depends on it. The agent proposes where it goes, you answer. Shipping app code only gains small seams (plain state in, a clock parameter).</p></div></div>
           <div class="step" data-task="project"><div class="num">4</div><div><div class="step-head"><h3>Give it fakes, not a live app</h3><label class="markdone"><input type="checkbox" data-k="a4"> Done</label></div>
             <p>Screens are rendered from sample data. If a screen needs a ViewModel, the agent gives it a fake and tells you. No network, no account, no signed-in emulator.</p></div></div>
           <div class="step" data-task="project"><div class="num">5</div><div><div class="step-head"><h3>Paste the starter prompt</h3><label class="markdone"><input type="checkbox" data-k="a5"> Done</label></div>
             <p>From your Android project's root, with the skill installed:</p>
-            <div class="code tall" data-copy><div class="code-head"><span>Prompt for Claude Code</span></div><pre>Use the store-art-studio skill. I want to build the Android half of it in this repository: a host-less
-Jetpack Compose render target that produces Google Play screenshots from my app's real composables.
+            <div class="code tall" data-copy><div class="code-head"><span>Prompt for Claude Code</span></div><pre>Use the store-art-studio skill. Start Gate 0 for Google Play. Follow docs/android-end-to-end.md
+and templates/android/START-HERE.md in the skill folder, and references/android-compose.md for
+the renderer.
 
-Read these first, in order:
-1. SKILL.md, for the layers and the hard rules
-2. references/android-compose.md, for the Android plan and its open questions
-3. templates/ios/*.swift, which is the proven reference implementation. Port its structure, not its syntax.
-4. references/style-and-copy.md and references/reference-matching.md, because the finished slots must
-   look like the iOS ones (or like the reference set I give you)
+My default market: &lt;store locale&gt;, time zone &lt;IANA zone&gt;, &lt;12 or 24&gt; hour clock, currency &lt;ISO
+code&gt;, &lt;left to right or right to left&gt;. Screens worth showing: &lt;screens&gt;. My app also has
+(delete what it does not): widgets, a live notification or Live Update, a Wear OS app or tile, a
+tablet layout. Credit budget: &lt;n&gt; credits; ask before any gate costs more than &lt;m&gt;. Reference
+set: &lt;path, or "none"&gt;.
 
-Port the iOS kit to Compose one file at a time, keeping the same responsibilities:
-- StoreArtKit.swift      -&gt; StoreArtKit.kt: the canvas in px and dp, a px-to-dp helper with a fixed
-                            Density and fontScale 1.0, font registration with a test that fails on a
-                            missing font, a render function that writes an opaque PNG, a timezone and
-                            locale switch, and baseline placement helpers
-- StoreArtChrome.swift   -&gt; a minimal Android status bar (9:41, full battery) drawn from a real emulator
-                            screenshot, plus an optional device frame (Google Play expects real UI,
-                            so default to no frame or a plain rounded rect)
-- StoreArtPage.swift     -&gt; palette, background, headline with tracking and a width measurement, the
-                            pill and glyph tile, body lines placed by baseline
-- SampleSlot.swift       -&gt; one complete sample slot
-- StoreArtRenderTests    -&gt; a Paparazzi (or Roborazzi, whichever this project already uses) test that
-                            renders the sample slot, plus a headline width test that fails instead of
-                            shrinking type
-- render.sh              -&gt; a Gradle task or script that runs one test and lists the PNGs
+Before you edit any Gradle file, tell me what this project already uses (AGP, Kotlin, compileSdk,
+Compose BOM, Glance, Coil, JDK, any screenshot library) and the exact catalog and settings changes
+you will make. Wait for my answer.
 
-Rules for this job:
-- Canvas is 9:16, 1080 x 1920 px at density 3.0 (360 x 640 dp), opaque PNG, no alpha. Render my app
-  screens at a realistic phone size (about 412 x 915 dp) and scale them into the slot.
-- Never run my real app, an emulator signed in to a real account, or anything that syncs. Render
-  composables from sample data only. If a screen needs a ViewModel, give it a fake and tell me.
-- Look at what the project already uses (AGP, Kotlin, Compose BOM, JDK, any screenshot library) and
-  tell me your choice and the dependency changes before you edit any Gradle file.
-- Put the new code in the place that fits this repo (a test source set, or a dedicated test-only
-  module). Propose it and wait for my answer.
+Then:
+1. Add the storeart module, the page kit and store/storeart.config.json with only my default
+   market in it, "upload": false. The config is the only list of markets. Set "surfaces" to what
+   my app has (ask me if the list above is unclear): "screens" always, the rest only if I ship
+   them. Render and place nothing for a surface that is not listed.
+2. Render the sample surfaces and open every PNG.
+3. Replace the placeholders in SampleUi.kt (and SampleWear.kt if I have a Wear OS app or tile)
+   with my real composables: one screen, and for the surfaces I have, one widget (through
+   GlanceRemoteViews and an AppWidgetHostView) and one live card. If a composable needs a ViewModel, a repository or the clock, add a seam that takes plain
+   state, and tell me which.
+4. Replace the sample world with a frozen world for my default market: one fixed moment, full and
+   plausible lists whose aggregates are computed from records, no real people, no
+   System.currentTimeMillis() in any rendered path. Use role ids for every surface.
+5. Check Higgsfield: balance, one cheap test image, and a plan for Gates 1 to 5 with a credit
+   estimate.
 
-Stop at Gate 0 and show me:
-1. The sample slot rendered, opened and checked by you.
-2. One of my real screens rendered from sample data with no network and no account.
-3. The same slot in two locales, with different strings and number formats.
-4. scripts/verify-export.sh passing on the output.
-5. A short list of what broke or surprised you, and add the same list to references/android-compose.md
-   under "What broke", so the next developer does not hit it.
+Never run my real app, an emulator signed in to a real account, or anything that syncs.
 
-Then wait. Do not start any real slot until I approve Gate 0.</pre></div></div></div>
+Stop at Gate 0 and show me the renders, the sample slot, verify-export.sh passing, the plan, which
+screens you redrew instead of rendered, and a short list of what broke. Add anything new to the
+"What broke" table in references/android-compose.md.</pre></div></div></div>
           <div class="step" data-task="project"><div class="num">6</div><div><div class="step-head"><h3>Check Gate 0 yourself</h3><label class="markdone"><input type="checkbox" data-k="a6"> Done</label></div>
             <p>The agent must stop and show you all five. Do not approve without them:</p>
             <ul><li>The sample slot, 1080 x 1920, opaque, which it opened and looked at.</li><li>One of your real screens rendered from sample data, offline.</li><li>The same slot in two locales with different strings and number formats.</li><li><code>verify-export.sh</code> passing on the output.</li><li>A list of what broke, also written into <code>references/android-compose.md</code>.</li></ul>
@@ -784,12 +779,17 @@ sips -g pixelWidth -g pixelHeight -g hasAlpha StoreArt/Output/default_en-US_ipho
         </div>
         <div class="android-only">
           <div class="step" data-task="firstrun"><div class="num">1</div><div><div class="step-head"><h3>Render the sample slot</h3><label class="markdone"><input type="checkbox" data-k="g1"> Done</label></div>
-            <p>Run the Gradle task the agent created for you (it prints the exact command). Expect a 1080 x 1920 PNG, opaque, in the output folder it names.</p></div></div>
+            <div class="code" data-copy><div class="code-head"><span>Terminal, from your repo root</span></div><pre>python3 storeart/scripts/fetch_logos.py
+./gradlew :storeart:test --tests '*WorldsTest'
+storeart/scripts/export.sh
+store/page/tools/render-all.sh
+store/page/tools/widthtest.sh &amp;&amp; store/page/tools/widthtest.sh --negative</pre></div>
+            <p>Surfaces land in <code>storeart/build/storeart/&lt;code&gt;/</code>, slots in <code>store/page/out/&lt;locale&gt;/</code>: 1080 x 1920 slots and a 1024 x 500 feature graphic. Only the config's default market renders unless you ask for more.</p></div></div>
           <div class="step" data-task="firstrun"><div class="num">2</div><div><div class="step-head"><h3>Verify the file</h3><label class="markdone"><input type="checkbox" data-k="g2"> Done</label></div>
-            <div class="code" data-copy><div class="code-head"><span>Terminal</span></div><pre>scripts/screenshots/tools/verify-export.sh &lt;output-dir&gt; 1080x1920</pre></div>
+            <div class="code" data-copy><div class="code-head"><span>Terminal</span></div><pre>store/tools/verify-export.sh store/page/out 1080x1920 1024x500</pre></div>
             <p>Google Play wants each side between 320 and 3840 px, the long side at most twice the short one, JPEG or 24-bit PNG, no alpha, 8 MB at most, 2 to 8 screenshots. A 20:9 screen is not a valid shot as is, which is why slots are 9:16. Check the current Play Console help page before you upload.</p></div></div>
           <div class="step" data-task="firstrun"><div class="num">3</div><div><div class="step-head"><h3>Render one real screen offline</h3><label class="markdone"><input type="checkbox" data-k="g3"> Done</label></div>
-            <p>One of your own composables, from sample data, with no network. Render it at a realistic phone size (about 412 x 915 dp) and scale it into the slot.</p></div></div>
+            <p>One of your own composables, from sample data, with no network. Render it at a realistic phone size (about 412 x 915 dp) and scale it into the slot. If your app has a Wear OS app or tile and the config lists <code>"wear"</code>, <code>WearSurfacesTest</code> also writes square, opaque <code>wear_01_tile</code> and <code>wear_02_list</code> for the Wear OS listing.</p></div></div>
         </div>
       </section>
 
@@ -859,13 +859,19 @@ sips -g pixelWidth -g pixelHeight -g hasAlpha StoreArt/Output/default_en-US_ipho
         </div>
         <div class="android-only">
           <details><summary>Paparazzi will not build</summary><div><p>Paparazzi releases pin a Gradle, compileSdk and JDK range. Check the release notes against your build before upgrading either.</p></div></details>
-          <details><summary>A font silently falls back</summary><div><p>Bundle static TTFs and assert in a test that each face loaded, the way the iOS template does with <code>verifyRegistered</code>.</p></div></details>
-          <details><summary>Text moves between locales or devices</summary><div><p>Pin <code>Density</code> and <code>fontScale = 1.0</code> in the test and place text by baseline, not by top edge.</p></div></details>
-          <details><summary>The screen looks short or cramped in the slot</summary><div><p>Render the app composable at a realistic phone size (about 412 x 915 dp) and scale it into the device frame. Do not lay it out in the 360 x 640 dp slot.</p></div></details>
-          <details><summary>A screen needs a ViewModel, network or a login</summary><div><p>Give it a fake and sample data. If that cannot be done, tell the agent to redraw that screen at the app's own sizes from the same payloads, and expect it to say so.</p></div></details>
+          <details><summary>Widget crashes, images missing, or decodeFile returns null</summary><div><p>Use <code>Paparazzi(appCompatEnabled = false)</code>, decode with <code>BitmapFactory.decodeByteArray</code>, and decode every image on the test thread. The template does all three. The JVM aborting with no stack trace is background-thread decoding.</p></div></details>
+          <details><summary>A test fails with "No image file for ..."</summary><div><p>By design: a blank image must never ship. Add the URL to <code>logos.json</code> and run <code>fetch_logos.py</code>.</p></div></details>
+          <details><summary>A figure like "-12%" is reordered in a right to left slot</summary><div><p>Wrap the figure in the <code>.num</code> class (<code>unicode-bidi: isolate</code>).</p></div></details>
+          <details><summary>"Could not locate Gemfile"</summary><div><p>fastlane is a Homebrew install. Run <code>fastlane</code>, not <code>bundle exec fastlane</code>.</p></div></details>
+          <details><summary>The upload lane refuses a locale</summary><div><p>It is not <code>"upload": true</code> in <code>storeart.config.json</code>, or not staged (<code>stage-play.sh</code>), or the language does not exist on the Play listing yet.</p></div></details>
+          <details><summary>A screen needs a ViewModel, network or a login</summary><div><p>Give it a seam that takes plain state and sample data. If that cannot be done, tell the agent to redraw that screen at the app's own sizes from the same payloads, and expect it to say so.</p></div></details>
+          <details><summary>The agent stopped at a session limit</summary><div><p>Resume that agent and tell it where it stopped. A new agent repeats the work and spends credits again.</p></div></details>
+          <p class="small muted">The full table is in <a href="https://github.com/halilyuce/store-art-studio/blob/main/docs/android-end-to-end.md" target="_blank" rel="noopener noreferrer">docs/android-end-to-end.md</a>.</p>
         </div>
         <details><summary>A headline does not fit in some language</summary><div><p>Never shrink the type. Shorten the wording: a shorter synonym, a shorter structure, or drop the lead word. The width test exists to enforce this.</p></div></details>
-        <details><summary>Higgsfield calls are not available</summary><div><p>Run <code>/mcp</code>, authenticate, and restart the session.</p></div></details>
+        <details><summary>Higgsfield calls are not available</summary><div><p>Start a fresh foreground session after adding the server, run <code>/mcp</code> and authenticate. Background or child sessions may not load a server added later; a headless <code>claude -p</code> with only the Higgsfield tools allowed works as a bridge.</p></div></details>
+        <details><summary>Higgsfield answers 429</summary><div><p>A rate limit. Wait and retry the same model. Never switch models silently: the set would mix two looks.</p></div></details>
+        <details><summary>The key colour is off, or white around the key</summary><div><p>Sample the real key inside the frame, not at a corner. A flat light background the model returned instead of the key: <code>edgekey.swift</code>.</p></div></details>
         <details><summary>A red subject turned brown after keying</summary><div><p>The default despill removes the key colour's direction. Key it with <code>--spill 0</code>, or generate it on solid green.</p></div></details>
         <details><summary>Copy reads translated</summary><div><p>It is probably transcreated, not native-reviewed. Ask the agent which locales you can read and review those. Never ask a non-native to sign off.</p></div></details>
       </section>
@@ -930,9 +936,9 @@ style, matching a set of 3D clay &lt;family&gt;. No logos, no text, no brand mar
         </div>
         <h2 style="margin-top:28px">Before anything leaves your machine</h2>
         <div class="rows" style="margin-top:10px">
-          <div class="row"><div class="k">Approval list</div><div class="v"><label class="check"><input type="checkbox" data-k="d1"><span><b>The locale is on the list</b><span class="d"><code>upload.locales</code> in <code>screenshots.yml</code>. Anything not listed is refused.</span></span></label></div></div>
+          <div class="row"><div class="k">Approval list</div><div class="v"><label class="check"><input type="checkbox" data-k="d1"><span><b>The locale is on the list</b><span class="d"><span class="ios-only"><code>upload.locales</code> in <code>screenshots.yml</code>.</span><span class="android-only"><code>"upload": true</code> for the market in <code>storeart.config.json</code>.</span> Anything not listed is refused.</span></span></label></div></div>
           <div class="row"><div class="k">Exact exports</div><div class="v"><label class="check"><input type="checkbox" data-k="d2"><span><b>verify-export.sh passes</b><span class="d">Exact sizes, no alpha. The stores reject both only at upload time.</span></span></label></div></div>
-          <div class="row"><div class="k">Safe target</div><div class="v"><label class="check"><input type="checkbox" data-k="d3"><span><b>It cannot go live</b><span class="d"><span class="ios-only">A deliver preview or a Product Page Optimization treatment.</span><span class="android-only">An internal track, never production, from the first lane.</span></span></span></label></div></div>
+          <div class="row"><div class="k">Safe target</div><div class="v"><label class="check"><input type="checkbox" data-k="d3"><span><b>It cannot go live</b><span class="d"><span class="ios-only">A deliver preview or a Product Page Optimization treatment.</span><span class="android-only">Play has no draft for listing art. The <code>validate_only:true</code> dry run passed, and you run the real upload yourself.</span></span></span></label></div></div>
           <div class="row"><div class="k">No review</div><div class="v"><label class="check"><input type="checkbox" data-k="d4"><span><b>Never submitted</b><span class="d"><code>submit_for_review: false</code> and automatic release off.</span></span></label></div></div>
           <div class="row"><div class="k">Pulled back</div><div class="v"><label class="check"><input type="checkbox" data-k="d5"><span><b>Compared against the store</b><span class="d">The store's page shows the right count and order. A success line has been wrong before.</span></span></label></div></div>
         </div>
@@ -948,11 +954,17 @@ fastlane upload locales:en-US          <span class="c"># shows the HTML preview 
           <p class="small muted">Experiments and product page headers cannot go through <code>deliver</code>. <code>scripts/ppo.rb</code> does them through the API. Details in <code>references/fastlane-and-delivery.md</code>.</p>
         </div>
         <div class="android-only">
-          <div class="code"><div class="code-head"><span>fastlane/metadata/android/en-US/</span></div><pre>images/
-  icon.png               <span class="c">512 x 512, with alpha</span>
-  featureGraphic.png     <span class="c">1024 x 500, no alpha</span>
-  phoneScreenshots/      <span class="c">01_*.png, 02_*.png ... ordered by name</span></pre></div>
-          <p class="small muted">The layout fastlane <code>supply</code> reads, as summarised by third-party guides. Check the supply docs for current names and limits before you rely on it.</p>
+          <h3 style="margin-top:22px">Stage, dry run, then you upload</h3>
+          <div class="code" data-copy><div class="code-head"><span>Terminal, from your repo root</span></div><pre>store/page/tools/render-all.sh en-US
+store/page/tools/stage-play.sh en-US       <span class="c"># --variant &lt;name&gt; ships an alternate slot 1</span>
+fastlane upload_art locales:en-US validate_only:true   <span class="c"># dry run, nothing changes</span>
+fastlane upload_art locales:en-US                      <span class="c"># the real upload: you run it</span></pre></div>
+          <div class="code"><div class="code-head"><span>store/page/out/play/en-US/images/</span></div><pre>phoneScreenshots/      <span class="c">01.png .. 08.png, 1080 x 1920, no alpha</span>
+featureGraphic.png     <span class="c">1024 x 500, no alpha</span>
+wearScreenshots/       <span class="c">only with "wear" in surfaces: square, raw watch UI</span></pre></div>
+          <h3 style="margin-top:22px">Play submission checklist</h3>
+          <ul class="small"><li>The language exists on the store listing before you upload to it.</li><li>Only if you ship a Wear OS app or tile: Wear OS screenshots are square raw captures of the watch UI: no frame, mask, background or added text, a few distinct states.</li><li><b>AI declaration:</b> Play asks whether assets were made or edited with AI. Label every asset with generated art (photos, avatars, 3D objects, backgrounds). Raw UI captures need no label. For example: "Background photography, illustrated characters and 3D decorative objects were generated with AI. All app screens are rendered from the app's real interface." Follow Play's own definitions.</li><li>No user counts, ratings or awards unless you ask for one and can back it. The template has none.</li><li>No real people, no brands you do not own.</li></ul>
+          <p class="small muted">The full checklist, with tablets and the pull-back comparison, is in <a href="https://github.com/halilyuce/store-art-studio/blob/main/docs/android-end-to-end.md" target="_blank" rel="noopener noreferrer">docs/android-end-to-end.md</a>.</p>
         </div>
       </section>
 
@@ -970,51 +982,41 @@ Use the store-art-studio skill and start with the style tile.</pre></div></div><
         <div class="step"><div class="num">4</div><div><h3>Localize an approved set</h3><div class="code" data-copy><div class="code-head"><span>Claude Code</span></div><pre>The default market is approved. Roll out to &lt;locales&gt;, one market at a time.
 Write each language as if authored there, run the width tests, and list which copy
 needs native review. Do not render markets I did not name.</pre></div></div></div>
-        <div class="step"><div class="num">5</div><div><h3>Build the Android half</h3><div class="code tall" data-copy><div class="code-head"><span>Claude Code, from your Android project's root</span></div><pre>Use the store-art-studio skill. I want to build the Android half of it in this repository: a host-less
-Jetpack Compose render target that produces Google Play screenshots from my app's real composables.
+        <div class="step"><div class="num">5</div><div><h3>Build the Android half</h3><div class="code tall" data-copy><div class="code-head"><span>Claude Code, from your Android project's root</span></div><pre>Use the store-art-studio skill. Start Gate 0 for Google Play. Follow docs/android-end-to-end.md
+and templates/android/START-HERE.md in the skill folder, and references/android-compose.md for
+the renderer.
 
-Read these first, in order:
-1. SKILL.md, for the layers and the hard rules
-2. references/android-compose.md, for the Android plan and its open questions
-3. templates/ios/*.swift, which is the proven reference implementation. Port its structure, not its syntax.
-4. references/style-and-copy.md and references/reference-matching.md, because the finished slots must
-   look like the iOS ones (or like the reference set I give you)
+My default market: &lt;store locale&gt;, time zone &lt;IANA zone&gt;, &lt;12 or 24&gt; hour clock, currency &lt;ISO
+code&gt;, &lt;left to right or right to left&gt;. Screens worth showing: &lt;screens&gt;. My app also has
+(delete what it does not): widgets, a live notification or Live Update, a Wear OS app or tile, a
+tablet layout. Credit budget: &lt;n&gt; credits; ask before any gate costs more than &lt;m&gt;. Reference
+set: &lt;path, or "none"&gt;.
 
-Port the iOS kit to Compose one file at a time, keeping the same responsibilities:
-- StoreArtKit.swift      -&gt; StoreArtKit.kt: the canvas in px and dp, a px-to-dp helper with a fixed
-                            Density and fontScale 1.0, font registration with a test that fails on a
-                            missing font, a render function that writes an opaque PNG, a timezone and
-                            locale switch, and baseline placement helpers
-- StoreArtChrome.swift   -&gt; a minimal Android status bar (9:41, full battery) drawn from a real emulator
-                            screenshot, plus an optional device frame (Google Play expects real UI,
-                            so default to no frame or a plain rounded rect)
-- StoreArtPage.swift     -&gt; palette, background, headline with tracking and a width measurement, the
-                            pill and glyph tile, body lines placed by baseline
-- SampleSlot.swift       -&gt; one complete sample slot
-- StoreArtRenderTests    -&gt; a Paparazzi (or Roborazzi, whichever this project already uses) test that
-                            renders the sample slot, plus a headline width test that fails instead of
-                            shrinking type
-- render.sh              -&gt; a Gradle task or script that runs one test and lists the PNGs
+Before you edit any Gradle file, tell me what this project already uses (AGP, Kotlin, compileSdk,
+Compose BOM, Glance, Coil, JDK, any screenshot library) and the exact catalog and settings changes
+you will make. Wait for my answer.
 
-Rules for this job:
-- Canvas is 9:16, 1080 x 1920 px at density 3.0 (360 x 640 dp), opaque PNG, no alpha. Render my app
-  screens at a realistic phone size (about 412 x 915 dp) and scale them into the slot.
-- Never run my real app, an emulator signed in to a real account, or anything that syncs. Render
-  composables from sample data only. If a screen needs a ViewModel, give it a fake and tell me.
-- Look at what the project already uses (AGP, Kotlin, Compose BOM, JDK, any screenshot library) and
-  tell me your choice and the dependency changes before you edit any Gradle file.
-- Put the new code in the place that fits this repo (a test source set, or a dedicated test-only
-  module). Propose it and wait for my answer.
+Then:
+1. Add the storeart module, the page kit and store/storeart.config.json with only my default
+   market in it, "upload": false. The config is the only list of markets. Set "surfaces" to what
+   my app has (ask me if the list above is unclear): "screens" always, the rest only if I ship
+   them. Render and place nothing for a surface that is not listed.
+2. Render the sample surfaces and open every PNG.
+3. Replace the placeholders in SampleUi.kt (and SampleWear.kt if I have a Wear OS app or tile)
+   with my real composables: one screen, and for the surfaces I have, one widget (through
+   GlanceRemoteViews and an AppWidgetHostView) and one live card. If a composable needs a ViewModel, a repository or the clock, add a seam that takes plain
+   state, and tell me which.
+4. Replace the sample world with a frozen world for my default market: one fixed moment, full and
+   plausible lists whose aggregates are computed from records, no real people, no
+   System.currentTimeMillis() in any rendered path. Use role ids for every surface.
+5. Check Higgsfield: balance, one cheap test image, and a plan for Gates 1 to 5 with a credit
+   estimate.
 
-Stop at Gate 0 and show me:
-1. The sample slot rendered, opened and checked by you.
-2. One of my real screens rendered from sample data with no network and no account.
-3. The same slot in two locales, with different strings and number formats.
-4. scripts/verify-export.sh passing on the output.
-5. A short list of what broke or surprised you, and add the same list to references/android-compose.md
-   under "What broke", so the next developer does not hit it.
+Never run my real app, an emulator signed in to a real account, or anything that syncs.
 
-Then wait. Do not start any real slot until I approve Gate 0.</pre></div></div></div>
+Stop at Gate 0 and show me the renders, the sample slot, verify-export.sh passing, the plan, which
+screens you redrew instead of rendered, and a short list of what broke. Add anything new to the
+"What broke" table in references/android-compose.md.</pre></div></div></div>
       </section>
 
       <!-- ===================== FILES ===================== -->
@@ -1025,9 +1027,10 @@ Then wait. Do not start any real slot until I approve Gate 0.</pre></div></div><
           <tr><td><code>index.html</code></td><td><span class="kind skill">Guide</span></td><td>This page. Built from <code>site/</code></td></tr>
           <tr><td><code>INSTALL.md</code></td><td><span class="kind skill">Guide</span></td><td>The same guide as plain text</td></tr>
           <tr><td><code>README.md</code></td><td><span class="kind skill">Guide</span></td><td>What the skill is and what is verified</td></tr>
+          <tr><td><code>docs/android-end-to-end.md</code></td><td><span class="kind skill">Guide</span></td><td>Android from zero to a live Play set: connect the tools, every gate's prompt, the Play checklist with Wear OS and the AI declaration</td></tr>
           <tr><td><code>references/architecture.md</code></td><td><span class="kind ref">Reference</span></td><td>Layers, repo layout, the slot pattern, naming, the world</td></tr>
           <tr><td><code>references/ios-swiftui-renderer.md</code></td><td><span class="kind ref">Reference</span></td><td>Building the host-less target, every trap with its fix</td></tr>
-          <tr><td><code>references/android-compose.md</code></td><td><span class="kind ref">Reference</span></td><td>The same contract for Compose and Play (designed, not yet proven)</td></tr>
+          <tr><td><code>references/android-compose.md</code></td><td><span class="kind ref">Reference</span></td><td>Compose, Glance widgets and Play, every trap with its fix</td></tr>
           <tr><td><code>references/higgsfield-art.md</code></td><td><span class="kind ref">Reference</span></td><td>What to generate, MCP flow, keying and compositing recipes</td></tr>
           <tr><td><code>references/style-and-copy.md</code></td><td><span class="kind ref">Reference</span></td><td>Default palette, type, pill, archetypes, localization rules</td></tr>
           <tr><td><code>references/reference-matching.md</code></td><td><span class="kind ref">Reference</span></td><td>How to match a set you share, step by step</td></tr>
@@ -1035,7 +1038,7 @@ Then wait. Do not start any real slot until I approve Gate 0.</pre></div></div><
           <tr><td><code>templates/ios/</code></td><td><span class="kind tpl">Template</span></td><td>StoreArt kit, sample slot and tests. Compiles and renders 1320 x 2868</td></tr>
           <tr><td><code>templates/fastlane/</code></td><td><span class="kind tpl">Template</span></td><td>screenshots.yml manifest and the lanes</td></tr>
           <tr><td><code>templates/brief-template.md</code></td><td><span class="kind tpl">Template</span></td><td>Fill this in to start a new app</td></tr>
-          <tr><td><code>templates/android/START-HERE.md</code></td><td><span class="kind tpl">Template</span></td><td>A prompt that builds the Android target from the iOS template</td></tr>
+          <tr><td><code>templates/android/START-HERE.md</code></td><td><span class="kind tpl">Template</span></td><td>The files to copy, the first 30 minutes, and the Gate 0 prompt</td></tr>
           <tr><td><code>scripts/chromakey.swift</code></td><td><span class="kind scr">Script</span></td><td>Key a flat colour out of generated art, with despill</td></tr>
           <tr><td><code>scripts/cutout.swift</code></td><td><span class="kind scr">Script</span></td><td>Vision foreground cutout</td></tr>
           <tr><td><code>scripts/screenswap.swift</code></td><td><span class="kind scr">Script</span></td><td>Warp a rendered screen onto a green slab in a photo</td></tr>
@@ -1047,7 +1050,7 @@ Then wait. Do not start any real slot until I approve Gate 0.</pre></div></div><
           <tr><td><code>vercel.json</code></td><td><span class="kind tpl">Config</span></td><td>Static hosting settings for this page</td></tr>
           <tr><td><code>assets/</code></td><td><span class="kind tpl">Assets</span></td><td>The app icon, the example screenshots this page shows, and the 3D art in the thank-you note; the icon and the art carry their provenance</td></tr>
         </tbody></table></div>
-        <p class="small muted" style="margin-top:14px"><b>Licences.</b> Inter and Inter Tight are bundled under the SIL Open Font License. Apple bezels, provider images and anything generated under your own Higgsfield account are yours to license and are not included. The iOS template compiles and renders; the Android path is a plan until you prove it.</p>
+        <p class="small muted" style="margin-top:14px"><b>Licences.</b> Inter and Inter Tight are bundled under the SIL Open Font License. Apple bezels, provider images and anything generated under your own Higgsfield account are yours to license and are not included. The iOS template compiles and renders; the Android pipeline is proven in production and its generic template is new.</p>
       </section>
 
       <footer class="foot">Store Art Studio &middot; a Claude Code skill &middot; <a href="https://github.com/halilyuce/store-art-studio">GitHub</a>. This guide is styled after App Store Connect as a tribute and is not affiliated with Apple.</footer>

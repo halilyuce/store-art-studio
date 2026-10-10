@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Placeholder strings for the sample surfaces. Not native-reviewed. -->
+<resources>
+    <string name="storeart_sample_list">كل الأماكن</string>
+    <string name="storeart_sample_live">قيد التنفيذ %1$d%%</string>
+</resources>

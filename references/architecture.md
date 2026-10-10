@@ -57,6 +57,8 @@ Every slot has the same three parts, so adding a market or a slot is mechanical.
 A test per slot loops the table and renders `default_<locale>_iphone_<NN>.png`. A
 `STOREART_MARKET` environment variable (`TEST_RUNNER_STOREART_MARKET` when you launch it through
 `xcodebuild`) limits the loop to a comma list of locales, or `all`. The default is the first market only.
+On Android the same selection is `STOREART_MARKETS` or `-Pstoreart.markets`, over the markets in the
+developer's `storeart.config.json` (`references/android-compose.md`).
 
 Width tests sit beside the render tests. They measure every headline line at the full size and fail
 over the limit, which is what stops a late translation from quietly shrinking type.
@@ -85,3 +87,35 @@ then overlay the storyboard where reality is boring, and write down exactly what
 Keep `docs/screenshots/` as the memory of the project: the brief, the reference crops, a
 `rejected/` image per direction that failed (so it is never repeated), and a dated line for each
 decision with the reason. The agent that picks this up next month has only this.
+
+## Many markets: one interface, one world each
+
+A multi-market set stays consistent when the market is data, not code paths. One world interface
+that every surface reads, one implementation per market, and a seeded engine that computes every
+aggregate from records, so the numbers agree on every surface in every market. The page references
+surfaces by role (`card_live`, `screen_list`), so one layout serves every market. Per-market output
+folders (`ui/<market>/`, `out/<locale>/`) keep runs independent. The skill never ships a list of
+markets: the developer's config is the only one.
+
+## Separating your work in a dirty tree
+
+The user often has unrelated uncommitted work in the same files you touch (a strings file, a
+version catalog). Never commit theirs with yours, and never stash or reset it.
+
+- Stage only your hunks: `git add -p`, or for a file with many interleaved edits, write a filtered
+  copy with only your changes, `git hash-object -w` it, and `git update-index --cacheinfo` it into
+  the index. The working tree keeps both.
+- Prove the staged set stands alone before committing: check it out into a clean worktree
+  (`git worktree add`, then `git checkout-index` or commit to a temporary branch) and build there.
+  A commit that only builds with the user's uncommitted work is broken for everyone else.
+
+## Agents and limits
+
+Long multi-market runs outgrow one context.
+
+- One agent per concern: the worlds and renders, the copy and its notes, the art, delivery. Each
+  gets the files it owns and reports back; the coordinating agent merges.
+- A rate-limited or cut-off agent is resumed with its context (send it a message), not restarted:
+  a restart repeats work and can spend credits twice.
+- Budget wall-clock time. A full render of every surface in every market took about 12 minutes on
+  the production app, before the page renders. Iterate on one market.

@@ -33,6 +33,15 @@ trust a remembered id.
    original outcome is known.
 5. Download with `curl` into `StoreArt/Art/<slot>/` and write the provenance `.txt` immediately.
 
+Record the model the job reports, not the one you asked for. Jobs submitted as `nano_banana_pro`
+have come back reporting `nano_banana_2`. Write both ("nano_banana_pro requested, job reports
+nano_banana_2") and tell the user, since a regeneration may be worth it.
+
+If the MCP tools do not load in the current session (a child or background Claude Code session
+started before the server was added can miss it), a headless `claude -p "<task>" --allowedTools
+"mcp__higgsfield__balance,mcp__higgsfield__generate_image,..."` started from the project root works
+as a bridge. Allow only the tools that task needs, and keep the same spending rules.
+
 ### Giving the model a reference image
 
 `media_upload` returns a presigned URL. Then:
@@ -76,11 +85,35 @@ vanished on a blue background) is a rejection, record it in the `.txt`.
 White glyphs for a pill tile: "Glossy soft-3D clay icon of a white <object>, rotated -30 degrees,
 solid #FF00FF background, no text." Pass `--key` and keep the white.
 
+Models sometimes ignore the key colour and return white, off-white or a framed background. When the
+background is flat and light, key it with `swift scripts/edgekey.swift in.png out.png --crop`: a
+flood fill from the border that removes only light background connected to the edge, so a white
+glyph inside the tile survives. Note it in the `.txt` ("model ignored the green key"). A vignette or
+a frame is not flat: regenerate.
+
 ### A figure for a hero
 
 Flat vector or stylised, two-tone cel shading, a thick white sticker outline, from behind or in
 profile, generic clothing with no stripe, number, decal or logo, unlike any real brand or team. Solid magenta
 background. Then key it.
+
+### A hero and avatars per market
+
+A hero figure or object for the app's domain, one per market where markets care about different
+things (the activity, the setting, the season that market knows). The page picks
+`art/hero/<market code>.jpg` and falls back to `art/hero/default.jpg`, so a market gets its own hero
+without a code change. Same rules as any figure: generic clothing and props, no marks, no
+recognisable person (face turned, in shadow or out of frame).
+
+Avatars, when a slot shows people, are **illustrated 3D clay characters**: stylised, toy-like, clearly an
+illustration, never photoreal and never presented as real users. Per market (`art/avatars/<code>/`),
+varied in age, gender and look, and respectful. Local cues are welcome when they are ordinary for
+that market (a moustache, a hijab, a headscarf or headdress) and never a caricature. Generate them as
+one set with the same prompt frame, so they read as a family, and record "illustration, not a real
+person" in each provenance file.
+
+The template has no claim badge. If the developer asks for one (a user count next to avatars),
+see "Claims and store rules" in `references/style-and-copy.md` first.
 
 ### A plate with a slab for a screen
 
@@ -126,12 +159,49 @@ buttons, added a rainbow fringe to a bezel, ghosted a second copy of table rows.
 keep the pixel-exact render for all UI and take only the glow band from the output, masked and
 feathered, hard-cut outside the band so the blur cannot leak.
 
+## In practice
+
+- **Batch independent prompts.** `generate_image_batch` for every prompt that does not depend on
+  another, then `jobs_wait` in groups of about 12 job ids. One prompt at a time wastes the session.
+- **Rate limits.** A model can answer 429 for a while. Wait and retry the same model. Never switch
+  to another model silently: the set would mix two looks. If you must switch, say so and why.
+- **Keys come back off-colour.** Asked for `#00FF00`, a model returns `#15E02C` or similar. Sample the
+  real key before keying, and sample **inside** the frame: models sometimes draw a white border
+  around the green, so a corner sample reads white. Alternatively key pure green with a tolerance,
+  then edge-fill what remains (`scripts/edgekey.swift`).
+- **Model choice, as measured.** `gpt_image_2_5` at high quality was clearly better for photoreal
+  heroes (about 1.4 credits per image at 2k). `nano_banana_pro` was right for clay objects and
+  avatars (2 credits per image at 2k; its jobs report `nano_banana_2`, see above). Re-check prices
+  with `get_cost`, they change.
+
+## What to commit
+
+The picked art cost credits, so commit it, with its provenance `.txt`, at page size:
+
+- Keyed PNGs at 512 px on the long side (the largest draw on a 1080 px page was about 360 px).
+- Opaque photos (heroes, wallpapers, scenes) as JPEG q90, about 90% smaller than the PNG.
+- Not committed: generation originals (`*-src.png`, re-downloadable from the Higgsfield library by
+  the generation id in the provenance file), rejects, logs, review sheets and every render (renders
+  rebuild from code). Keep review sheets in a `checks/` folder: `verify-export.sh` skips `checks/`.
+
+```gitignore
+# Store art: commit picked, page-sized art in art/ with its provenance .txt
+store/page/art/**/*-src.png
+store/page/art/**/*rejected*
+store/page/art/**/*.log
+store/page/art/**/checks/
+store/page/ui/
+store/page/out/
+store/page/checks/
+```
+
 ## Landing rules
 
 - Highest resolution, 9:16 for full slots, subject in the middle 70%.
 - Pick, do not average. Generate 2 variants, choose, keep the rejected ids in the `.txt`.
-- Name files by role (`object-sticker.png`), not by job id. Keep the unreproducible originals
-  (`scene-source.png`) next to the processed one; delete candidates once a pick is final.
+- Name files by role (`object-sticker.png`), not by job id. Keep the original (`scene-src.png`)
+  next to the processed one locally, gitignored (see "What to commit"); delete candidates once a
+  pick is final.
 - Reject anything with text, a logo, a recognisable kit, a wrong-looking hand, or a face you did not
   ask for.
 - Content policy rejections (`nsfw`, `ip_detected`) mean rephrase: remove the real brand or
