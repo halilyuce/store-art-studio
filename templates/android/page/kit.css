@@ -1,0 +1,79 @@
+/* Store Art Studio page kit for Google Play phone slots, 1080 x 1920 px.
+   The numbers are the iOS house spec (references/style-and-copy.md, 1320 px wide) scaled by 0.818.
+   Change them here, once, never per slot. */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;800&family=Inter:wght@400;500;600&family=Roboto:wght@400;500&display=block');
+/* A script the Latin faces lack (Arabic, Hebrew, Devanagari, CJK...) gets its own face from the
+   market's fontFamily and fontWeights in storeart.config.json. slots.html loads it with explicit
+   weights and sets --script-font, so the browser never synthesises a bold fallback. */
+
+:root {
+  --ink: #37373F;
+  --ink-soft: #55555F;
+  --margin: 85px;
+  --h-size: 160px;
+  --h-base-1: 255px;      /* first headline baseline */
+  --h-pitch: 182px;       /* baseline to baseline, room for the pill */
+  --body-size: 46px;
+  --body-pitch: 65px;
+  --pill-h: 191px;
+  --pill-r: 49px;
+  --tile: 125px;
+  --page: #E5E2F3;
+  --script-font: sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--page); }
+
+.slot {
+  position: relative; width: 1080px; height: 1920px; overflow: hidden;
+  font-family: 'Inter', var(--script-font), sans-serif; color: var(--ink);
+  /* a 3 x 3 mesh, approximated with corner radials over the centre colour */
+  background:
+    radial-gradient(120% 70% at 0% 0%, #DAE3FF 0%, rgba(218,227,255,0) 60%),
+    radial-gradient(110% 70% at 100% 0%, #E7E3F0 0%, rgba(231,227,240,0) 60%),
+    radial-gradient(110% 70% at 0% 100%, #F1E2E6 0%, rgba(241,226,230,0) 60%),
+    radial-gradient(120% 70% at 100% 100%, #FDE1D6 0%, rgba(253,225,214,0) 60%),
+    var(--page);
+}
+
+/* Headline: each line is placed absolutely by its baseline (see headline() in slots.html). */
+.h { position: absolute; left: var(--margin); top: 0; font-family: 'Inter Tight', var(--script-font), sans-serif; font-weight: 700;
+     font-size: var(--h-size); letter-spacing: -0.02em; line-height: 1; white-space: nowrap; }
+.h .line { position: absolute; left: 0; display: flex; align-items: center; white-space: nowrap; }
+
+.pill { display: inline-flex; align-items: center; height: var(--pill-h); border-radius: var(--pill-r);
+        padding: 0 33px 0 45px; margin-left: -45px; position: relative;
+        background: rgba(255,255,255,0.40);
+        box-shadow: inset 0 2px 0 rgba(255,255,255,0.95), inset 0 -2px 0 rgba(255,255,255,0.8),
+                    inset 0 0 0 1px rgba(255,255,255,0.5); }
+.pill .tile { width: var(--tile); height: var(--tile); margin-left: 29px; object-fit: contain; position: relative; top: 6px; }
+.pill .tile.lead { margin-left: 0; margin-right: 22px; }
+
+.body { position: absolute; left: var(--margin); font-size: var(--body-size); line-height: var(--body-pitch);
+        font-weight: 500; color: var(--ink-soft); letter-spacing: -0.005em; }
+
+/* Right to left: mirror the margins and the pill, never the renders. */
+[dir=rtl] .h { left: auto; right: var(--margin); }
+[dir=rtl] .h .line { left: auto; right: 0; }
+[dir=rtl] .body { left: auto; right: var(--margin); text-align: right; }
+[dir=rtl] .pill { margin-left: 0; margin-right: -45px; padding: 0 45px 0 33px; }
+[dir=rtl] .pill .tile { margin-left: 0; margin-right: 29px; }
+[dir=rtl] .pill .tile.lead { margin-right: 0; margin-left: 22px; }
+
+/* Figures that must keep their order in a right-to-left line ("4.8", "-12%", "10+"). Without
+   the isolate an RTL paragraph shows "+10". */
+.num { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+/* Frozen chrome: a plain phone, no brand. Bezel 16 px, punch-hole camera. Approved once, then shared. */
+.phone { position: absolute; background: #111216; border-radius: 96px; padding: 16px;
+         box-shadow: 0 0 0 3px #2B2D33, 0 40px 80px rgba(30,30,70,0.22); }
+.phone .screen { position: relative; width: 100%; height: 100%; border-radius: 80px; overflow: hidden; background: #0E0F12; }
+.phone .cam { position: absolute; left: 50%; border-radius: 50%; background: #050507; box-shadow: inset 0 0 0 4px #1a1b20; z-index: 5; }
+
+.abs { position: absolute; }
+img.card { position: absolute; }
+/* A render that does not exist yet: a labelled box, so the layout can be judged before every surface is rendered. */
+.ph { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center;
+      background: repeating-linear-gradient(45deg, rgba(120,120,150,.18) 0 18px, rgba(120,120,150,.08) 18px 36px);
+      border: 3px dashed rgba(90,90,120,.45); border-radius: 36px; color: rgba(60,60,80,.75); font: 600 30px 'Inter', sans-serif; }
