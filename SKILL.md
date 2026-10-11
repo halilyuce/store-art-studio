@@ -1,6 +1,6 @@
 ---
 name: store-art-studio
-description: Build App Store and Google Play screenshots, product page headers and localized sets to a studio standard, from code. The app's real SwiftUI (or Jetpack Compose) views are rendered from sample data in a host-less test target, generated 3D art comes from the Higgsfield MCP, the page type is set in code, and fastlane ships it. Use for store screenshots, store creative, product page art, localizing a screenshot set into more languages, or matching a reference set the user shares. Not for quick device captures.
+description: Build App Store and Google Play screenshots, product page headers and localized sets to a studio standard, from code, for any app. It reads the project, asks the developer structured questions, writes a brief, then renders the app's real SwiftUI or Jetpack Compose views from sample data in a host-less test target, adds generated 3D art from the Higgsfield MCP, sets the page type in code, iterates with the developer, localizes per market and ships with fastlane. Use for store screenshots, store creative, product page art, localizing a screenshot set into more languages, or matching a reference set the user shares. Not for quick device captures.
 ---
 
 # Store Art Studio
@@ -34,7 +34,7 @@ draws a table row is the day a wrong number ships.
    string keys, and tell the user which screens are redraws.
 3. **Never shrink a headline to fit.** The headline is one size in every slot and language. When a
    wording is too wide, shorten the wording. A width test enforces it.
-4. **One market first.** Render the default market, get approval, then roll out. Never render all
+4. **One market first.** Render the first market, get approval, then roll out. Never render all
    locales unprompted. Rendering 22 at once drew an objection once already.
 5. **Approved chrome is frozen.** The status bar, bezel metrics and Lock Screen are shared by every
    slot. Changing one silently restyles slots the user already approved. Fix spacing around them.
@@ -43,9 +43,9 @@ draws a table row is the day a wrong number ships.
    generation id, credits. A picked image you cannot reproduce is a liability.
 8. **Spend deliberately.** Check `balance`, preflight with `get_cost`, ask before a single gate costs
    more than the budget the user named (default: ask above 40 credits).
-9. **Copy is transcreated, not translated.** Write each locale as if authored there, mark it "not
-   native-reviewed", and ask the user for the languages they speak natively. See
-   `references/style-and-copy.md`.
+9. **Copy is transcreated, not translated.** Write each locale as if authored there, under the
+   skill's rules and then the developer's rules from the brief, mark it "not native-reviewed", and
+   ask which languages the developer reads natively. See `references/style-and-copy.md`.
 10. **No borrowed identity.** No real people or brands you do not own (athletes, celebrities, team
     kits, broadcasters, competitors), no third-party icons, no AI-generated Apple hardware. Claims (user counts, awards, ratings) only when the user supplies
     them and can back them. Apple forbids awards, prices and URLs in headers.
@@ -56,48 +56,84 @@ draws a table row is the day a wrong number ships.
 13. **No em dashes** in any copy, comment or message. They read as machine writing, and in store copy
     that costs conversions.
 
-## Before you start: intake
+## The seven phases
 
-Ask only what you cannot read from the repo. Then state your defaults in one block and proceed.
+Every job runs the same seven phases, on iOS, Android or both, for any kind of app. The job stops
+for the developer's approval at the brief and at the end of every gate. Do not start the next one
+on your own.
 
-- Platforms and stores: iOS, Android, or both. Which device classes (iPhone 6.9", iPad, Watch).
-- Surfaces worth showing: app screens, plus whatever the app has: widgets, Live Activities, Watch, Siri,
-  Lock Screen.
-- A reference set? If yes, read `references/reference-matching.md` before anything else.
-- Markets and the order to roll them out. The default market comes first.
-- Brand inputs: icon, colours, tone, a banned-words list. Fonts (default: Inter Tight and Inter, OFL).
-- Credit budget for Higgsfield and who approves each gate.
-- The world: one fixed moment (date, time zone, and the live data your app shows) that every device
-  agrees on.
+| Phase | What happens | Gate | Detail |
+|---|---|---|---|
+| 1. Discover | Read the project: platforms, app type, features, surfaces, locales, brand, listing | | `references/discovery.md` |
+| 2. Ask | Structured questions for what the repo cannot answer, recommended option first | | `references/discovery.md`, "Question bank" |
+| 3. Brief | Write `docs/screenshots/brief.md` (and the market config); the developer edits and approves | Brief | `templates/brief-template.md` |
+| 4. First draft | Renderer setup, style tile and calibration slot, hero and hard slots, the full set, in the first market | 0 to 3 | below |
+| 5. Iterate | Rounds of render, review, feedback and fix until the developer approves the set | within 1 to 3 | `references/iteration.md` |
+| 6. Localize | Per market from the config: world, transcreated copy, width tests, native-review list | 4 | `references/style-and-copy.md` |
+| 7. Ship | Verify, stage, dry run, the developer uploads, pull back and compare, store checklist | 5 | `references/fastlane-and-delivery.md` |
 
-## Workflow
+### Phases 1 to 3: discover, ask, brief
 
-Each gate ends by stopping for approval. Do not start the next one on your own.
+Read before asking. Explore the repo yourself (navigation graphs, screens and routes, view models,
+the manifest or `Info.plist`, widget and watch targets, notifications and Live Activities, string
+files, brand assets, any existing listing) and present a short summary of what you found. Then ask
+only what the repo cannot answer, in batches that fit Claude Code's `AskUserQuestion` tool:
+features and their order, surfaces, design direction, first market and language, the developer's
+own rules (glossary, banned words, register, brand voice, claims they can back), art budget and
+kind, stores and who uploads. State your defaults. Write the answers into the brief and the market
+config, and stop until the developer approves the brief. The brief is the source of truth from here
+on: re-read it at every gate, and follow the developer's edits.
 
-**Gate 0, setup.** Read the repo and any brief. Create the host-less `StoreArt` test target from
-`templates/ios` (`references/ios-swiftui-renderer.md`), or the Android equivalent
-(`references/android-compose.md`). Prove the pipeline with one contact sheet that renders every real
-view you will need, in light and dark. Check the Higgsfield MCP is authenticated (`balance`), run one
-cheap test generation, and write a plan with a credit estimate. Output: the plan and the contact
-sheet.
+A reference set changes the order: read `references/reference-matching.md` before the style tile.
 
-**Gate 1, style tile and one calibration slot.** Pick the simplest slot, one object on the page. Build
-the style tile (palette, type, pill, device) and that slot. Verify system chrome against a real
-device or simulator screenshot, not memory.
+### Phase 4: first draft (Gates 0 to 3)
+
+**Gate 0, setup.** Create the host-less `StoreArt` test target from `templates/ios`
+(`references/ios-swiftui-renderer.md`), or the Android `storeart` module and page kit from
+`templates/android` (`references/android-compose.md`). Prove the pipeline with one contact sheet
+that renders every real view the brief needs, in light and dark. Build the frozen world for the
+first market. Check the Higgsfield MCP is authenticated (`balance`), run one cheap test generation
+if the brief has an art budget, and write a plan with a credit estimate. Output: the plan and the
+contact sheet.
+
+**Gate 1, style tile and one calibration slot.** Pick the simplest slot, one object on the page.
+Build the style tile (palette, type, pill, device) from the brief's design direction, and that
+slot. Verify system chrome against a real device or simulator screenshot, not memory.
 
 **Gate 2, hero and the hard slots.** The hero, and any slot with hands, warps or scenes. Name the
 slots that risk a store guideline (tilted or obstructed bezels, graphics leaving the screen) in one
-line and ask whether the user wants straight variants.
+line and ask whether the developer wants straight variants.
 
-**Gate 3, the rest, then the set.** Build the remaining slots, then lay all of them side by side at
-store-thumbnail size. A reader sees roughly the first three in search, so those must tell the story.
+**Gate 3, the rest, then the set.** Build the remaining slots in the brief's order, then lay all of
+them side by side at store-thumbnail size. A reader sees roughly the first three in search, so those
+must tell the story.
 
-**Gate 4, localize.** Only after the default market is approved. Per locale: market data, time zone,
-language, transcreated copy, width tests. List what needs native review. Roll out in batches.
+### Phase 5: iterate
 
-**Gate 5, deliver.** `verify-export.sh`, then upload through fastlane or the store API to a target
-that cannot go live (a preview, or a Product Page Optimization treatment). Pull the result back from
-the store and compare. A success line is not proof. Never submit for review unless asked.
+Every gate from 1 to 3 is a loop of rounds: render, run the review loop below, show the developer
+the renders and a thumbnail strip, take feedback, fix, repeat. Log every decision and rejection in
+`docs/screenshots/` so a direction that failed is never repeated. The set is approved when the
+developer says so, not when the loop runs out of ideas. `references/iteration.md` has the round
+format and the stopping rules.
+
+### Phase 6: localize (Gate 4)
+
+Only after the first market is approved. The markets and their order come from the developer's
+config, never from the skill. Per market: its world (time zone, data, clock, currency), copy
+transcreated by the skill's rules and then the developer's rules from the brief (the developer
+wins on a conflict; flag it), width tests, and a list of what needs native review. Roll out one
+market or a small batch at a time.
+
+### Phase 7: ship (Gate 5)
+
+`verify-export.sh`, then upload through fastlane (`deliver` for the App Store, `supply` for Google
+Play) to a target that cannot go live: a preview or a Product Page Optimization treatment on the
+App Store. Google Play has no draft for listing art: stage with `tools/stage-play.sh`, run the
+`upload_art` lane with `validate_only:true`, and hand the real upload command to the developer.
+Pull the result back from the store and compare; a success line is not proof. Never submit for
+review unless asked. Before an upload, walk the store checklist (`references/fastlane-and-delivery.md`;
+on Play also `docs/android-end-to-end.md`): watch screenshots, the AI asset declaration (label
+every asset with generated art; raw UI renders need none), and claims the developer can back.
 
 ## The review loop (every render, before the user sees it)
 
@@ -137,20 +173,26 @@ the store and compare. A success line is not proof. Never submit for review unle
 
 | Need | Read |
 |---|---|
+| Phases 1 to 3: reading a project, the question bank, writing the brief | `references/discovery.md` |
+| Phase 5: rounds, the decision log, when to stop | `references/iteration.md` |
 | Architecture, repo layout, slot registry pattern | `references/architecture.md` |
 | Build the iOS render target, every host-less trap | `references/ios-swiftui-renderer.md` |
-| Android: Compose renderer, Play specs, supply | `references/android-compose.md` |
+| Android: Paparazzi renderer, Glance widgets, what broke, Play specs, supply | `references/android-compose.md` |
+| Android end to end by phase, with short prompts and the Play checklist | `docs/android-end-to-end.md` |
+| Android: the module and HTML page kit to copy | `templates/android/START-HERE.md` |
 | Generate art with Higgsfield, key it, composite it | `references/higgsfield-art.md` |
 | Palette, type, layout archetypes, copy and localization | `references/style-and-copy.md` |
 | The user shared a set to match | `references/reference-matching.md` |
 | fastlane, deliver, Product Page Optimization, headers | `references/fastlane-and-delivery.md` |
-| A brief to hand the agent for a new app | `templates/brief-template.md` |
+| The brief the skill writes in phase 3 | `templates/brief-template.md` |
 
 Paths in these files are relative to this skill folder. At Gate 0 copy `scripts/` into the project (for
-example `scripts/screenshots/tools/`) and `templates/ios` into `StoreArt/`, then use the project copies.
+example `scripts/screenshots/tools/`) and `templates/ios` into `StoreArt/` (Android: `templates/android`, see
+its `START-HERE.md`), then use the project copies.
 
 Scripts in `scripts/` run with plain `swift` (no packages): `chromakey.swift`, `cutout.swift`,
-`screenswap.swift`, `compare.swift`, `probe.swift`; `verify-export.sh` uses `sips`; `ppo.rb` needs
+`screenswap.swift`, `compare.swift`, `probe.swift`, `edgekey.swift` (keys a white background the model
+returned instead of the key colour), `greenbox.swift` (measures a green screen face to place a real render on); `verify-export.sh` uses `sips`; `ppo.rb` needs
 `spaceship` and `dotenv` (fastlane's bundle has both). Pillow is not required and was broken on the
 machine this came from, so measure with `probe.swift`.
 

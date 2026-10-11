@@ -1,28 +1,38 @@
 # Installation guide
 
-Prefer a visual version? Open the web guide at https://store-art-studio.vercel.app. It looks like App Store Connect, has an iOS and Android switch, copy buttons, tick-off steps and example screenshots in English, Turkish, Japanese and Arabic.
+Prefer a visual version? The web guide at https://store-art-studio.vercel.app has an iOS and Android
+switch, copy buttons and tick-off steps.
 
-How to install the `store-art-studio` skill and run it for the first time. About 20 minutes the
-first time, most of it waiting for Xcode.
+Install the skill, connect what it needs, prove the renderer once, then start your first session.
+About 20 minutes on iOS (most of it Xcode) and 30 minutes on Android to a first sample render.
 
-## 1. Prerequisites
+## 1. Connect everything
 
-| Need | Why | Check |
+Tick each row for your platform before the first session.
+
+| Need | For | Check |
 |---|---|---|
-| macOS with Xcode and an iOS simulator runtime | The renderer is an Xcode test target | `xcodebuild -version` |
-| Claude Code | The skill runs inside it | `claude --version` |
-| `swift` on the command line | Runs the helper scripts | `swift --version` |
-| ImageMagick | Keys and composites generated art | `magick -version` (`brew install imagemagick`) |
-| fastlane | Uploads to App Store Connect | `fastlane --version` (`brew install fastlane` or a Gemfile) |
-| Higgsfield MCP, authenticated, with credits | Generates the 3D art | In Claude Code, run `/mcp` and check it shows connected |
-| App Store Connect API key | Uploads and Product Page Optimization | Key id, issuer id and the `.p8` file |
-| Apple's product bezels | The phone frames | See step 4 |
+| Claude Code | Both | `claude --version` |
+| The skill | Both | `ls ~/.claude/skills/store-art-studio/SKILL.md` (step 2) |
+| Higgsfield MCP, signed in, with credits | Both, if you want generated art | ask Claude for your `balance` (step 3) |
+| A credit budget | Both | a number you name; the skill asks above it (default 40 per gate) |
+| macOS with `swift` and `sips` | Both | `swift --version` (`xcode-select --install`) |
+| ImageMagick (recommended) | Both | `magick -version` (`brew install imagemagick`) |
+| fastlane | Both | `fastlane --version`; a `Gemfile` in the repo means `bundle exec fastlane` |
+| Xcode and an iOS simulator runtime | iOS | `xcodebuild -version` |
+| Apple's product bezels | iOS | step 5 |
+| App Store Connect API key | iOS | key id, issuer id and the `.p8` file (step 4) |
+| An Android build that works, with AGP, Gradle and JDK that Paparazzi supports | Android | `./gradlew --version`, then the Paparazzi release notes |
+| Google Chrome | Android | default macOS path, or set `CHROME` to the binary |
+| A Google Play service account JSON | Android | `fastlane run validate_play_store_json_key json_key:<path>` (step 4) |
+| An emulator with no account (optional) | Android | only to capture a reference status bar: `emulator -list-avds` |
+| `gh` (optional) | Both | only to send fixes back to the skill: `gh auth status` |
 
-Android work also needs a JDK and Gradle for your project, and Paparazzi or Roborazzi. See step 7.
+**Linux:** the Android render, the page kit and the upload work. The `.swift` scripts and
+`verify-export.sh` need macOS (CoreGraphics, `sips`); run them on a Mac, or check size and alpha
+with `magick identify -format "%w %h %A\n" file.png`.
 
 ## 2. Install the skill
-
-Clone the repo where Claude Code looks for skills.
 
 ```bash
 # For every project on this machine:
@@ -36,22 +46,52 @@ git -C ~/.claude/skills/store-art-studio pull
 ```
 
 No git? Download the zip from GitHub (Code, Download ZIP), unzip it, and rename the folder to
-`store-art-studio` inside `~/.claude/skills/`.
+`store-art-studio` inside `~/.claude/skills/`. Restart Claude Code and ask:
 
-Restart Claude Code. Start a session and ask:
+> Is the store-art-studio skill available? Show me its description.
 
-> Which skills do you have? Is store-art-studio there?
-
-It should answer with the skill and its description. If it does not, check that the folder is
-`~/.claude/skills/store-art-studio/SKILL.md` and not nested one level deeper.
+If it is not, check that the path is `~/.claude/skills/store-art-studio/SKILL.md`, not one folder
+deeper.
 
 ## 3. Connect Higgsfield
 
-Add the Higgsfield MCP server the way Higgsfield documents it, then in Claude Code run `/mcp` and
-authenticate. Ask Claude to check your balance. The skill will not spend credits without a plan and
-a cost estimate, and it asks before any single step costs more than your budget (default 40 credits).
+```bash
+claude mcp add --transport http --scope user higgsfield https://mcp.higgsfield.ai/mcp
+claude mcp list
+```
 
-## 4. Get the bezels
+Start a **fresh foreground** session, run `/mcp`, pick `higgsfield`, sign in, and ask Claude to
+check your balance. A session that was already open, or a background or child session, may not load
+a server added later. If the tools still do not load, `references/higgsfield-art.md` has a small
+headless bridge (`claude -p` with only the Higgsfield tools allowed).
+
+The skill never spends credits without a plan and an estimate, and asks before any single gate
+costs more than your budget. No budget at all is a valid answer: the set then uses type, colour and
+real UI only.
+
+## 4. Store credentials
+
+Keep every key out of git.
+
+- **iOS:** an App Store Connect API key (key id, issuer id, the `.p8` file) in `fastlane/.env`,
+  gitignored. Never an Apple ID password.
+- **Android:** a Google Play service account with a JSON key:
+  1. In Google Cloud Console, pick or create a project and enable the **Google Play Android
+     Developer API**.
+  2. Create a service account there and a JSON key for it (it downloads once).
+  3. In Play Console, **Users and permissions**, invite the service account's email with access to
+     your app and permission to manage the store listing. Nothing about releases or money.
+  4. Keep the JSON outside the repo (for example `~/.config/play/<your-app>.json`) and point
+     fastlane at it (`json_key_file` in `fastlane/Appfile`, or `SUPPLY_JSON_KEY`).
+  5. `fastlane run validate_play_store_json_key json_key:<path>`.
+
+  Play Console's menus move; if a name above changed, follow Play's own help page.
+
+## 5. Prove the renderer: iOS
+
+You can ask Claude to do this ("set up Gate 0 from the skill"), or do it by hand.
+
+### Bezels
 
 Download the product bezels from Apple Design Resources (developer.apple.com/design/resources). Put
 the iPhone PNG you want in `StoreArt/Art/bezels/` of your project. Apple's licence does not allow
@@ -66,7 +106,7 @@ The template expects the iPhone 17 Pro Max, Deep Blue, portrait export (1470 x 3
 1320 x 2868 at (75, 66), corner radius 190). For another file, edit `BezelSpec` in
 `StoreArtChrome.swift`. Without a bezel the template draws a plain dark frame so layouts still work.
 
-## 5. Add the iOS render target to your app
+### The render target
 
 You can ask Claude to do this ("set up Gate 0 from the skill"), or do it by hand.
 
@@ -88,7 +128,7 @@ hand, add a file reference, a group entry, a build file and a Sources entry per 
 24-character hex ids, and build after each edit. Do not use the `xcodeproj` gem: it re-sorts the file
 and can drop entries.
 
-## 6. Run the sample
+### The sample render
 
 ```bash
 scripts/screenshots/render.sh Sample
@@ -109,23 +149,28 @@ works. Replace `SampleScreen` in `SampleSlot.swift` with one of your real views.
 Use the dedicated simulator only. Never point `render.sh` at a simulator that has your app installed,
 and never launch your real app to take a screenshot. That is the first rule of the skill.
 
-## 7. Android
+## 6. Prove the renderer: Android
 
-Follow `templates/android/START-HERE.md`. It contains a prompt that makes Claude build the Android
-render target in your own project, using the iOS template as the reference.
+Follow `templates/android/START-HERE.md`, "The first 30 minutes": copy the `storeart` render
+module, the HTML page kit and `storeart.config.json` into your project, add the module to your
+settings and catalog, and render the sample surfaces and the sample page. When
+`store/tools/verify-export.sh store/page/out 1080x1920 1024x500` passes and the PNGs look right,
+the pipeline works in your build. The traps and their fixes are in `references/android-compose.md`.
 
-## 8. Your first real job
+## 7. Your first session
 
-Give Claude a brief. Copy `templates/brief-template.md` into `docs/screenshots/`, fill what you know
-and start a session:
+You do not need to write a brief yourself. Start from your project's root:
 
-> Use the store-art-studio skill. Read docs/screenshots/brief.md and start at Gate 0.
+> Use the store-art-studio skill. Discover this project, ask me what you cannot read from it, and
+> write the brief. Platform: <iOS, Android or both>.
 
-If you have a set you want to match, put it in `docs/screenshots/references/` and say so:
+The skill reads the project, asks structured questions, writes `docs/screenshots/brief.md` (and,
+on Android, `store/storeart.config.json`), and stops for your approval. Then it works gate by gate:
+first draft in one market, rounds of feedback, localization, delivery. It stops at every gate.
 
-> Match this set: docs/screenshots/references/board.jpg. Take its layout and type, keep our colours.
-
-The skill stops at every gate and waits for your approval.
+Already have a brief? Copy `templates/brief-template.md` to `docs/screenshots/brief.md`, fill what
+you know, and say "Read docs/screenshots/brief.md and start at Gate 0". Have a set you want to
+match? Put it in `docs/screenshots/references/` and say so.
 
 ## Troubleshooting
 
@@ -138,10 +183,14 @@ The skill stops at every gate and waits for your approval.
 | The phone is a plain dark frame | The bezel PNG is missing or its name differs from `BezelSpec.name` |
 | Higgsfield calls are not available | Run `/mcp`, authenticate, and restart the session |
 | Upload refuses a locale | Add it to `upload.locales` in `screenshots.yml` after the user approved its render |
+| Android: Higgsfield tools missing in a session | Start a fresh foreground session after `claude mcp add`, run `/mcp`, sign in |
+| Android: `Could not locate Gemfile` | fastlane is a Homebrew install: run `fastlane`, not `bundle exec fastlane` |
+| Android: upload refuses a locale | Set `"upload": true` for it in `storeart.config.json` after its renders are approved, stage it, and add the language on the Play listing |
 
-More traps, with causes and fixes, are in `references/ios-swiftui-renderer.md`.
+More traps, with causes and fixes: `references/ios-swiftui-renderer.md` for iOS, and
+`references/android-compose.md` ("What broke", "Tooling and delivery") for Android.
 
 ## Updating
 
-Replace the folder with a newer copy. If you added lessons to `references/android-compose.md` or the
-iOS reference, keep your version of those files and merge by hand.
+Pull the skill folder, or replace it with a newer copy. If you added lessons to the references,
+keep your version of those files and merge by hand.
