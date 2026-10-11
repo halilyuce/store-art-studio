@@ -17,14 +17,15 @@ only if your app ships them and you choose to show them.
 | The staged Play tree | `store/page/out/play/<locale>/images/` |
 
 <p>
-  <img src="../assets/examples/android/en-US/01.jpg" width="200" alt="Sample slot 1, en-US">
-  <img src="../assets/examples/android/en-US/02.jpg" width="200" alt="Sample slot 2, en-US">
-  <img src="../assets/examples/android/ar/01.jpg" width="200" alt="Sample slot 1, Arabic, right to left">
+  <img src="../assets/examples/android/standings/en-US/01.jpg" width="160" alt="Standings for Android, English, slot 1">
+  <img src="../assets/examples/android/standings/en-US/02.jpg" width="160" alt="Standings for Android, English, slot 2">
+  <img src="../assets/examples/android/standings/tr-TR/04.jpg" width="160" alt="Standings for Android, Turkish, Wear OS slot">
+  <img src="../assets/examples/android/standings/ar/01.jpg" width="160" alt="Standings for Android, Arabic, right to left, slot 1">
 </p>
 
-<sub>The template's neutral sample app, rendered as it ships: real Compose, Glance and RemoteViews
-renders from Paparazzi, placed by the HTML page kit. Placeholder glyphs drawn in code, no generated
-art.</sub>
+<sub>A finished run on a real app (Standings for Android): Compose, Glance and RemoteViews renders
+from Paparazzi, placed by the HTML page kit, with generated backgrounds, avatars and 3D objects.
+Your own app's set comes out of the same steps with your screens, design and markets.</sub>
 
 Deep detail lives elsewhere, so this guide stays short:
 

@@ -114,14 +114,28 @@ That renders a 1320 x 2868 opaque PNG from the sample slot. Swap the placeholder
 The same seven phases for Google Play. Paparazzi renders your real composables, Glance widgets, notification layouts and Wear OS UI on the JVM, with no emulator, device or account; an HTML page kit places them on the page; one `storeart.config.json` you own lists your markets and the surfaces your app has (phone screens always, everything else optional).
 
 <p align="center">
-  <img src="assets/examples/android/en-US/01.jpg" width="180" alt="Sample Play slot 1, English">
-  <img src="assets/examples/android/en-US/02.jpg" width="180" alt="Sample Play slot 2, English, home screen widget">
-  <img src="assets/examples/android/ar/01.jpg" width="180" alt="Sample Play slot 1, Arabic, right to left">
-  <img src="assets/examples/android/ar/02.jpg" width="180" alt="Sample Play slot 2, Arabic, right to left">
+  <img src="assets/examples/android/standings/en-US/01.jpg" width="104" alt="Standings for Android, English, slot 1">
+  <img src="assets/examples/android/standings/en-US/02.jpg" width="104" alt="Standings for Android, English, slot 2">
+  <img src="assets/examples/android/standings/en-US/03.jpg" width="104" alt="Standings for Android, English, slot 3">
+  <img src="assets/examples/android/standings/en-US/04.jpg" width="104" alt="Standings for Android, English, slot 4">
+  <img src="assets/examples/android/standings/en-US/05.jpg" width="104" alt="Standings for Android, English, slot 5">
+  <img src="assets/examples/android/standings/en-US/06.jpg" width="104" alt="Standings for Android, English, slot 6">
+  <img src="assets/examples/android/standings/en-US/07.jpg" width="104" alt="Standings for Android, English, slot 7">
+  <img src="assets/examples/android/standings/en-US/08.jpg" width="104" alt="Standings for Android, English, slot 8">
   <br>
-  <img src="assets/examples/android/en-US/feature-graphic.jpg" width="370" alt="Sample feature graphic, English">
-  <img src="assets/examples/android/ar/feature-graphic.jpg" width="370" alt="Sample feature graphic, Arabic">
-  <br><sub>The Android template's neutral sample app, rendered as it ships: every screen, widget and card is a real Compose, Glance or RemoteViews render from Paparazzi. The glyphs are placeholders drawn in code; no generated art.</sub>
+  <img src="assets/examples/android/standings/tr-TR/01.jpg" width="104" alt="Standings for Android, Turkish, slot 1">
+  <img src="assets/examples/android/standings/tr-TR/02.jpg" width="104" alt="Standings for Android, Turkish, slot 2">
+  <img src="assets/examples/android/standings/ja-JP/04.jpg" width="104" alt="Standings for Android, Japanese, Wear OS slot">
+  <img src="assets/examples/android/standings/de-DE/03.jpg" width="104" alt="Standings for Android, German, widgets slot">
+  <img src="assets/examples/android/standings/ar/01.jpg" width="104" alt="Standings for Android, Arabic, right to left, slot 1">
+  <img src="assets/examples/android/standings/ar/06.jpg" width="104" alt="Standings for Android, Arabic, right to left, match detail">
+  <img src="assets/examples/android/standings/pt-BR/02.jpg" width="104" alt="Standings for Android, Brazilian Portuguese, slot 2">
+  <img src="assets/examples/android/standings/pt-BR/07.jpg" width="104" alt="Standings for Android, Brazilian Portuguese, slot 7">
+  <br>
+  <img src="assets/examples/android/standings/en-US/feature-graphic.jpg" width="276" alt="Standings for Android, feature graphic, English">
+  <img src="assets/examples/android/standings/tr-TR/feature-graphic.jpg" width="276" alt="Standings for Android, feature graphic, Turkish">
+  <img src="assets/examples/android/standings/ja-JP/feature-graphic.jpg" width="276" alt="Standings for Android, feature graphic, Japanese">
+  <br><sub>Standings for Android, made with this skill: 8 Play slots and a feature graphic in 11 languages. Every widget, live notification, Wear OS tile and screen is the app's real UI rendered with Paparazzi; backgrounds, avatars and 3D objects are generated art with provenance.</sub>
 </p>
 
 What a run leaves in your repo:
@@ -173,7 +187,7 @@ templates/
   fastlane/                  screenshots.yml manifest and the lanes
   brief-template.md          the brief the skill writes (or you fill by hand)
 scripts/                     chromakey, edgekey, cutout, screenswap, greenbox, compare, probe, verify-export, ppo.rb
-assets/                      the icon, example screenshots (iOS sets, assets/examples/android), 3D art with provenance
+assets/                      the icon, example screenshots (iOS sets; Android: examples/android/standings), 3D art with provenance
 site/                        source of index.html (template and build script)
 ```
 
@@ -197,7 +211,7 @@ If it helps you ship better screenshots, the thank you I would love is simple: d
 
 <p>
   <a href="https://apps.apple.com/app/id1533789849">App Store</a> ·
-  <a href="https://play.google.com/store/apps/details?id=com.labters.standingswidget">Google Play</a>
+  <a href="https://play.google.com/store/apps/details?id=com.labters.standings">Google Play</a>
 </p>
 
 Made by [Halil Yüce](https://github.com/halilyuce). The guide is styled after App Store Connect as a tribute and is not affiliated with Apple.
