@@ -190,6 +190,7 @@ select.sel option { color: #1d1d1f; }
 .thumb { flex: none; height: 270px; aspect-ratio: 1320 / 2868; border-radius: 14px; overflow: hidden; background: var(--sel); border: 0; padding: 0; cursor: zoom-in; transition: transform .18s, box-shadow .18s; }
 .thumb:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+body[data-platform="android"] .thumb { aspect-ratio: 9 / 16; }
 .thumb.add { border: 2px dashed var(--line); background: transparent; display: grid; place-items: center; color: var(--blue); font-size: 30px; line-height: 1; cursor: copy; }
 .thumb.add:hover { border-color: var(--blue); box-shadow: none; }
 .thumb.ghost { border: 2px dashed var(--line2); background: transparent; cursor: default; }
@@ -349,6 +350,7 @@ body.giftfx .wrap { display: block; }
 .exp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
 .exp-col h4 { margin: 0 0 8px; font-size: 13px; } .exp-thumbs { display: flex; gap: 8px; }
 .exp-thumbs div { flex: 1; aspect-ratio: 1320 / 2868; border-radius: 10px; overflow: hidden; border: 1px solid var(--line2); background: var(--sel); } .exp-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+body[data-platform="android"] .exp-thumbs div { aspect-ratio: 9 / 16; }
 .exp-thumbs.empty { height: 100%; } .exp-thumbs.empty div { aspect-ratio: auto; display: grid; place-items: center; text-align: center; color: var(--ink2); font-size: 13px; border: 1px dashed var(--line); background: none; }
 
 /* details */
@@ -508,7 +510,7 @@ body[data-platform="ios"] .android-only { display: none !important; } body[data-
             </div>
             <div class="acard-body">
               <div data-i="hdr">
-                <div class="hdr" id="hdr"><img id="hdr-img" alt="Product page header, 3840 by 1646" src="assets/examples/en-US/header.jpg"><span class="mask l"></span><span class="mask r"></span><span class="tag">iPhone shows only this middle part</span></div>
+                <div class="hdr" id="hdr"><img id="hdr-img" alt="Product page header, 3840 by 1646" src="assets/examples/en-US/header.jpg"><span class="mask l"></span><span class="mask r"></span><span class="tag ios-only">iPhone shows only this middle part</span></div>
                 <p class="locale-note" style="margin-top:10px">3840 x 1646, PNG, no alpha. Press <b>Preview</b> to see what an iPhone crops away. Keep the headline and every readable word inside x 520 to 3320.</p>
               </div>
               <div data-i="sr" hidden>
@@ -524,9 +526,9 @@ body[data-platform="ios"] .android-only { display: none !important; } body[data-
           <div class="acard shots-card">
             <div class="acard-top">
               <div class="itabs dtabs" role="tablist" id="dtabs">
-                <button role="tab" aria-selected="true" data-d="iphone"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="31" rx="5.5"/><rect x="7.5" y="3.5" width="7" height="2.4" rx="1.2" fill="currentColor" stroke="none"/></svg><span>iPhone with Dynamic Island<b>(6.9" display)</b></span></button>
-                <button role="tab" aria-selected="false" data-d="ipad"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="31" rx="3"/></svg><span>iPad<b>13" display</b></span></button>
-                <button role="tab" aria-selected="false" data-d="watch"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="9" width="16" height="15" rx="4.5"/><path d="M7 9V3.5h8V9M7 24v5.5h8V24"/></svg><span>Apple Watch<b>Ultra 3</b></span></button>
+                <button role="tab" aria-selected="true" data-d="iphone"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="31" rx="5.5"/><rect x="7.5" y="3.5" width="7" height="2.4" rx="1.2" fill="currentColor" stroke="none"/></svg><span class="ios-only">iPhone with Dynamic Island<b>(6.9" display)</b></span><span class="android-only">Phone<b>9:16, 1080 x 1920</b></span></button>
+                <button role="tab" aria-selected="false" data-d="ipad"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="31" rx="3"/></svg><span class="ios-only">iPad<b>13" display</b></span><span class="android-only">Tablet<b>optional</b></span></button>
+                <button role="tab" aria-selected="false" data-d="watch"><svg viewBox="0 0 22 33" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="9" width="16" height="15" rx="4.5"/><path d="M7 9V3.5h8V9M7 24v5.5h8V24"/></svg><span class="ios-only">Apple Watch<b>Ultra 3</b></span><span class="android-only">Wear OS<b>optional</b></span></button>
               </div>
               <button class="btn" id="preview-btn"><svg width="10" height="14" viewBox="0 0 10 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x=".65" y=".65" width="8.7" height="12.7" rx="2"/></svg> Preview</button>
             </div>
@@ -749,7 +751,7 @@ sips -g pixelWidth -g pixelHeight -g hasAlpha StoreArt/Output/default_en-US_ipho
         <div class="android-only">
           <div class="step" data-task="firstrun"><div class="num">1</div><div><div class="step-head"><h3>Render the sample slot</h3><label class="markdone"><input type="checkbox" data-k="g1"> Done</label></div>
             <div class="code" data-copy><div class="code-head"><span>Terminal, from your repo root</span></div><pre>python3 storeart/scripts/fetch_logos.py
-./gradlew :storeart:test --tests '*WorldsTest'
+./gradlew :storeart:testDebugUnitTest --tests '*WorldsTest'
 storeart/scripts/export.sh
 store/page/tools/render-all.sh
 store/page/tools/widthtest.sh &amp;&amp; store/page/tools/widthtest.sh --negative</pre></div>
@@ -759,6 +761,14 @@ store/page/tools/widthtest.sh &amp;&amp; store/page/tools/widthtest.sh --negativ
             <p>Google Play wants each side between 320 and 3840 px, the long side at most twice the short one, JPEG or 24-bit PNG, no alpha, 8 MB at most, 2 to 8 screenshots. A 20:9 screen is not a valid shot as is, which is why slots are 9:16. Check the current Play Console help page before you upload.</p></div></div>
           <div class="step" data-task="firstrun"><div class="num">3</div><div><div class="step-head"><h3>Render one real screen offline</h3><label class="markdone"><input type="checkbox" data-k="g3"> Done</label></div>
             <p>One of your own composables, from sample data, with no network. Render it at a realistic phone size (about 412 x 915 dp) and scale it into the slot. If your app has a Wear OS app or tile and the config lists <code>"wear"</code>, <code>WearSurfacesTest</code> also writes square, opaque <code>wear_01_tile</code> and <code>wear_02_list</code> for the Wear OS listing.</p></div></div>
+          <div class="step" data-task="firstrun"><div class="num">4</div><div><div class="step-head"><h3>Know where you are heading</h3></div>
+            <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+              <img alt="Standings for Android, Play slot 1" src="assets/examples/android/standings/en-US/01.jpg" style="width:120px;border-radius:14px;border:1px solid var(--line)">
+              <img alt="Standings for Android, home screen widgets and Wear OS" src="assets/examples/android/standings/en-US/02.jpg" style="width:120px;border-radius:14px;border:1px solid var(--line)">
+              <img alt="Standings for Android, Wear OS slot in Turkish" src="assets/examples/android/standings/tr-TR/04.jpg" style="width:120px;border-radius:14px;border:1px solid var(--line)">
+              <img alt="Standings for Android, Arabic, right to left" src="assets/examples/android/standings/ar/01.jpg" style="width:120px;border-radius:14px;border:1px solid var(--line)">
+            </div>
+            <p>A finished run on a real app, Standings for Android: real Compose screens, Glance widgets, the live notification and the Wear OS tile, rendered with Paparazzi in 11 languages. The template's sample is plain on purpose; your screens, design and markets replace it.</p></div></div>
         </div>
       </section>
 
@@ -857,7 +867,7 @@ from it, and write the brief.
         <p class="muted">compare.swift draws the same guides across the reference and your render, so margins and baselines are checked by eye and by number.</p>
         <div class="cmp" style="margin-top:12px">
           <div class="pane ref"><div>Your reference<br><span class="small">cut to slots at native size</span></div><span class="g gx"></span><span class="g gy" style="top:10.9%"></span><span class="g gy" style="top:18.65%"></span><span class="g gy" style="top:30.3%"></span><span class="cap">reference</span></div>
-          <div class="pane"><img alt="A render with the same guides drawn on it" src="assets/examples/en-US/04.jpg"><span class="g gx"></span><span class="g gy" style="top:10.9%"></span><span class="g gy" style="top:18.65%"></span><span class="g gy" style="top:30.3%"></span><span class="cap">render</span></div>
+          <div class="pane"><img class="ios-only" alt="A render with the same guides drawn on it" src="assets/examples/en-US/04.jpg"><img class="android-only" alt="A Standings for Android render with the same guides drawn on it" src="assets/examples/android/standings/en-US/03.jpg"><span class="g gx"></span><span class="g gy" style="top:10.9%"></span><span class="g gy" style="top:18.65%"></span><span class="g gy" style="top:30.3%"></span><span class="cap">render</span></div>
         </div>
         <div class="step" style="margin-top:14px"><div class="num">1</div><div><h3>Add the set and say what to take from it</h3>
           <div class="code" data-copy><div class="code-head"><span>Prompt for Claude Code</span></div><pre>Match this set: docs/screenshots/references/board.jpg.
@@ -1019,6 +1029,7 @@ needs native review. Do not render markets I did not name.</pre></div></div></di
     $("#addplat").textContent = p === "android" ? "Add Platform: iOS" : "Add Platform: Android";
     var a = $("#rv-send"); if (a && thanks) a.href = p === "android" ? thanks.dataset.android : thanks.dataset.iosReview;
     if (persist) store("sac-platform", p);
+    if (window.sacUseSet) window.sacUseSet(p);
     progress();
   }
   $("#addplat").addEventListener("click", function (e) { e.preventDefault(); setPlatform(body.getAttribute("data-platform") === "ios" ? "android" : "ios", true); });
@@ -1093,23 +1104,40 @@ needs native review. Do not render markets I did not name.</pre></div></div></di
   $("#banner-x").addEventListener("click", function () { $("#banner").style.display = "none"; store("sac-banner", "0"); });
 
   /* ---------- gallery ---------- */
-  var LOCALES = [
-    { id: "en-US", name: "English (U.S.)" }, { id: "tr", name: "Turkish" }, { id: "ja", name: "Japanese" }, { id: "ar-SA", name: "Arabic" }
-  ];
-  var sel = $("#locale"); LOCALES.forEach(function (l) { var o = document.createElement("option"); o.value = l.id; o.textContent = l.name; sel.appendChild(o); });
+  /* iOS: assets/examples/<locale>/01..07 + header.jpg. Android: a real app's Play set in
+     assets/examples/android/standings/<locale>/01..08 + feature-graphic.jpg. */
+  var SETS = {
+    ios: { base: "assets/examples/", count: 7, header: "header.jpg", locales: [
+      { id: "en-US", name: "English (U.S.)" }, { id: "tr", name: "Turkish" }, { id: "ja", name: "Japanese" }, { id: "ar-SA", name: "Arabic" }] },
+    android: { base: "assets/examples/android/standings/", count: 8, header: "feature-graphic.jpg", locales: [
+      { id: "en-US", name: "English (U.S.)" }, { id: "tr-TR", name: "Turkish" }, { id: "ja-JP", name: "Japanese" }, { id: "ar", name: "Arabic" },
+      { id: "de-DE", name: "German" }, { id: "pt-BR", name: "Portuguese (Brazil)" }] }
+  };
+  var SET = SETS.ios, LOCALES = SET.locales;
+  var sel = $("#locale");
+  function fillLocales() { sel.innerHTML = ""; LOCALES.forEach(function (l) { var o = document.createElement("option"); o.value = l.id; o.textContent = l.name; sel.appendChild(o); }); }
+  fillLocales();
   var cur = LOCALES[0], list = [];
+  function shot(n) { return SET.base + cur.id + "/" + ("0" + n).slice(-2) + ".jpg"; }
   function renderGallery() {
     var box = $("#shots"); box.innerHTML = ""; list = [];
-    for (var i = 1; i <= 7; i++) {
-      var n = ("0" + i).slice(-2), src = "assets/examples/" + cur.id + "/" + n + ".jpg";
-      list.push({ src: src, label: "Screenshot " + i + " of 7, " + cur.name });
-      var b = document.createElement("button"); b.className = "thumb"; b.dataset.i = i - 1; b.setAttribute("aria-label", "Open screenshot " + i + " of 7");
+    for (var i = 1; i <= SET.count; i++) {
+      var src = shot(i);
+      list.push({ src: src, label: "Screenshot " + i + " of " + SET.count + ", " + cur.name });
+      var b = document.createElement("button"); b.className = "thumb"; b.dataset.i = i - 1; b.setAttribute("aria-label", "Open screenshot " + i + " of " + SET.count);
       b.innerHTML = '<img loading="lazy" alt="Screenshot ' + i + ', ' + cur.name + '" src="' + src + '">'; box.appendChild(b);
     }
-    $("#hdr-img").src = "assets/examples/" + cur.id + "/header.jpg";
-    $("#sr-shots").innerHTML = [1, 2, 3].map(function (n) { return '<img alt="" src="assets/examples/' + cur.id + '/0' + n + '.jpg">'; }).join("");
-    $("#exp-thumbs").innerHTML = [1, 2, 3, 4].map(function (n) { return '<div><img alt="" src="assets/examples/' + cur.id + '/0' + n + '.jpg"></div>'; }).join("");
+    $("#hdr-img").src = SET.base + cur.id + "/" + SET.header;
+    $("#sr-shots").innerHTML = [1, 2, 3].map(function (n) { return '<img alt="" src="' + shot(n) + '">'; }).join("");
+    $("#exp-thumbs").innerHTML = [1, 2, 3, 4].map(function (n) { return '<div><img alt="" src="' + shot(n) + '"></div>'; }).join("");
   }
+  /* switching platform swaps the example set; called from setPlatform */
+  window.sacUseSet = function (p) {
+    var next = SETS[p] || SETS.ios; if (next === SET) return;
+    SET = next; LOCALES = SET.locales; fillLocales();
+    cur = LOCALES.filter(function (l) { return l.id === cur.id; })[0] || LOCALES[0]; sel.value = cur.id; renderGallery();
+    $("#hdr-img").alt = p === "android" ? "Feature graphic, 1024 by 500" : "Product page header, 3840 by 1646";
+  };
   function setLocale(l, persist) {
     var box = $("#shots"), hdr = $("#hdr"); box.classList.add("fading"); hdr.classList.add("fading");
     setTimeout(function () { cur = l; sel.value = l.id; renderGallery(); box.classList.remove("fading"); hdr.classList.remove("fading"); }, 200);
@@ -1126,9 +1154,10 @@ needs native review. Do not render markets I did not name.</pre></div></div></di
   }
   playBtn.addEventListener("click", function () { if (cycleTimer) stopCycle(); else playCycle(false); });
   sel.addEventListener("change", function () { stopCycle(); setLocale(LOCALES.filter(function (l) { return l.id === sel.value; })[0], true); });
-  LOCALES.forEach(function (l) { for (var i = 1; i <= 7; i++) { new Image().src = "assets/examples/" + l.id + "/0" + i + ".jpg"; } });
+  LOCALES.forEach(function (l) { for (var i = 1; i <= SET.count; i++) { new Image().src = SET.base + l.id + "/0" + i + ".jpg"; } });
   var sl = load("sac-locale"); if (sl) { var f = LOCALES.filter(function (l) { return l.id === sl; })[0]; if (f) { cur = f; sel.value = f.id; } }
   renderGallery();
+  window.sacUseSet(body.getAttribute("data-platform"));
   $(".shots-card").addEventListener("pointerdown", stopCycle);
   $(".shots-card").addEventListener("focusin", stopCycle);
   $("#shots").addEventListener("click", function (e) {
