@@ -1,5 +1,15 @@
 # Android: the Jetpack Compose render target
 
+<p>
+  <img src="../assets/examples/android/standings/en-US/01.jpg" width="130" alt="Standings for Android, English, slot 1">
+  <img src="../assets/examples/android/standings/en-US/02.jpg" width="130" alt="Standings for Android, English, widgets and Wear OS">
+  <img src="../assets/examples/android/standings/tr-TR/04.jpg" width="130" alt="Standings for Android, Turkish, Wear OS">
+  <img src="../assets/examples/android/standings/ja-JP/03.jpg" width="130" alt="Standings for Android, Japanese, widgets">
+  <img src="../assets/examples/android/standings/ar/01.jpg" width="130" alt="Standings for Android, Arabic, right to left">
+</p>
+
+<sub>Standings for Android, the production app this pipeline was proven on: every screen, widget, notification and Wear OS tile is a Paparazzi render of its real UI.</sub>
+
 **Status: proven on one production app.** A Paparazzi module rendered that app's real composables,
 its real Glance widgets, its real notification layout and its Wear tile face from a frozen world,
 one world per market, and an HTML page layer turned them into a full Play set (8 phone slots and a
