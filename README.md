@@ -197,7 +197,7 @@ If it helps you ship better screenshots, the thank you I would love is simple: d
 
 <p>
   <a href="https://apps.apple.com/app/id1533789849">App Store</a> ·
-  <a href="https://play.google.com/store/apps/details?id=com.labters.standingswidget">Google Play</a>
+  <a href="https://play.google.com/store/apps/details?id=com.labters.standings">Google Play</a>
 </p>
 
 Made by [Halil Yüce](https://github.com/halilyuce). The guide is styled after App Store Connect as a tribute and is not affiliated with Apple.
