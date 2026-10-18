@@ -1,5 +1,15 @@
 # Starting the Android side
 
+<p>
+  <img src="../../assets/examples/android/standings/en-US/01.jpg" width="130" alt="Standings for Android, English, slot 1">
+  <img src="../../assets/examples/android/standings/en-US/02.jpg" width="130" alt="Standings for Android, English, widgets and Wear OS">
+  <img src="../../assets/examples/android/standings/tr-TR/04.jpg" width="130" alt="Standings for Android, Turkish, Wear OS">
+  <img src="../../assets/examples/android/standings/ja-JP/03.jpg" width="130" alt="Standings for Android, Japanese, widgets">
+  <img src="../../assets/examples/android/standings/ar/01.jpg" width="130" alt="Standings for Android, Arabic, right to left">
+</p>
+
+<sub>Where this ends up: Standings for Android, made with this pipeline. The sample in this folder is deliberately plain; your app replaces it.</sub>
+
 The Android pipeline is proven on one production app, and this folder is that pipeline with the app
 taken out. It works the same for any kind of app: the sample is a neutral list-and-totals app, and
 you replace its surfaces and data with your own.

@@ -151,6 +151,16 @@ and never launch your real app to take a screenshot. That is the first rule of t
 
 ## 6. Prove the renderer: Android
 
+<p>
+  <img src="assets/examples/android/standings/en-US/01.jpg" width="110" alt="Standings for Android, English, slot 1">
+  <img src="assets/examples/android/standings/en-US/02.jpg" width="110" alt="Standings for Android, English, widgets and Wear OS">
+  <img src="assets/examples/android/standings/tr-TR/04.jpg" width="110" alt="Standings for Android, Turkish, Wear OS">
+  <img src="assets/examples/android/standings/ja-JP/03.jpg" width="110" alt="Standings for Android, Japanese, widgets">
+  <img src="assets/examples/android/standings/ar/01.jpg" width="110" alt="Standings for Android, Arabic, right to left">
+</p>
+
+<sub>What a finished Android run looks like: Standings for Android.</sub>
+
 Follow `templates/android/START-HERE.md`, "The first 30 minutes": copy the `storeart` render
 module, the HTML page kit and `storeart.config.json` into your project, add the module to your
 settings and catalog, and render the sample surfaces and the sample page. When
